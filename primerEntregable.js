@@ -1,9 +1,12 @@
 class ProductManager {
-    constructor(){
+    constructor() {
         this.products = [];
+        let i = 0;
+        this.generadorIds = () => i++;
+        };
     }
     
-}
+
 
 class Product {
     constructor(title, description, price, thumbnail, code, stock) {
@@ -14,5 +17,12 @@ class Product {
         this.code = code;
         this.stock = stock;
     }
-    
+
 }
+
+
+const manager = new ProductManager();
+console.log(manager.generadorIds());
+console.log(manager.generadorIds());
+console.log(manager.generadorIds());
+console.log(manager.generadorIds());
