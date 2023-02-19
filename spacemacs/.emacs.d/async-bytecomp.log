@@ -1,0 +1,21 @@
+
+In ac-semantic-action:
+auto-complete-config.el:210:69:Warning: reference to free variable ‘prefix’
+
+In toplevel form:
+auto-complete.el:157:1:Warning: Alias for ‘ac-dictionary-files’ should be
+    declared before its referent
+auto-complete.el:185:1:Warning: Alias for ‘ac-menu-height’ should be declared
+    before its referent
+auto-complete.el:196:1:Warning: Alias for ‘ac-quick-help-prefer-pos-tip’
+    should be declared before its referent
+auto-complete.el:202:1:Warning: Alias for ‘ac-candidate-limit’ should be
+    declared before its referent
+auto-complete.el:286:1:Warning: Alias for ‘ac-stop-words’ should be declared
+    before its referent
+auto-complete.el:396:1:Warning: Alias for ‘ac-prefix’ should be declared
+    before its referent
+auto-complete.el:479:1:Warning: Alias for ‘ac-completing-map’ should be
+    declared before its referent
+auto-complete.el:2211:1:Warning: Alias for ‘ac-source-features’ should be
+    declared before its referent
