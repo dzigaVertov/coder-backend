@@ -19,8 +19,11 @@ class ProductManager {
             this.archivoCargado = true;
         } catch (err) {
             if (err.code === 'ENOENT') {
-                // No existe el archivo
-                console.log('crear el archivo');
+                // No existe el archivo, crearlo
+                this.guardarArchivo();
+                this.archivoCargado = true;
+            } else {
+                throw new Error(err);
             }
         }
     }
@@ -57,12 +60,27 @@ class ProductManager {
             await this.cargarArchivo();
         }
         let prodIdx = this.products.findIndex(x => x.id === id);
-        if (prodIdx === -1) throw new Error('Not Found');
+        if (prodIdx === -1) throw new Error('Product Not Found');
 
         return this.products[prodIdx];
     }
 
+    async updateProduct(id, campo, nuevoValor) {
+        if (!this.archivoCargado) {
+            await this.cargarArchivo();
+        }
+        const producto = await this.getProductById(id);
+        producto[campo] = nuevoValor;
+        this.guardarArchivo();
+    }
 
+    async deleteProduct(id) {
+        if (!this.archivoCargado) {
+            await this.cargarArchivo();
+        }
+        this.products = this.products.filter(x => x.id !== id);
+        this.guardarArchivo();
+    }
 }
 
 
@@ -86,11 +104,13 @@ class Product {
 }
 
 // Código de prueba
-const manager = new ProductManager('./archivoInexistente.txt');
-console.log(manager.getProducts());
-console.log(manager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25));
-// console.log(manager.getProducts());
-// // console.log(manager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25));
-// // console.log(manager.getProductById(789));
-// console.log(manager.getProductById(1));
-
+// const manager = new ProductManager('./archivoProductos.txt');
+// // console.log(await manager.getProducts());
+// console.log(await manager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "codigoPrueba", 25));
+// console.log(await manager.getProducts());
+// // // console.log(await manager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "co", 25));
+// // // console.log(await manager.getProductById(789));
+// // console.log(await manager.getProductById(1));
+// console.log(await manager.updateProduct(1, 'title', 'nuevoValor'));
+// console.log(await manager.deleteProduct(1));
+// console.log(await manager.getProducts());
