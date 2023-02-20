@@ -1,8 +1,5 @@
 import fs from 'fs/promises';
 
-
-
-
 class ProductManager {
     constructor(path) {
         this.products = [];
@@ -28,20 +25,37 @@ class ProductManager {
         }
     }
 
-    addProduct(title, description, price, thumbnail, code, stock) {
-        let codeRepetido = this.products.some(x => x.code === code);
-        if (codeRepetido) throw new Error('Code de producto repetido');
-
-        let producto = new Product(title, description, price, thumbnail, code, stock, this.generadorIds());
-
-        this.products.push(producto);
+    async guardarArchivo() {
+        if (!this.archivoCargado) {
+            await this.cargarArchivo();
+        }
+        let data = JSON.stringify(this.products);
+        fs.writeFile(this.path, data);
     }
 
-    getProducts() {
+    async addProduct(title, description, price, thumbnail, code, stock) {
+        if (!this.archivoCargado) {
+            await this.cargarArchivo();
+        }
+
+        let codeRepetido = this.products.some(x => x.code === code);
+        if (codeRepetido) throw new Error('Code de producto repetido');
+        let producto = new Product(title, description, price, thumbnail, code, stock, this.generadorIds());
+        this.products.push(producto);
+        this.guardarArchivo();
+    }
+
+    async getProducts() {
+        if (!this.archivoCargado) {
+            await this.cargarArchivo();
+        }
         return this.products;
     }
 
-    getProductById(id) {
+    async getProductById(id) {
+        if (!this.archivoCargado) {
+            await this.cargarArchivo();
+        }
         let prodIdx = this.products.findIndex(x => x.id === id);
         if (prodIdx === -1) throw new Error('Not Found');
 
@@ -59,7 +73,6 @@ class Product {
         // Validar argumentos
         let argsArray = Object.values(arguments);
         if ((argsArray.length !== 7) || (argsArray.some(x => !x))) throw new Error('Todos los campos son obligatorios: title, description, price, thumbnail, code, stock ');
-
 
         this.title = title;
         this.description = description;
