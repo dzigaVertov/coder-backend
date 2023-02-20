@@ -52,10 +52,10 @@ class Product {
 }
 
 // Código de prueba
-// const manager = new ProductManager();
-// console.log(manager.getProducts());
-// console.log(manager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25));
-// console.log(manager.getProducts());
+const manager = new ProductManager();
+console.log(manager.getProducts());
+console.log(manager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25));
+console.log(manager.getProducts());
 // // console.log(manager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25));
 // // console.log(manager.getProductById(789));
 // console.log(manager.getProductById(1));

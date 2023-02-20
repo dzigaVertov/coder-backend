@@ -1,13 +1,32 @@
-import fs from 'fs';
+import fs from 'fs/promises';
+
+
+
 
 class ProductManager {
-    constructor() {
+    constructor(path) {
         this.products = [];
+
+        this.path = path;
+        this.archivoCargado = false;
 
         // Generar ids:
         let i = 1;
         this.generadorIds = () => i++;
     };
+
+    async cargarArchivo() {
+        try {
+            const json = await fs.readFile(this.path, 'utf-8');
+            this.products = JSON.parse(json);
+            this.archivoCargado = true;
+        } catch (err) {
+            if (err.code === 'ENOENT') {
+                // No existe el archivo
+                console.log('crear el archivo');
+            }
+        }
+    }
 
     addProduct(title, description, price, thumbnail, code, stock) {
         let codeRepetido = this.products.some(x => x.code === code);
@@ -54,9 +73,9 @@ class Product {
 }
 
 // Código de prueba
-// const manager = new ProductManager();
-// console.log(manager.getProducts());
-// console.log(manager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25));
+const manager = new ProductManager('./archivoInexistente.txt');
+console.log(manager.getProducts());
+console.log(manager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25));
 // console.log(manager.getProducts());
 // // console.log(manager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25));
 // // console.log(manager.getProductById(789));
