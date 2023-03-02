@@ -11,22 +11,19 @@ app.get('/products', async (req, res) => {
         products = products.slice(0, limit);
     }
 
-    res.json({
-        products: products,
-        ruta: 'usuarios',
-        urlParams: req.params,
-        queryParams: req.query
-    });
+    res.json({ products: products });
 });
 
 app.get('/products/:pid', async (req, res) => {
     const id = parseInt(req.params.pid);
 
-    try { let producto = await manager.getProductById(id);
-          res.send(producto);}
+    try {
+        let producto = await manager.getProductById(id);
+        res.send(producto);
+    }
     catch {
-        res.send('id de producto no encontrada');        
-          }
+        res.json({error:'id de producto no encontrada'});
+    }
 
 });
 const server = app.listen(8080, () => console.log('listening on port 8080'));
