@@ -60,6 +60,7 @@ class ProductManager {
             await this.cargarArchivo();
         }
         let prodIdx = this.products.findIndex(x => x.id === id);
+
         if (prodIdx === -1) throw new Error('Product Not Found');
 
         return this.products[prodIdx];
