@@ -1,22 +1,25 @@
 {
     "type": "module",
-  "name": "coder-backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "primerEntregable.js",
-  "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "start": "node segundoEntregable.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dzigaVertov/coder-backend.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dzigaVertov/coder-backend/issues"
-  },
-  "homepage": "https://github.com/dzigaVertov/coder-backend#readme"
+    "name": "coder-backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/tercerEntregable.js",
+    "scripts": {
+        "test": "nodemon -e 'js,html' .",
+        "start": "node ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dzigaVertov/coder-backend.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/dzigaVertov/coder-backend/issues"
+    },
+    "homepage": "https://github.com/dzigaVertov/coder-backend#readme",
+    "dependencies": {
+        "express": "^4.18.2"
+    }
 }

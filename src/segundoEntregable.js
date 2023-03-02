@@ -85,6 +85,7 @@ class ProductManager {
 
 
 
+
 class Product {
     constructor(title, description, price, thumbnail, code, stock, id) {
 
@@ -102,10 +103,15 @@ class Product {
     }
 
 }
-
+export default ProductManager;
 // Código de prueba
 // const manager = new ProductManager('./archivoProductos.txt');
-// // console.log(await manager.getProducts());
+// // // console.log(await manager.getProducts());
+// for (let i = 0;i<30; i++){
+//     let codigoRandom = Math.round(1000*Math.random());
+//     console.log(codigoRandom);
+//     await manager.addProduct("producto prueba-"+codigoRandom, "Este es un producto prueba", "300", "Sin imagen", "codigoprueba-"+codigoRandom, 25);
+// }
 // console.log(await manager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "codigoPrueba", 25));
 // console.log(await manager.getProducts());
 // // // console.log(await manager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "co", 25));
