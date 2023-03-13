@@ -1,5 +1,5 @@
 import express from 'express';
-import ProductManager from './segundoEntregable.js';
+import ProductManager from './ProductManager.js';
 
 const app = express();
 const manager = new ProductManager('./src/archivoProductos.txt');
