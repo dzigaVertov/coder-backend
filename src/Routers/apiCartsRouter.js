@@ -1,3 +1,8 @@
-import {Router} from 'express';
+import { Router } from 'express';
 
-const apiCartsRouter  = Router();
+let apiCartsRouter = Router();
+export default apiCartsRouter;
+
+apiCartsRouter.get('/', (req, res) => {
+    res.send('<h1>Hola</h1>');
+});

@@ -1,10 +1,16 @@
-import {Router} from 'express';
+import express, {Router} from 'express';
+import ProductManager from '../ProductManager.js';
 
-export default apiProductsRouter = Router();
+let  apiProductsRouter = Router();
+export default apiProductsRouter;
+
+apiProductsRouter.use(express.json());
+apiProductsRouter.use(express.urlencoded({ extended: true}));
+
+const manager = new ProductManager('./src/archivoProductos.txt');
 
 
-
-apiProductsRouter.get('/products', async (req, res) => {
+apiProductsRouter.get('/', async (req, res) => {
     let products = await manager.getProducts();
     const { limit } = req.query;
     if (limit) {
@@ -14,7 +20,7 @@ apiProductsRouter.get('/products', async (req, res) => {
     res.json({ products: products });
 });
 
-apiProductsRouter.get('/products/:pid', async (req, res) => {
+apiProductsRouter.get('/:pid', async (req, res) => {
     const id = parseInt(req.params.pid);
 
     try {
