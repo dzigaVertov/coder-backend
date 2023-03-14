@@ -1,0 +1,10 @@
+#+title: TO DO Backend
+* DONE Ruta productos
+** DONE Generar validación para agregar producto: Los types y los obligatorios.
+** DONE Generar id que no se repita
+** DONE Generar agregar producto
+** DONE Hacer ruta put para actualizar producto
+** DONE Hacer ruta delete para borrar producto
+* TODO Ruta carts
+** TODO Crear ruta post con creación de nuevo carrito
+** TODO 

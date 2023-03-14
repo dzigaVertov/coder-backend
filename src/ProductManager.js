@@ -36,16 +36,33 @@ class ProductManager {
         fs.writeFile(this.path, data);
     }
 
-    async addProduct(title, description, price, thumbnail, code, stock) {
+    async addProduct({title, description, price, thumbnails, code,category,status, stock}) {
         if (!this.archivoCargado) {
             await this.cargarArchivo();
         }
 
         let codeRepetido = this.products.some(x => x.code === code);
         if (codeRepetido) throw new Error('Code de producto repetido');
-        let producto = new Product(title, description, price, thumbnail, code, stock, this.generadorIds());
+
+        // Asegurar id único en caso de que comencemos con un archivo
+        let id;
+        do {
+            id = this.generadorIds();
+        } while (this.products.some(prod => prod.id === id))
+        
+        let producto = new Product(title,
+                                   description,
+                                   price,
+                                   thumbnails,
+                                   code,
+                                   stock,
+                                   status,
+                                   category,
+                                   id);
+        
         this.products.push(producto);
         this.guardarArchivo();
+        return producto;
     }
 
     async getProducts() {
@@ -59,7 +76,8 @@ class ProductManager {
         if (!this.archivoCargado) {
             await this.cargarArchivo();
         }
-        let prodIdx = this.products.findIndex(x => x.id === id);
+
+        let prodIdx = this.products.findIndex(x => x.id === parseInt(id));
 
         if (prodIdx === -1) throw new Error('Product Not Found');
 
@@ -73,14 +91,17 @@ class ProductManager {
         const producto = await this.getProductById(id);
         producto[campo] = nuevoValor;
         this.guardarArchivo();
+        return producto;
     }
 
     async deleteProduct(id) {
         if (!this.archivoCargado) {
             await this.cargarArchivo();
         }
+        let producto = this.getProductById(id);
         this.products = this.products.filter(x => x.id !== id);
         this.guardarArchivo();
+        return producto;
     }
 }
 
@@ -88,11 +109,11 @@ class ProductManager {
 
 
 class Product {
-    constructor(title, description, price, thumbnail, code, stock, id) {
+    constructor(title, description, price, thumbnail, code, stock, status, category, id) {
 
         // Validar argumentos
-        let argsArray = Object.values(arguments);
-        if ((argsArray.length !== 7) || (argsArray.some(x => !x))) throw new Error('Todos los campos son obligatorios: title, description, price, thumbnail, code, stock ');
+        // let argsArray = Object.values(arguments);
+        // if ((argsArray.length !== 7) || (argsArray.some(x => !x))) throw new Error('Todos los campos son obligatorios: title, description, price, thumbnail, code, stock ');
 
         this.title = title;
         this.description = description;
@@ -101,10 +122,13 @@ class Product {
         this.code = code;
         this.stock = stock;
         this.id = id;
+        this.category = category;
+        this.status = status;
     }
 
 }
 export default ProductManager;
+
 // Código de prueba
 // const manager = new ProductManager('./archivoProductos.txt');
 // // // console.log(await manager.getProducts());
