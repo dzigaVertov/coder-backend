@@ -40,7 +40,7 @@
 # }
 
 
-PUT http://localhost:8080/api/products/1
+GET http://localhost:8080/api/carts/687de0e6-5428-45aa-a41a-c8ad6833b1b4
 Content-Type: application/json
 
 {

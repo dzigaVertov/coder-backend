@@ -10,3 +10,9 @@
 /src/Routers/apiCartsRouter.js~
 /src/Routers/apiProductsRouter.js~
 /todo_backend.org~
+/src/#products.json#
+/src/#products.json.bak#
+*.json
+/src/Cart.js~
+/src/products.json.bak~
+/src/products.json~

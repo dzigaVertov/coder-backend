@@ -7,7 +7,7 @@ export default apiProductsRouter;
 apiProductsRouter.use(express.json());
 apiProductsRouter.use(express.urlencoded({ extended: true}));
 
-const manager = new ProductManager('./src/archivoProductos.txt');
+const manager = new ProductManager('./src/products.json');
 
 
 apiProductsRouter.get('/', async (req, res) => {

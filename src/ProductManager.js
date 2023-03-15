@@ -99,7 +99,7 @@ class ProductManager {
             await this.cargarArchivo();
         }
         let producto = this.getProductById(id);
-        this.products = this.products.filter(x => x.id !== id);
+        this.products = this.products.filter(x => x.id !== parseInt(id));
         this.guardarArchivo();
         return producto;
     }
