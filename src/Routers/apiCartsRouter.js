@@ -25,9 +25,9 @@ apiCartsRouter.get('/:cid', async (req, res) => {
 apiCartsRouter.post('/:cid/product/:pid', async (req, res) => {
     let idCarrito = req.params.cid;
     let carrito = await cartManager.getCartbyId(idCarrito);
+    let productoCarrito = await carrito.addProduct(req.params.pid);
 
-    let productoCarrito = carrito.addProducto(req.params.pid);
-
+    cartManager.guardarArchivo();
     res.json(productoCarrito);
 });
 

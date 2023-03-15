@@ -56,7 +56,10 @@ class CartManager {
 
         if (cartIdx === -1) throw new Error('Carrito Not Found');
 
-        return this.carts[cartIdx];
+        let carrito = new Cart();
+        carrito.id = this.carts[cartIdx].id;
+        carrito.products = this.carts[cartIdx].products;
+        return carrito;
     }
 
 
@@ -70,8 +73,9 @@ class Cart {
 
     async addProduct(id) {
         let producto;
-        if (esProductoRepetido(id)) {
-            producto = getProductById(id);
+        if (this.esProductoRepetido(id)) {
+
+            producto = await this.getProductById(id);
             producto.quantity += 1;
         } else {
             producto = new CartProduct(id);
@@ -80,7 +84,7 @@ class Cart {
         return producto;
     }
 
-    async esProductoRepetido(id) {
+    esProductoRepetido(id) {
         if (this.products.some(prod => prod.id === id)) {
             return true;
         }
@@ -92,7 +96,7 @@ class Cart {
     }
 
     async getProductById(id) {
-        let prodIdx = this.products.findIndex(x => x.id === parseInt(id));
+        let prodIdx = this.products.findIndex(x => x.id === id);
 
         if (prodIdx === -1) throw new Error('Product Not Found');
 
