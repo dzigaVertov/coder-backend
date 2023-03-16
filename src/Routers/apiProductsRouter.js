@@ -1,11 +1,11 @@
-import express, {Router} from 'express';
+import express, { Router } from 'express';
 import ProductManager from '../ProductManager.js';
 
-let  apiProductsRouter = Router();
+let apiProductsRouter = Router();
 export default apiProductsRouter;
 
 apiProductsRouter.use(express.json());
-apiProductsRouter.use(express.urlencoded({ extended: true}));
+apiProductsRouter.use(express.urlencoded({ extended: true }));
 
 const manager = new ProductManager('./src/products.json');
 
@@ -19,11 +19,11 @@ apiProductsRouter.get('/', async (req, res) => {
     res.json({ products: products });
 });
 
-apiProductsRouter.post('/', async (req, res)=>{
-    if (!esProductoValido(req.body)){
-        res.status(400).json({error: "Producto no válido"});
+apiProductsRouter.post('/', async (req, res) => {
+    if (!esProductoValido(req.body)) {
+        res.status(400).json({ error: "Producto no válido" });
         return;
-    }    
+    }
     let producto = await manager.addProduct(req.body);
     res.json(producto);
 });
@@ -35,14 +35,11 @@ apiProductsRouter.put('/:pid', async (req, res) => {
     const camposAcambiar = Object.entries(req.body);
 
     let producto;
-
-    for (const [campo, valorNuevo] of camposAcambiar){
-        producto = await manager.updateProduct(pid, campo, valorNuevo);
+    for (const [campo, valorNuevo] of camposAcambiar) {
+        if (campo !== 'id') {   // El campo id no se actualiza
+            producto = await manager.updateProduct(pid, campo, valorNuevo);
+        }
     }
-    
-    // camposAcambiar.forEach(async ([campo, valorNuevo])=>{
-    //     producto = await manager.updateProduct(pid, campo, valorNuevo);
-    // });
     res.json(producto);
 });
 
@@ -60,22 +57,22 @@ apiProductsRouter.get('/:pid', async (req, res) => {
         res.send(producto);
     }
     catch {
-        res.json({error:'id de producto no encontrada'});
+        res.json({ error: 'id de producto no encontrada' });
     }
 
 });
 
-function esProductoValido(body){
-    let {title, description, code, price, status, stock, category} = body;
+function esProductoValido(body) {
+    let { title, description, code, price, status, stock, category } = body;
 
     let strs = [title, description, category, code];
     let nums = [price, stock];
 
     let strsValidas = strs.every(elem => {
-        return (typeof(elem) === 'string');
+        return (typeof (elem) === 'string');
     });
 
     let numsValidos = nums.every(n => !isNaN(Number(n)));
 
-    return  (typeof status === 'boolean') && strsValidas && numsValidos;    
+    return (typeof status === 'boolean') && strsValidas && numsValidos;
 }
