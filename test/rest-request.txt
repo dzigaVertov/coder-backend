@@ -25,20 +25,41 @@
 #
 # Post works too, entity just goes after an empty line. Same is for PUT.
 #
-# POST http://localhost:8080/api/products
-# Content-Type: application/json
+PUT http://localhost:8080/api/products/10
+Content-Type: application/json
 
-# {
-#         "title": "Este es un título de prueba",
-#         "description": "Esta es una descripción de prueba",
-#         "code": "codigoprueba-9430",
-#         "price": 179,
-#         "status": true,
-#         "stock": 200,
-#         "category": "categoria",
-#         "thumbnails": ["thumb-1", "thumb-2"]
-# }
+{
+        "title": "Este es un título actualizado",
+        "description": "Esta es una descripción de prueba",
+        "code": "codigoprueba-9431",
+        "price": 179,
+        "status": true,
+        "stock": 200,
+        "category": "categoria",
+        "thumbnails": ["thumb-1", "thumb-2"]
+}
 
+#
+#
+#
+
+#
+GET http://localhost:8080/api/products/10
+Content-Type: application/json
+
+{
+        "title": "Este es un título actualizado",
+        "description": "Esta es una descripción de prueba",
+        "code": "codigoprueba-9431",
+        "price": 179,
+        "status": true,
+        "stock": 200,
+        "category": "categoria",
+        "thumbnails": ["thumb-1", "thumb-2"]
+}
+
+#
+#
 
 POST http://localhost:8080/api/carts/687de0e6-5428-45aa-a41a-c8ad6833b1b4/product/1
 Content-Type: application/json

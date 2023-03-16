@@ -5,7 +5,7 @@
     "description": "",
     "main": "src/servidor.js",
     "scripts": {
-        "test": "nodemon -e 'js,html' .",
+        "test": "nodemon -e 'js,html, txt' .",
         "start": "node ."
     },
     "repository": {

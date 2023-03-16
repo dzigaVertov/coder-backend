@@ -35,9 +35,14 @@ apiProductsRouter.put('/:pid', async (req, res) => {
     const camposAcambiar = Object.entries(req.body);
 
     let producto;
-    camposAcambiar.forEach(async (campo, valorNuevo)=>{
+
+    for (const [campo, valorNuevo] of camposAcambiar){
         producto = await manager.updateProduct(pid, campo, valorNuevo);
-    });
+    }
+    
+    // camposAcambiar.forEach(async ([campo, valorNuevo])=>{
+    //     producto = await manager.updateProduct(pid, campo, valorNuevo);
+    // });
     res.json(producto);
 });
 

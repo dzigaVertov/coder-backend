@@ -36,7 +36,7 @@ class ProductManager {
         fs.writeFile(this.path, data);
     }
 
-    async addProduct({title, description, price, thumbnails, code,category,status, stock}) {
+    async addProduct({ title, description, price, thumbnails, code, category, status, stock }) {
         if (!this.archivoCargado) {
             await this.cargarArchivo();
         }
@@ -49,17 +49,17 @@ class ProductManager {
         do {
             id = this.generadorIds();
         } while (this.products.some(prod => prod.id === id))
-        
+
         let producto = new Product(title,
-                                   description,
-                                   price,
-                                   thumbnails,
-                                   code,
-                                   stock,
-                                   status,
-                                   category,
-                                   id);
-        
+            description,
+            price,
+            thumbnails,
+            code,
+            stock,
+            status,
+            category,
+            id);
+
         this.products.push(producto);
         this.guardarArchivo();
         return producto;
