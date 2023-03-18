@@ -1,0 +1,10 @@
+<h1>Productos agregados</h1>
+<ul class='lista'>  
+  {{#each productos}}    
+    <li class='card'>{{#each this}}
+      <p>{{@key}}: {{this}}</p>
+      {{/each}}
+    </li>
+    {{/each}}
+</ul>
+
