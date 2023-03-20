@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import ProductManager from '../ProductManager.js';
+import {managerProductos} from '../servidor.js';
 
 let apiProductsRouter = Router();
 export default apiProductsRouter;
@@ -7,11 +7,11 @@ export default apiProductsRouter;
 apiProductsRouter.use(express.json());
 apiProductsRouter.use(express.urlencoded({ extended: true }));
 
-const manager = new ProductManager('./src/products.json');
+
 
 
 apiProductsRouter.get('/', async (req, res) => {
-    let products = await manager.getProducts();
+    let products = await managerProductos.getProducts();
     const { limit } = req.query;
     if (limit) {
         products = products.slice(0, limit);
@@ -24,7 +24,7 @@ apiProductsRouter.post('/', async (req, res) => {
         res.status(400).json({ error: "Producto no válido" });
         return;
     }
-    let producto = await manager.addProduct(req.body);
+    let producto = await managerProductos.addProduct(req.body);
     res.json(producto);
 });
 
@@ -37,14 +37,14 @@ apiProductsRouter.put('/:pid', async (req, res) => {
     let producto;
     for (const [campo, valorNuevo] of camposAcambiar) {
         if (campo !== 'id') {   // El campo id no se actualiza
-            producto = await manager.updateProduct(pid, campo, valorNuevo);
+            producto = await managerProductos.updateProduct(pid, campo, valorNuevo);
         }
     }
     res.json(producto);
 });
 
 apiProductsRouter.delete('/:pid', async (req, res) => {
-    let producto = await manager.deleteProduct(req.params.pid);
+    let producto = await managerProductos.deleteProduct(req.params.pid);
     res.json(producto);
 });
 
@@ -53,7 +53,7 @@ apiProductsRouter.get('/:pid', async (req, res) => {
     const id = parseInt(req.params.pid);
 
     try {
-        let producto = await manager.getProductById(id);
+        let producto = await managerProductos.getProductById(id);
         res.send(producto);
     }
     catch {

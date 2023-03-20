@@ -1,11 +1,12 @@
 import fs from 'fs/promises';
 
 class ProductManager {
-    constructor(path) {
+    constructor(path, emitCallback) {
         this.products = [];
 
         this.path = path;
         this.archivoCargado = false;
+        this.emitCallback = emitCallback || function () {console.log('no hay callback definido');};
 
         // Generar ids:
         let i = 1;
@@ -34,6 +35,7 @@ class ProductManager {
         }
         let data = JSON.stringify(this.products);
         fs.writeFile(this.path, data);
+        this.emitCallback();
     }
 
     async addProduct({ title, description, price, thumbnails, code, category, status, stock }) {
