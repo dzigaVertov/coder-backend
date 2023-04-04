@@ -3,7 +3,7 @@
     "name": "coder-backend",
     "version": "1.0.0",
     "description": "",
-    "main": "src/servidor.js",
+    "main": "src/app/servidor.js",
     "scripts": {
         "test": "nodemon -e 'js,html, txt, json, handlebars' .",
         "start": "node ."

@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import {managerProductos} from '../servidor.js';
+import {managerProductos} from '../app/servidor.js';
 
 let apiProductsRouter = Router();
 export default apiProductsRouter;
