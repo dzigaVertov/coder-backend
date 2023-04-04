@@ -4,6 +4,17 @@ import { Server as SocketIOServer } from 'socket.io';
 import apiProductsRouter from '../Routers/apiProductsRouter.js';
 import apiCartsRouter from '../Routers/apiCartsRouter.js';
 import ProductManager from '../DAO/ProductManager.js';
+import { conectar } from '../database/mongoose.js';
+import { DbManager } from '../DAO/DbManager.js';
+import mongoose from 'mongoose';
+import schemaProductos from '../models/schemaProducto.js';
+
+// conectar base de Datos
+await conectar();
+
+
+const prods = mongoose.model('products', schemaProductos);
+console.log(prods.find({ nombre: "marcelo" }));
 
 
 const app = express();

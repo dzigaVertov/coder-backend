@@ -1,9 +1,9 @@
 #+title: TO DO Backend
 * TODO Validaciones y control de errores
-* TODO Ver video de entrega para ver si faltó algo
+* DONE Ver video de entrega para ver si faltó algo
 * DONE Agregar handlebars
 * DONE Agregar Socket.io
-* TODO Agregar formulario
+* DONE Agregar formulario
 * DONE Ruta productos
 ** DONE Generar validación para agregar producto: Los types y los obligatorios.
 ** DONE Generar id que no se repita
@@ -12,4 +12,4 @@
 ** DONE Hacer ruta delete para borrar producto
 * DONE Ruta carts
 ** DONE Crear ruta post con creación de nuevo carrito
-
+** TODO 
