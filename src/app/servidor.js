@@ -3,34 +3,37 @@ import { engine } from 'express-handlebars';
 import { Server as SocketIOServer } from 'socket.io';
 import apiProductsRouter from '../Routers/apiProductsRouter.js';
 import apiCartsRouter from '../Routers/apiCartsRouter.js';
-import ProductManager from '../DAO/ProductManager.js';
+import ProductManagerFile from '../DAO/ProductManagerFile.js';
 import { conectar } from '../database/mongoose.js';
-import { DbManager } from '../DAO/DbManager.js';
+import { ProductManagerMongo } from '../DAO/ProductManagerMongo.js';
 import mongoose from 'mongoose';
 import schemaProductos from '../models/schemaProducto.js';
+import schemaCart from '../models/schemaCart.js';
 
-// conectar base de Datos
+//  MONGO
 await conectar();
-
-
 const prods = mongoose.model('products', schemaProductos);
-console.log(prods.find({ nombre: "marcelo" }));
+
 
 
 const app = express();
+
+// Handlebars
 app.engine('handlebars', engine());
 app.set('views', './views');
 app.set('view engine', 'handlebars');
 
 app.use(express.static('./public'));
 
-const httpServer = app.listen(8080, () => console.log('listening on port 8080'));
-const io = new SocketIOServer(httpServer);
-export const managerProductos = new ProductManager('./src/products.json', async function () {
-    let productos = await managerProductos.getProducts();
-    io.sockets.emit('actualizacion', productos);
-});
 
+const httpServer = app.listen(8080, () => console.log('Escuchando en puerto 8080'));
+const io = new SocketIOServer(httpServer);
+export const managerProductos = new ProductManagerFile('./src/products.json');
+
+// Agregar referencia al SocketServer en la petición http
+app.use((req, res) => {
+    req['io'] = io;
+});
 
 io.on('connection', async clientSocket => {
     console.log(`Nuevo cliente conectado: socket id: ${clientSocket.id}`);
@@ -50,8 +53,8 @@ io.on('connection', async clientSocket => {
             "stock": 200,
             "category": "categoria",
             "thumbnails": ["thumb-1", "thumb-2"]
-        })
-    })
+        });
+    });
 
 
 });

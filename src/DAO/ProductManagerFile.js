@@ -1,12 +1,11 @@
 import fs from 'fs/promises';
 
-class ProductManager {
-    constructor(path, emitCallback) {
+class ProductManagerFile {
+    constructor(path) {
         this.products = [];
 
         this.path = path;
         this.archivoCargado = false;
-        this.emitCallback = emitCallback || function () {console.log('no hay callback definido');};
 
         // Generar ids:
         let i = 1;
@@ -35,7 +34,6 @@ class ProductManager {
         }
         let data = JSON.stringify(this.products);
         fs.writeFile(this.path, data);
-        this.emitCallback();
     }
 
     async addProduct({ title, description, price, thumbnails, code, category, status, stock }) {
@@ -129,10 +127,10 @@ class Product {
     }
 
 }
-export default ProductManager;
+export default ProductManagerFile;
 
 // Código de prueba
-// const manager = new ProductManager('./archivoProductos.txt');
+// const manager = new ProductManagerFile('./archivoProductos.txt');
 // // // console.log(await manager.getProducts());
 // for (let i = 0;i<30; i++){
 //     let codigoRandom = Math.round(1000*Math.random());

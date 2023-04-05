@@ -25,6 +25,9 @@ apiProductsRouter.post('/', async (req, res) => {
         return;
     }
     let producto = await managerProductos.addProduct(req.body);
+    let productos = await managerProductos.getProducts();
+    req.io.sockets.emit('actualizacion', productos);
+
     res.json(producto);
 });
 
@@ -45,6 +48,9 @@ apiProductsRouter.put('/:pid', async (req, res) => {
 
 apiProductsRouter.delete('/:pid', async (req, res) => {
     let producto = await managerProductos.deleteProduct(req.params.pid);
+    let productos = await managerProductos.getProducts();
+    req.io.sockets.emit('actualizacion', productos);
+
     res.json(producto);
 });
 

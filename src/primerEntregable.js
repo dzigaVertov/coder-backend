@@ -1,4 +1,4 @@
-class ProductManager {
+class ProductManagerFile {
     constructor() {
         this.products = [];
 
@@ -52,7 +52,7 @@ class Product {
 }
 
 // Código de prueba
-const manager = new ProductManager();
+const manager = new ProductManagerFile();
 console.log(manager.getProducts());
 console.log(manager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25));
 console.log(manager.getProducts());

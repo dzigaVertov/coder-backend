@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export class DbManager {
+export class ProductManagerMongo {
     #db;
     constructor() {
 

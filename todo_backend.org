@@ -13,3 +13,8 @@
 * DONE Ruta carts
 ** DONE Crear ruta post con creación de nuevo carrito
 ** TODO 
+
+* TODO Reemplazar la función callback del manager de productos con un middleware que agregue el socket server a la conexión http.
+
+* TODO Generar manager dB a partir del productManager
+

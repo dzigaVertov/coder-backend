@@ -1,6 +1,7 @@
 const serverSocket = io();
 
 const listaProductos = `
+<h1>Generado desde index.js en public/js</h1>
 {{#if hayProductos }}
 <ul class='lista'>
     {{#each productos}}

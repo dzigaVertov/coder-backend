@@ -119,7 +119,7 @@ class CartProduct {
 export default CartManager;
 
 // Código de prueba
-// const manager = new ProductManager('./archivoProductos.txt');
+// const manager = new ProductManagerFile('./archivoProductos.txt');
 // // // console.log(await manager.getProducts());
 // for (let i = 0;i<30; i++){
 //     let codigoRandom = Math.round(1000*Math.random());
