@@ -31,8 +31,9 @@ const io = new SocketIOServer(httpServer);
 export const managerProductos = new ProductManagerFile('./src/products.json');
 
 // Agregar referencia al SocketServer en la petición http
-app.use((req, res) => {
+app.use((req, res, next) => {
     req['io'] = io;
+    next();
 });
 
 io.on('connection', async clientSocket => {
