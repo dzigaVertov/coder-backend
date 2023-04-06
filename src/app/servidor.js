@@ -14,6 +14,8 @@ import schemaCart from '../models/schemaCart.js';
 await conectar();
 const prods = mongoose.model('products', schemaProductos);
 
+// Manager persistencia en archivos
+export const managerProductos = new ProductManagerFile('./src/products.json');
 
 
 const app = express();
@@ -23,12 +25,12 @@ app.engine('handlebars', engine());
 app.set('views', './views');
 app.set('view engine', 'handlebars');
 
+// Archivos estáticos
 app.use(express.static('./public'));
 
-
+// server WebSocket
 const httpServer = app.listen(8080, () => console.log('Escuchando en puerto 8080'));
 const io = new SocketIOServer(httpServer);
-export const managerProductos = new ProductManagerFile('./src/products.json');
 
 // Agregar referencia al SocketServer en la petición http
 app.use((req, res, next) => {
@@ -75,6 +77,11 @@ app.get('/', async (req, res) => {
 app.get('/realTimeProducts', async (req, res) => {
     let productos = await managerProductos.getProducts();
     res.render('realTimeProducts', { pageTitle: 'realtime', productos: productos });
+});
+
+app.get('/chat', async (req, res) => {
+    let mensajes = await managerProductos.getProducts();
+    res.render('chat', { pageTitle: 'Chat', mensajes: mensajes });
 });
 
 

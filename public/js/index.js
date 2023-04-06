@@ -23,7 +23,7 @@ serverSocket.on('actualizacion', productos => {
     if (contenedor) {
         contenedor.innerHTML = plantilla({ productos, hayProductos: productos.length });
     }
-})
+});
 
 const form = document.getElementById('formulario');
 form.addEventListener('submit', nuevoProducto);
