@@ -1,8 +1,8 @@
 import express, { Router } from 'express';
-import CartManager from '../Cart.js';
+import CartManagerFile from '../DAO/CartManagerFile.js';
 
 let apiCartsRouter = Router();
-const cartManager = new CartManager('./src/carts.json');
+const cartManagerFile = new CartManagerFile('./src/carts.json');
 
 export default apiCartsRouter;
 

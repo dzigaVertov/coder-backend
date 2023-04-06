@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 import fs from 'fs/promises';
 
-class CartManager {
+class CartManagerFile {
     constructor(path) {
         this.carts = [];
 
@@ -116,7 +116,7 @@ class CartProduct {
 
 }
 
-export default CartManager;
+export default CartManagerFile;
 
 // Código de prueba
 // const manager = new ProductManagerFile('./archivoProductos.txt');
