@@ -21,7 +21,6 @@ const plantilla = Handlebars.compile(listaMensajes);
 serverSocket.on('actualizacionMensajes', mensajes => {
     const contenedor = document.querySelector('#contenedorMensajes');
     if (contenedor) {
-        console.log(mensajes.length);
         contenedor.innerHTML = plantilla({ mensajes, hayMensajes: (mensajes.length >0) });
     }
 });

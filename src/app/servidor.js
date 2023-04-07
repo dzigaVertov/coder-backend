@@ -65,6 +65,7 @@ io.on('connection', async clientSocket => {
     clientSocket.on('nuevoMensaje', async mensaje => {
         mensajeManager.addMensaje(mensaje);
         let mensajes = await mensajeManager.getMensajes();
+        mensajes = mensajes.map(msj => ({email: msj.email, mensaje: msj.mensaje}));
         io.sockets.emit('actualizacionMensajes', mensajes);
     });
 
