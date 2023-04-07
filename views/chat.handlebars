@@ -8,14 +8,18 @@
 </form>
 
 <div id="contenedorMensajes">
-<ul class='listaMensajes'>  
-  {{#each mensajes}}    
+  {{#if hayMensajes }}
+<ul class='listaMensajes'>
+    {{#each mensajes}}
     <li class='mensaje'>{{#each this}}
       <p>{{@key}}: {{this}}</p>
       {{/each}}
     </li>
     {{/each}}
 </ul>
+{{else}}
+<p>no hay mensajes...</p>
+{{/if}}
 </div>
 <script  src="socket.io/socket.io.js"></script>
 <script src="js/chat.js"></script>

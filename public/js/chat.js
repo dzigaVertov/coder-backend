@@ -1,8 +1,8 @@
-const serverSocket = io();
+const serverSocket = io('http://localhost:8080/');
 
 const listaMensajes = `
 <h1>Generado desde chat.js en public/js</h1>
-{{#if haymensajes }}
+{{#if hayMensajes }}
 <ul class='listaMensajes'>
     {{#each mensajes}}
     <li class='mensaje'>{{#each this}}
@@ -21,7 +21,8 @@ const plantilla = Handlebars.compile(listaMensajes);
 serverSocket.on('actualizacionMensajes', mensajes => {
     const contenedor = document.querySelector('#contenedorMensajes');
     if (contenedor) {
-        contenedor.innerHTML = plantilla({ mensajes, hayProductos: mensajes.length });
+        console.log(mensajes.length);
+        contenedor.innerHTML = plantilla({ mensajes, hayMensajes: (mensajes.length >0) });
     }
 });
 

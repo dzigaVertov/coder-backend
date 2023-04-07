@@ -9,10 +9,13 @@ import { ProductManagerMongo } from '../DAO/ProductManagerMongo.js';
 import mongoose from 'mongoose';
 import schemaProductos from '../models/schemaProducto.js';
 import schemaCart from '../models/schemaCart.js';
+import { MensajeManagerMongo } from '../DAO/MensajeManagerMongo.js';
 
 //  MONGO
 await conectar();
 const prods = mongoose.model('products', schemaProductos);
+const mensajeManager = new MensajeManagerMongo();
+
 
 // Manager persistencia en archivos
 export const managerProductos = new ProductManagerFile('./src/products.json');
@@ -59,6 +62,12 @@ io.on('connection', async clientSocket => {
         });
     });
 
+    clientSocket.on('nuevoMensaje', async mensaje => {
+        mensajeManager.addMensaje(mensaje);
+        let mensajes = await mensajeManager.getMensajes();
+        io.sockets.emit('actualizacionMensajes', mensajes);
+    });
+
 
 });
 
@@ -80,8 +89,9 @@ app.get('/realTimeProducts', async (req, res) => {
 });
 
 app.get('/chat', async (req, res) => {
-    let mensajes = await managerProductos.getProducts();
-    res.render('chat', { pageTitle: 'Chat', mensajes: mensajes });
+    let mensajes = await mensajeManager.getMensajes();
+    let msjs = mensajes.map(msj => ({ email: msj.email, mensaje: msj.mensaje }));
+    res.render('chat', { pageTitle: 'Chat', mensajes: msjs, hayMensajes: mensajes.length > 0 });
 });
 
 

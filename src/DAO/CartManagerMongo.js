@@ -7,26 +7,36 @@ export class CartManagerMongo {
         this.#db = mongoose.model('carts', schemaCart);
     }
 
-    async addCart(productos){
+    async addCart(productos) {
         this.#db.insertOne(productos);
     }
 
-    async getCartById(id){
-        return this.#db.find({id : id});
+    async getCartById(id) {
+        return this.#db.find({ id: id });
     }
 
-    async addProductoToCart(idCart, producto){
-        const cart = getCartById(idCart);
-        
 
-        
+    async getProductos(idCart){
+        return this.#db.find({"_id" : idCart}).productos;
     }
+    
+    async addProductoToCart(idCart, producto) {
+        // Chequear si ya está ese procucto en el carrito
+        const existeProducto = this.#db.find(
+            {
+                "_id": idCart,
+                "productos": {
+                    "$eq": { 'codigoProducto': producto.codigoProducto }
+                }
+            });
 
-    esProductoRepetido(cart, codigoProducto) {
-        if (cart.products.some(prod => prod.codigoProducto === codigoProducto)) {
-            return true;
+        if (existeProducto) {
+            this.#db.updateOne({ "_id": idCart },
+                { "$inc": { "productos.$.quantity": 1 } }
+            );
+        } else {
+            this.#db.updateOne({ "_id": idCart }, { "$push": { "productos": producto } });
         }
-        return false;
     }
 
 }

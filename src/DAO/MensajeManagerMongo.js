@@ -8,7 +8,7 @@ export class MensajeManagerMongo {
     }
 
     async addMensaje(mensaje){
-        this.#db.insertOne(mensaje);
+        this.#db.create(mensaje);
     }
 
     async getMensajes() {
