@@ -6,7 +6,11 @@ const schemaProducto = new mongoose.Schema(
         description: String,
         price: Number,
         thumbnail: String,
-        code: String,
+        code: {
+            type: String,
+            unique: true,
+            dropDups: true
+            },
         stock: Number,
         category: String,
         status: String,

@@ -7,7 +7,7 @@ import ProductManagerFile from '../DAO/ProductManagerFile.js';
 import { conectar } from '../database/mongoose.js';
 import { ProductManagerMongo } from '../DAO/ProductManagerMongo.js';
 import { MensajeManagerMongo } from '../DAO/MensajeManagerMongo.js';
-import { CartManagerMongo } from '../DAO/CartManagerMongo.js'
+import { CartManagerMongo } from '../DAO/CartManagerMongo.js';
 
 //  MONGO
 await conectar();
@@ -47,19 +47,27 @@ io.on('connection', async clientSocket => {
         console.log(mensaje);
     });
 
-    clientSocket.on('nuevoProducto', campos => {
+    clientSocket.on('nuevoProducto', async campos => {
         console.log('nuevoproductorecibido', campos);
-        managerProductosMongo.addProduct({
-            "title": campos.title,
-            "description": campos.description,
-            "code": campos.code,
-            "price": 179,
-            "status": true,
-            "stock": 200,
-            "category": "categoria",
-            "thumbnails": ["thumb-1", "thumb-2"]
-        });
-        
+        try {
+            await managerProductosMongo.addProduct({
+                "title": campos.title,
+                "description": campos.description,
+                "code": campos.code,
+                "price": 179,
+                "status": true,
+                "stock": 200,
+                "category": "categoria",
+                "thumbnails": ["thumb-1", "thumb-2"]
+            });
+        } catch (err) {
+            console.log(err.name, err.message);
+            io.sockets.emit('errorProducto', err.message);
+        }
+
+        let listaActualizadaProductos = await managerProductosMongo.getProducts();
+        io.sockets.emit('actualizacion', listaActualizadaProductos);
+
         // managerProductos.addProduct({
         //     "title": campos.title,
         //     "description": campos.description,
@@ -92,7 +100,7 @@ app.use('/api/carts', apiCartsRouter);
 app.get('/', async (req, res) => {
     // let productos = await managerProductos.getProducts();
     let productos = await managerProductosMongo.getProducts();
-    
+
     res.render('home', { pageTitle: 'éxito', productos: productos });
 });
 

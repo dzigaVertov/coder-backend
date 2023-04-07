@@ -18,5 +18,8 @@
 * DONE Generar manager dB a partir del productManager
 * DONE Generar la vista de chat y
 * DONE la lógica de la aplicación de chat
+* DONE La vista en tiempo real no actualiza los productos en tiempo real.
+* TODO Que no permita agregar producto con codigo repetido.
 * TODO Reemplazar los managers de file por los de mongo
-
+* TODO Mejorar la vista de productos
+** TODO Que no muestre id

@@ -1,4 +1,4 @@
-const serverSocket = io();
+const serverSocket = io('http://localhost:8080/');
 
 const listaProductos = `
 <h1>Generado desde index.js en public/js</h1>
@@ -14,16 +14,18 @@ const listaProductos = `
 {{else}}
 <p>no hay productos...</p>
 {{/if}}
-`
+`;
 
-const plantilla = Handlebars.compile(listaProductos)
+const plantilla = Handlebars.compile(listaProductos);
 
 serverSocket.on('actualizacion', productos => {
     const contenedor = document.querySelector('#contenedorLista');
     if (contenedor) {
-        contenedor.innerHTML = plantilla({ productos, hayProductos: productos.length });
+        contenedor.innerHTML = plantilla({ productos, hayProductos: (productos.length>0) });
     }
 });
+
+serverSocket.on('errorProducto', message => alert(message));
 
 const form = document.getElementById('formulario');
 form.addEventListener('submit', nuevoProducto);
