@@ -16,6 +16,7 @@
 
 * DONE Reemplazar la función callback del manager de productos con un middleware que agregue el socket server a la conexión http
 * DONE Generar manager dB a partir del productManager
-* TODO Generar la vista de chat y
-* TODO  la lógica de la aplicación de chat
+* DONE Generar la vista de chat y
+* DONE la lógica de la aplicación de chat
+* TODO Reemplazar los managers de file por los de mongo
 

@@ -6,15 +6,14 @@ import apiCartsRouter from '../Routers/apiCartsRouter.js';
 import ProductManagerFile from '../DAO/ProductManagerFile.js';
 import { conectar } from '../database/mongoose.js';
 import { ProductManagerMongo } from '../DAO/ProductManagerMongo.js';
-import mongoose from 'mongoose';
-import schemaProductos from '../models/schemaProducto.js';
-import schemaCart from '../models/schemaCart.js';
 import { MensajeManagerMongo } from '../DAO/MensajeManagerMongo.js';
+import { CartManagerMongo } from '../DAO/CartManagerMongo.js'
 
 //  MONGO
 await conectar();
-const prods = mongoose.model('products', schemaProductos);
+export const managerProductosMongo = new ProductManagerMongo();
 const mensajeManager = new MensajeManagerMongo();
+const cartManagerMongo = new CartManagerMongo();
 
 
 // Manager persistencia en archivos
@@ -50,7 +49,7 @@ io.on('connection', async clientSocket => {
 
     clientSocket.on('nuevoProducto', campos => {
         console.log('nuevoproductorecibido', campos);
-        managerProductos.addProduct({
+        managerProductosMongo.addProduct({
             "title": campos.title,
             "description": campos.description,
             "code": campos.code,
@@ -60,12 +59,23 @@ io.on('connection', async clientSocket => {
             "category": "categoria",
             "thumbnails": ["thumb-1", "thumb-2"]
         });
+        
+        // managerProductos.addProduct({
+        //     "title": campos.title,
+        //     "description": campos.description,
+        //     "code": campos.code,
+        //     "price": 179,
+        //     "status": true,
+        //     "stock": 200,
+        //     "category": "categoria",
+        //     "thumbnails": ["thumb-1", "thumb-2"]
+        // });
     });
 
     clientSocket.on('nuevoMensaje', async mensaje => {
         mensajeManager.addMensaje(mensaje);
         let mensajes = await mensajeManager.getMensajes();
-        mensajes = mensajes.map(msj => ({email: msj.email, mensaje: msj.mensaje}));
+        mensajes = mensajes.map(msj => ({ email: msj.email, mensaje: msj.mensaje }));
         io.sockets.emit('actualizacionMensajes', mensajes);
     });
 
@@ -80,12 +90,15 @@ app.use('/api/carts', apiCartsRouter);
 
 
 app.get('/', async (req, res) => {
-    let productos = await managerProductos.getProducts();
+    // let productos = await managerProductos.getProducts();
+    let productos = await managerProductosMongo.getProducts();
+    
     res.render('home', { pageTitle: 'éxito', productos: productos });
 });
 
 app.get('/realTimeProducts', async (req, res) => {
-    let productos = await managerProductos.getProducts();
+    // let productos = await managerProductos.getProducts();
+    let productos = await managerProductosMongo.getProducts();
     res.render('realTimeProducts', { pageTitle: 'realtime', productos: productos });
 });
 

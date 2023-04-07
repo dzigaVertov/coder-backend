@@ -10,7 +10,6 @@ const schemaProducto = new mongoose.Schema(
         stock: Number,
         category: String,
         status: String,
-
     }
 );
 

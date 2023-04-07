@@ -8,7 +8,7 @@ export class CartManagerMongo {
     }
 
     async addCart(productos) {
-        this.#db.insertOne(productos);
+        this.#db.create(productos);
     }
 
     async getCartById(id) {

@@ -8,11 +8,13 @@ export class ProductManagerMongo {
     }
 
     async addProduct({ title, description, price, thumbnails, code, category, status, stock }) {
-        this.#db.insertOne(arguments);
+        console.log('probando esto', arguments[0]);
+        this.#db.create(arguments[0]);
     }
 
     async getProducts(){
-        return this.#db.find();
+        let products = await this.#db.find().lean();
+        return products;
     }
 
     async getProductById(id){
