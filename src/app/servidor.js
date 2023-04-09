@@ -8,6 +8,7 @@ import { conectar } from '../database/mongoose.js';
 import { ProductManagerMongo } from '../DAO/ProductManagerMongo.js';
 import { MensajeManagerMongo } from '../DAO/MensajeManagerMongo.js';
 import { CartManagerMongo } from '../DAO/CartManagerMongo.js';
+import { PORT } from '../config/servidor.config.js';
 
 //  MONGO
 await conectar();
@@ -31,7 +32,7 @@ app.set('view engine', 'handlebars');
 app.use(express.static('./public'));
 
 // server WebSocket
-const httpServer = app.listen(8080, () => console.log('Escuchando en puerto 8080'));
+const httpServer = app.listen(PORT, () => console.log('Escuchando en puerto 8080'));
 const io = new SocketIOServer(httpServer);
 
 // Agregar referencia al SocketServer en la petición http
@@ -48,7 +49,6 @@ io.on('connection', async clientSocket => {
     });
 
     clientSocket.on('nuevoProducto', async campos => {
-        console.log('nuevoproductorecibido', campos);
         try {
             await managerProductosMongo.addProduct({
                 "title": campos.title,
