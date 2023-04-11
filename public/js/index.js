@@ -37,15 +37,15 @@ if (form instanceof HTMLFormElement) {
 function nuevoProducto(event) {
     event.preventDefault();
     const formData = new FormData(form);
-    formData.price = 179;
-    formData.status = true;
-    formData.stock = 200;
-    formData.category = "categoria";
-    formData.thumbnails = ["thumb-1", "thumb-2"];
+    formData.append("price", 179);
+    formData.append("status", true);
+    formData.append("stock", 200);
+    formData.append("category", "categoria");
+    formData.append("thumbnails", ["thumb-1", "thumb-2"]);
     
     const campos = {};
     formData.forEach((value, key) => (campos[key] = value));
-
+    console.log('formdata', campos);
     fetch('/api/products', {
         method : 'POST',
         body : JSON.stringify(campos),

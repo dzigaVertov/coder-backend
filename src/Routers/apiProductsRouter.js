@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import {managerProductos, managerProductosMongo} from '../app/servidor.js';
+import { managerProductos, managerProductosMongo } from '../app/servidor.js';
 
 let apiProductsRouter = Router();
 export default apiProductsRouter;
@@ -20,16 +20,21 @@ apiProductsRouter.get('/', async (req, res) => {
 });
 
 apiProductsRouter.post('/', async (req, res) => {
+    
     if (!esProductoValido(req.body)) {
         res.status(400).json({ error: "Producto no válido" });
+        console.log('petición recibida con error');
+        console.log(req.body);
+        console.log(typeof req.body);
         return;
     }
+    console.log('petición recibida');
     let producto = await managerProductos.addProduct(req.body);
     let productos = await managerProductos.getProducts();
     req.io.sockets.emit('actualizacion', productos);
 
     res.json(producto);
-    
+
     let listaActualizadaProductos = await managerProductosMongo.getProducts();
     req.io.sockets.emit('actualizacion', listaActualizadaProductos);
 });
