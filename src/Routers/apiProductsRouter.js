@@ -1,11 +1,11 @@
 import express, { Router } from 'express';
-import {managerProductos} from '../app/servidor.js';
+import {managerProductos, managerProductosMongo} from '../app/servidor.js';
 
 let apiProductsRouter = Router();
 export default apiProductsRouter;
 
-apiProductsRouter.use(express.json());
-apiProductsRouter.use(express.urlencoded({ extended: true }));
+// apiProductsRouter.use(express.json());
+// apiProductsRouter.use(express.urlencoded({ extended: true }));
 
 
 
@@ -29,6 +29,46 @@ apiProductsRouter.post('/', async (req, res) => {
     req.io.sockets.emit('actualizacion', productos);
 
     res.json(producto);
+    
+    let listaActualizadaProductos = await managerProductosMongo.getProducts();
+    req.io.sockets.emit('actualizacion', listaActualizadaProductos);
+});
+
+apiProductsRouter.put('/:pid', async (req, res) => {
+
+    const pid = req.params.pid;
+
+    const camposAcambiar = Object.entries(req.body);
+
+    let producto;
+    for (const [campo, valorNuevo] of camposAcambiar) {
+        if (campo !== 'id') {   // El campo id no se actualiza
+            producto = await managerProductos.updateProduct(pid, campo, valorNuevo);
+        }
+    }
+    res.json(producto);
+});
+
+apiProductsRouter.delete('/:pid', async (req, res) => {
+    let producto = await managerProductos.deleteProduct(req.params.pid);
+    let productos = await managerProductos.getProducts();
+    req.io.sockets.emit('actualizacion', productos);
+
+    res.json(producto);
+});
+
+
+apiProductsRouter.get('/:pid', async (req, res) => {
+    const id = parseInt(req.params.pid);
+
+    try {
+        let producto = await managerProductos.getProductById(id);
+        res.send(producto);
+    }
+    catch {
+        res.json({ error: 'id de producto no encontrada' });
+    }
+
 });
 
 apiProductsRouter.put('/:pid', async (req, res) => {
@@ -82,3 +122,4 @@ function esProductoValido(body) {
 
     return (typeof status === 'boolean') && strsValidas && numsValidos;
 }
+

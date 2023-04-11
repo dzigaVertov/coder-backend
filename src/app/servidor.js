@@ -1,14 +1,19 @@
+// Server imports
 import express from 'express';
 import { engine } from 'express-handlebars';
 import { Server as SocketIOServer } from 'socket.io';
+import { PORT } from '../config/servidor.config.js';
+// Routers
 import apiProductsRouter from '../Routers/apiProductsRouter.js';
 import apiCartsRouter from '../Routers/apiCartsRouter.js';
+import productsRouter from '../Routers/productsRouter.js';
+// Mongo imports
 import ProductManagerFile from '../DAO/ProductManagerFile.js';
 import { conectar } from '../database/mongoose.js';
 import { ProductManagerMongo } from '../DAO/ProductManagerMongo.js';
 import { MensajeManagerMongo } from '../DAO/MensajeManagerMongo.js';
 import { CartManagerMongo } from '../DAO/CartManagerMongo.js';
-import { PORT } from '../config/servidor.config.js';
+
 
 //  MONGO
 await conectar();
@@ -31,6 +36,10 @@ app.set('view engine', 'handlebars');
 // Archivos estáticos
 app.use(express.static('./public'));
 
+// Middleware para acceder al body del POST request
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // server WebSocket
 const httpServer = app.listen(PORT, () => console.log('Escuchando en puerto 8080'));
 const io = new SocketIOServer(httpServer);
@@ -44,40 +53,9 @@ app.use((req, res, next) => {
 io.on('connection', async clientSocket => {
     console.log(`Nuevo cliente conectado: socket id: ${clientSocket.id}`);
 
+    
     clientSocket.on('mensaje', mensaje => {
         console.log(mensaje);
-    });
-
-    clientSocket.on('nuevoProducto', async campos => {
-        try {
-            await managerProductosMongo.addProduct({
-                "title": campos.title,
-                "description": campos.description,
-                "code": campos.code,
-                "price": 179,
-                "status": true,
-                "stock": 200,
-                "category": "categoria",
-                "thumbnails": ["thumb-1", "thumb-2"]
-            });
-        } catch (err) {
-            console.log(err.name, err.message);
-            io.sockets.emit('errorProducto', err.message);
-        }
-
-        let listaActualizadaProductos = await managerProductosMongo.getProducts();
-        io.sockets.emit('actualizacion', listaActualizadaProductos);
-
-        // managerProductos.addProduct({
-        //     "title": campos.title,
-        //     "description": campos.description,
-        //     "code": campos.code,
-        //     "price": 179,
-        //     "status": true,
-        //     "stock": 200,
-        //     "category": "categoria",
-        //     "thumbnails": ["thumb-1", "thumb-2"]
-        // });
     });
 
     clientSocket.on('nuevoMensaje', async mensaje => {
@@ -92,23 +70,11 @@ io.on('connection', async clientSocket => {
 
 
 
+app.use('/', productsRouter);
 app.use('/api/products', apiProductsRouter);
 app.use('/api/carts', apiCartsRouter);
 
 
-
-app.get('/', async (req, res) => {
-    // let productos = await managerProductos.getProducts();
-    let productos = await managerProductosMongo.getProducts();
-
-    res.render('home', { pageTitle: 'éxito', productos: productos });
-});
-
-app.get('/realTimeProducts', async (req, res) => {
-    // let productos = await managerProductos.getProducts();
-    let productos = await managerProductosMongo.getProducts();
-    res.render('realTimeProducts', { pageTitle: 'realtime', productos: productos });
-});
 
 app.get('/chat', async (req, res) => {
     let mensajes = await mensajeManager.getMensajes();

@@ -27,16 +27,30 @@ serverSocket.on('actualizacion', productos => {
 
 serverSocket.on('errorProducto', message => alert(message));
 
+
 const form = document.getElementById('formulario');
-form.addEventListener('submit', nuevoProducto);
+if (form instanceof HTMLFormElement) {
+    form.addEventListener('submit', nuevoProducto);
+}
+
 
 function nuevoProducto(event) {
     event.preventDefault();
-    const campos = {};
-
-    [...event.target.elements]
-        .filter(el=>el.type !=='submit')
-        .map(el=> campos[el.name]=el.value);
+    const formData = new FormData(form);
+    formData.price = 179;
+    formData.status = true;
+    formData.stock = 200;
+    formData.category = "categoria";
+    formData.thumbnails = ["thumb-1", "thumb-2"];
     
-    serverSocket.emit('nuevoProducto', campos);
+    const campos = {};
+    formData.forEach((value, key) => (campos[key] = value));
+
+    fetch('/api/products', {
+        method : 'POST',
+        body : JSON.stringify(campos),
+        headers : {
+            "Content-type": "application/json"
+        }
+    });
 }
