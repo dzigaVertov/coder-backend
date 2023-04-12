@@ -45,7 +45,6 @@ function nuevoProducto(event) {
     
     const campos = {};
     formData.forEach((value, key) => (campos[key] = value));
-    console.log('formdata', campos);
     fetch('/api/products', {
         method : 'POST',
         body : JSON.stringify(campos),

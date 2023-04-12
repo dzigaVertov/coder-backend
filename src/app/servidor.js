@@ -23,7 +23,7 @@ const cartManagerMongo = new CartManagerMongo();
 
 
 // Manager persistencia en archivos
-export const managerProductos = new ProductManagerFile('./src/products.json');
+// export const managerProductos = new ProductManagerFile('./src/products.json');
 
 
 const app = express();

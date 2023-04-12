@@ -1,17 +1,11 @@
-import express, { Router } from 'express';
-import { managerProductos, managerProductosMongo } from '../app/servidor.js';
+import { Router } from 'express';
+import { managerProductosMongo } from '../app/servidor.js';
 
 let apiProductsRouter = Router();
 export default apiProductsRouter;
 
-// apiProductsRouter.use(express.json());
-// apiProductsRouter.use(express.urlencoded({ extended: true }));
-
-
-
-
 apiProductsRouter.get('/', async (req, res) => {
-    let products = await managerProductos.getProducts();
+    let products = await managerProductosMongo.getProducts();
     const { limit } = req.query;
     if (limit) {
         products = products.slice(0, limit);
@@ -20,17 +14,14 @@ apiProductsRouter.get('/', async (req, res) => {
 });
 
 apiProductsRouter.post('/', async (req, res) => {
-    
     if (!esProductoValido(req.body)) {
-        res.status(400).json({ error: "Producto no válido" });
         console.log('petición recibida con error');
         console.log(req.body);
         console.log(typeof req.body);
         return;
     }
-    console.log('petición recibida');
-    let producto = await managerProductos.addProduct(req.body);
-    let productos = await managerProductos.getProducts();
+    let producto = await managerProductosMongo.addProduct(req.body);
+    let productos = await managerProductosMongo.getProducts();
     req.io.sockets.emit('actualizacion', productos);
 
     res.json(producto);
@@ -48,15 +39,15 @@ apiProductsRouter.put('/:pid', async (req, res) => {
     let producto;
     for (const [campo, valorNuevo] of camposAcambiar) {
         if (campo !== 'id') {   // El campo id no se actualiza
-            producto = await managerProductos.updateProduct(pid, campo, valorNuevo);
+            producto = await managerProductosMongo.updateProduct(pid, campo, valorNuevo);
         }
     }
     res.json(producto);
 });
 
 apiProductsRouter.delete('/:pid', async (req, res) => {
-    let producto = await managerProductos.deleteProduct(req.params.pid);
-    let productos = await managerProductos.getProducts();
+    let producto = await managerProductosMongo.deleteProductById(req.params.pid);
+    let productos = await managerProductosMongo.getProducts();
     req.io.sockets.emit('actualizacion', productos);
 
     res.json(producto);
@@ -67,7 +58,7 @@ apiProductsRouter.get('/:pid', async (req, res) => {
     const id = parseInt(req.params.pid);
 
     try {
-        let producto = await managerProductos.getProductById(id);
+        let producto = await managerProductosMongo.getProductById(id);
         res.send(producto);
     }
     catch {
@@ -85,15 +76,15 @@ apiProductsRouter.put('/:pid', async (req, res) => {
     let producto;
     for (const [campo, valorNuevo] of camposAcambiar) {
         if (campo !== 'id') {   // El campo id no se actualiza
-            producto = await managerProductos.updateProduct(pid, campo, valorNuevo);
+            producto = await managerProductosMongo.updateProduct(pid, campo, valorNuevo);
         }
     }
     res.json(producto);
 });
 
 apiProductsRouter.delete('/:pid', async (req, res) => {
-    let producto = await managerProductos.deleteProduct(req.params.pid);
-    let productos = await managerProductos.getProducts();
+    let producto = await managerProductosMongo.deleteProductById(req.params.pid);
+    let productos = await managerProductosMongo.getProducts();
     req.io.sockets.emit('actualizacion', productos);
 
     res.json(producto);
@@ -104,7 +95,7 @@ apiProductsRouter.get('/:pid', async (req, res) => {
     const id = parseInt(req.params.pid);
 
     try {
-        let producto = await managerProductos.getProductById(id);
+        let producto = await managerProductosMongo.getProductById(id);
         res.send(producto);
     }
     catch {
@@ -124,7 +115,7 @@ function esProductoValido(body) {
     });
 
     let numsValidos = nums.every(n => !isNaN(Number(n)));
-
-    return (typeof status === 'boolean') && strsValidas && numsValidos;
+    
+    return ((status === 'true') || (status === 'false')) && strsValidas && numsValidos;
 }
 

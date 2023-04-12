@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { managerProductos, managerProductosMongo } from '../app/servidor.js';
+import { managerProductosMongo } from '../app/servidor.js';
 
 let productsRouter = Router();
 export default productsRouter;
@@ -7,16 +7,15 @@ export default productsRouter;
 
 
 productsRouter.get('/', async (req, res) => {
-    // let productos = await managerProductos.getProducts();
     let productos = await managerProductosMongo.getProducts();
 
     res.render('home', { pageTitle: 'éxito', productos: productos });
 });
 
 productsRouter.get('/realTimeProducts', async (req, res) => {
-    // let productos = await managerProductos.getProducts();
     let productos = await managerProductosMongo.getProducts();
-    res.render('realTimeProducts', { pageTitle: 'realtime', productos: productos });
+    res.render('realTimeProducts',
+        { pageTitle: 'realtime', productos: productos });
 });
 
 productsRouter.post('/realTimeProducts', async (req, res) => {
@@ -25,14 +24,10 @@ productsRouter.post('/realTimeProducts', async (req, res) => {
         return;
     }
     console.log('llegada la peticion');
-    let producto = await managerProductos.addProduct(req.body);
-    let productos = await managerProductos.getProducts();
+    let producto = await managerProductosMongo.addProduct(req.body);
+    let productos = await managerProductosMongo.getProducts();
     req.io.sockets.emit('actualizacion', productos);
-
     res.json(producto);
-
-    let listaActualizadaProductos = await managerProductosMongo.getProducts();
-    req.io.sockets.emit('actualizacion', listaActualizadaProductos);
 });
 
 
