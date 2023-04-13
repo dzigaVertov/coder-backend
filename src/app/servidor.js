@@ -19,7 +19,7 @@ import { CartManagerMongo } from '../DAO/CartManagerMongo.js';
 await conectar();
 export const managerProductosMongo = new ProductManagerMongo();
 const mensajeManager = new MensajeManagerMongo();
-const cartManagerMongo = new CartManagerMongo();
+export const cartManagerMongo = new CartManagerMongo();
 
 
 // Manager persistencia en archivos

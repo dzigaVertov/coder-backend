@@ -8,11 +8,15 @@ export class CartManagerMongo {
     }
 
     async addCart(productos) {
-        this.#db.create(productos);
+        return this.#db.create({productos: []});
     }
 
     async getCartById(id) {
         return this.#db.find({ id: id });
+    }
+
+    async getCarts(){
+        return this.#db.find();
     }
 
 
@@ -31,11 +35,11 @@ export class CartManagerMongo {
             });
 
         if (existeProducto) {
-            this.#db.updateOne({ "_id": idCart },
+            return this.#db.updateOne({ "_id": idCart },
                 { "$inc": { "productos.$.quantity": 1 } }
             );
         } else {
-            this.#db.updateOne({ "_id": idCart }, { "$push": { "productos": producto } });
+            return this.#db.updateOne({ "_id": idCart }, { "$push": { "productos": producto } });
         }
     }
 
