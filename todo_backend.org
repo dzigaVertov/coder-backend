@@ -23,7 +23,7 @@
 * DONE Reemplazar los managers de file por los de mongo
 * DONE Mejorar la vista de productos
 ** DONE Que no muestre id
-* TODO Agregar puerto de servidor a través de archivo de configuración.
-* TODO Pasar lo que esta en servidor.js a los routers
-* TODO Agregar Router de views de productos
-* TODO Pasar el manager de productos a los routers
+* DONE Agregar puerto de servidor a través de archivo de configuración.
+* DONE Pasar lo que esta en servidor.js a los routers
+* DONE Agregar Router de views de productos
+* DONE Pasar el manager de productos a los routers

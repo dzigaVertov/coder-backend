@@ -7,8 +7,9 @@ import { PORT } from '../config/servidor.config.js';
 import apiProductsRouter from '../Routers/apiProductsRouter.js';
 import apiCartsRouter from '../Routers/apiCartsRouter.js';
 import productsRouter from '../Routers/productsRouter.js';
+import chatRouter from '../Routers/chatRouter.js';
 // Mongo imports
-import ProductManagerFile from '../DAO/ProductManagerFile.js';
+// import ProductManagerFile from '../DAO/ProductManagerFile.js';
 import { conectar } from '../database/mongoose.js';
 import { ProductManagerMongo } from '../DAO/ProductManagerMongo.js';
 import { MensajeManagerMongo } from '../DAO/MensajeManagerMongo.js';
@@ -18,7 +19,7 @@ import { CartManagerMongo } from '../DAO/CartManagerMongo.js';
 //  MONGO
 await conectar();
 export const managerProductosMongo = new ProductManagerMongo();
-const mensajeManager = new MensajeManagerMongo();
+export const mensajeManager = new MensajeManagerMongo();
 export const cartManagerMongo = new CartManagerMongo();
 
 
@@ -73,14 +74,7 @@ io.on('connection', async clientSocket => {
 app.use('/', productsRouter);
 app.use('/api/products', apiProductsRouter);
 app.use('/api/carts', apiCartsRouter);
-
-
-
-app.get('/chat', async (req, res) => {
-    let mensajes = await mensajeManager.getMensajes();
-    let msjs = mensajes.map(msj => ({ email: msj.email, mensaje: msj.mensaje }));
-    res.render('chat', { pageTitle: 'Chat', mensajes: msjs, hayMensajes: mensajes.length > 0 });
-});
+app.use('/chat', chatRouter);
 
 
 
