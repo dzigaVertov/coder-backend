@@ -1,29 +1,174 @@
 #+title: TO DO Backend
-* TODO Validaciones y control de errores
-* DONE Ver video de entrega para ver si faltó algo
-* DONE Agregar handlebars
-* DONE Agregar Socket.io
-* DONE Agregar formulario
-* DONE Ruta productos
-** DONE Generar validación para agregar producto: Los types y los obligatorios.
-** DONE Generar id que no se repita
-** DONE Generar agregar producto
-** DONE Hacer ruta put para actualizar producto
-** DONE Hacer ruta delete para borrar producto
-* DONE Ruta carts
-** DONE Crear ruta post con creación de nuevo carrito
-** TODO 
 
-* DONE Reemplazar la función callback del manager de productos con un middleware que agregue el socket server a la conexión http
-* DONE Generar manager dB a partir del productManager
-* DONE Generar la vista de chat y
-* DONE la lógica de la aplicación de chat
-* DONE La vista en tiempo real no actualiza los productos en tiempo real.
-* DONE Que no permita agregar producto con codigo repetido.
-* DONE Reemplazar los managers de file por los de mongo
-* DONE Mejorar la vista de productos
-** DONE Que no muestre id
-* DONE Agregar puerto de servidor a través de archivo de configuración.
-* DONE Pasar lo que esta en servidor.js a los routers
-* DONE Agregar Router de views de productos
-* DONE Pasar el manager de productos a los routers
+* Cosas a hacer
+** TODO Validaciones y control de errores
+** DONE Ver video de entrega para ver si faltó algo
+** DONE Agregar handlebars
+** DONE Agregar Socket.io
+** DONE Agregar formulario
+** DONE Ruta productos
+*** DONE Generar validación para agregar producto: Los types y los obligatorios.
+*** DONE Generar id que no se repita
+*** DONE Generar agregar producto
+*** DONE Hacer ruta put para actualizar producto
+*** DONE Hacer ruta delete para borrar producto
+** DONE Ruta carts
+*** DONE Crear ruta post con creación de nuevo carrito
+*** TODO 
+
+** DONE Reemplazar la función callback del manager de productos con un middleware que agregue el socket server a la conexión http
+** DONE Generar manager dB a partir del productManager
+** DONE Generar la vista de chat y
+** DONE la lógica de la aplicación de chat
+** DONE La vista en tiempo real no actualiza los productos en tiempo real.
+** DONE Que no permita agregar producto con codigo repetido.
+** DONE Reemplazar los managers de file por los de mongo
+** DONE Mejorar la vista de productos
+*** DONE Que no muestre id
+** DONE Agregar puerto de servidor a través de archivo de configuración.
+** DONE Pasar lo que esta en servidor.js a los routers
+** DONE Agregar Router de views de productos
+** DONE Pasar el manager de productos a los routers
+** TODO Agregar Readme.md explicando la estructura del proyecto
+** TODO Cambiar el campo de code de producto por el id???
+** TODO Profesionalizar las consultas de productos con filtros, paginación y ordenamientos
+** TODO Profesionalizar la gestión de carrito para implementar los últimos conceptos vistos.
+** TODO Con base en nuestra implementación actual de productos, modificar el método GET / para que cumpla con los siguientes puntos:
+*** TODO Deberá poder recibir por query params un limit (opcional), una page (opcional), un sort (opcional) y un query (opcional)
+*** TODO -limit permitirá devolver sólo el número de elementos solicitados al momento de la petición, en caso de no recibir limit, éste será de 10.
+*** TODO page permitirá devolver la página que queremos buscar, en caso de no recibir page, ésta será de 1
+*** TODO query, el tipo de elemento que quiero buscar (es decir, qué filtro aplicar), en caso de no recibir query, realizar la búsqueda general
+*** TODO sort: asc/desc, para realizar ordenamiento ascendente o descendente por precio, en caso de no recibir sort, no realizar ningún ordenamiento
+** TODO El método GET deberá devolver un objeto con el siguiente formato:
+#+begin_src js
+{
+	status:success/error
+    payload: Resultado de los productos solicitados
+    totalPages: Total de páginas
+    prevPage: Página anterior
+    nextPage: Página siguiente
+    page: Página actual
+    hasPrevPage: Indicador para saber si la página previa existe
+    hasNextPage: Indicador para saber si la página siguiente existe.
+    prevLink: Link directo a la página previa (null si hasPrevPage=false)
+    nextLink: Link directo a la página siguiente (null si hasNextPage=false)
+}
+
+
+#+end_src
+** TODO Se deberá poder buscar productos por categoría o por disponibilidad, y se deberá poder realizar un ordenamiento de estos productos de manera ascendente o descendente por precio.
+** TODO Además, agregar al router de carts los siguientes endpoints:
+*** TODO DELETE api/carts/:cid/products/:pid deberá eliminar del carrito el producto seleccionado.
+*** TODO PUT api/carts/:cid deberá actualizar el carrito con un arreglo de productos con el formato especificado arriba.
+*** TODO PUT api/carts/:cid/products/:pid deberá poder actualizar SÓLO la cantidad de ejemplares del producto por cualquier cantidad pasada desde req.body
+*** TODO DELETE api/carts/:cid deberá eliminar todos los productos del carrito 
+*** TODO Esta vez, para el modelo de Carts, en su propiedad products, el id de cada producto generado dentro del array tiene que hacer referencia al modelo de Products. Modificar la ruta /:cid para que al traer todos los productos, los traiga completos mediante un “populate”. De esta manera almacenamos sólo el Id, pero al solicitarlo podemos desglosar los productos asociados.
+** TODO Crear una vista en el router de views ‘/products’ para visualizar todos los productos con su respectiva paginación. Cada producto mostrado puede resolverse de dos formas:
+*** TODO Llevar a una nueva vista con el producto seleccionado con su descripción completa, detalles de precio, categoría, etc.
+*** TODO  Además de un botón para agregar al carrito.
+*** TODO Contar con el botón de “agregar al carrito” directamente, sin necesidad de abrir una página adicional con los detalles del producto.
+*** TODO  Además, agregar una vista en ‘/carts/:cid (cartId) para visualizar un carrito específico, donde se deberán listar SOLO los productos que pertenezcan a dicho carrito. 
+
+
+* Notas
+
+** Clase mongo avanzado I
+
+*** Profiling - Execution stats
+
+**** response = userModel.find({first_name: 'Celia'}).explain('executionStats')
+Información acerca de los tiempos y estrategias de búsqueda.
+
+***** response['executionStats']['executionTimeMillis']
+***** response['queryPlanner']['winningPlan']
+*** Indexing
+**** const userSchema = new Schema({first_name: {type: String, index: true}})
+*** Populate en mongoose (join en SQL, lookUp en mongo)
+#+begin_src js
+// Modelo de estudiantes
+const studentSchema = new Schema({
+    first_name: String,
+    last_name: String,
+    email: String,
+    gender: String,
+    courses: {
+        type: [
+            {
+                course: {
+                    type: Schema.Types.ObjectId, // Acá va el id del curso
+                    ref: 'courses'               // referencia a la otra colección 
+                }
+            }
+        ],
+        default: [], 
+    },
+})
+
+studentSchema.pre(/^find/, function (next) {
+    this.populate('courses.course')
+    next()
+})
+
+const studentModel = model(studentCollection, studentSchema)
+
+// Modelo de cursos
+const courseCollection = 'courses'
+
+const courseSchema = new Schema({
+    title: String,
+    description: String,
+    difficulty: Number,
+    topics: { type: Array, default: [] },
+    professor: String,
+})
+
+const courseModel = model(courseCollection, courseSchema)
+
+
+#+end_src
+**** save en mongoose
+#+begin_src js
+const student = await studentModel.findById('642c38727a926244bbb71395')
+if (student) {
+    
+    @ts-ignore
+    student.courses.push({ course: '642c38a1c7932f85cdda513e' })
+    // guardo las modificaciones a 'student.courses'
+    await studentModel.replaceOne({ _id: '642c38727a926244bbb71395' }, student)
+
+// mongoose tambien me permite hacerlo así!!! 
+    await student?.save()
+}
+// o tambien.....
+await studentModel.updateOne({ _id: '642c3b30f4b560d9f02d33ea' }, { $push: { courses: { course: new mongoose.Types.ObjectId('642c38a1c7932f85cdda513e') } } })
+
+#+end_src
+**** 
+
+** Clase mongo avanzado II
+
+*** Aggregation pipeline
+#+begin_src js
+let orders = await orderModel.aggregate([
+    // me quedo con las pizzas medianas
+    { $match: { size: 'medium' } },
+
+    // agrupo por variedad, y acumulo las cantidades de cada variedad
+    { $group: { _id: '$name', totalQuantity: { $sum: '$quantity' } } },
+
+    // ordeno por cantidad, de mayor a menor
+    { $sort: { totalQuantity: -1 } },
+
+    // meto todos los resultados en un array 'ordenes' (es obligatorio ponerle un _id)
+    // { $group: { _id: 1, orders: { $push: { _id: '$_id', totalQuantity: '$totalQuantity' } } } },
+    { $group: { _id: 1, orders: { $push: '$$ROOT' } } }, // esto es lo mismo pero mas corto!
+
+    // le saco el _id para el resultado final
+    { $project: { _id: 0 } },
+
+    // inserto en la coleccion de reportes (esto le agregará su propio _id autogenerado)
+    { $merge: { into: 'reports' } }
+])
+#+end_src
+
+
