@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
-import schemaProducto from '../models/schemaProducto.js';
+import {productModel} from '../models/schemaProducto.js';
 
 export class ProductManagerMongo {
     #db;
     constructor() {
-        this.#db = mongoose.model('productos', schemaProducto);
+        this.#db = productModel;
         this.#db.syncIndexes();
     }
 

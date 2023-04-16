@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
 
+const productsCollection = 'productos';
 const campoRequerido = [true, "El campo es requerido"];
 
 const schemaProducto = new mongoose.Schema(
@@ -42,5 +43,8 @@ const schemaProducto = new mongoose.Schema(
     },
     { versionKey: false }
 );
+
+schemaProducto.plugin(mongoosePaginate);
+export const productModel = mongoose.model(productsCollection, schemaProducto);
 
 export default schemaProducto;

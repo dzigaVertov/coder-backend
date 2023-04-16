@@ -1,5 +1,6 @@
 #+title: Readme: Proyecto Curso Backend - CODERHOUSE
 
 * Notas a esta entrega
+** Instancia de modelo de productos exportado desde schemaProducto.js (antes se instanciaba en el manager de productos).
 * Notas Generales
 * Organización del proyecto
