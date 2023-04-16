@@ -4,7 +4,8 @@ const schemaMensaje = new mongoose.Schema(
     {
         email : String,
         mensaje : String,
-    }
+    },
+    { versionKey: false }
 );
 
 export default schemaMensaje;

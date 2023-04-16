@@ -1,18 +1,20 @@
 import mongoose from 'mongoose';
 
+const campoRequerido = [true, "El campo es requerido"];
+
 const schemaProducto = new mongoose.Schema(
     {
         title: {
             type: String,
-            required: [true, "El campo es requerido"]
+            required: campoRequerido
         },
         description: {
             type: String,
-            required: [true, "El campo es requerido"]
+            required: campoRequerido
         },
         price: {
             type: Number,
-            required: [true, "El campo es requerido"]
+            required: campoRequerido
         },
         thumbnail: String,
         code: {
@@ -21,22 +23,23 @@ const schemaProducto = new mongoose.Schema(
             dropDups: true,
             required: {
                 type: String,
-                required: [true, "El campo es requerido"]
+                required: campoRequerido
             }
         },
         stock: {
             type: Number,
-            required: [true, "El campo es requerido"]
+            required: campoRequerido
         },
         category: {
             type: String,
-            required: [true, "El campo es requerido"]
+            required: campoRequerido
         },
         status: {
             type: String,
-            required: [true, "El campo es requerido"]
+            required: campoRequerido
         },
-    }
+    },
+    { versionKey: false }
 );
 
 export default schemaProducto;

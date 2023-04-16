@@ -8,7 +8,8 @@ const schemaCart = new mongoose.Schema(
                 quantity: { type: Number, required: true },
             }
         ]
-    }
+    },
+    { versionKey: False}
 );
 
 export default schemaCart;
