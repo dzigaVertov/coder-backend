@@ -29,7 +29,7 @@
 ** DONE Pasar lo que esta en servidor.js a los routers
 ** DONE Agregar Router de views de productos
 ** DONE Pasar el manager de productos a los routers
-** TODO Agregar Readme.md explicando la estructura del proyecto
+** DONE Agregar Readme.md explicando la estructura del proyecto
 ** TODO Cambiar el campo de code de producto por el id???
 ** TODO Profesionalizar las consultas de productos con filtros, paginación y ordenamientos
 ** TODO Profesionalizar la gestión de carrito para implementar los últimos conceptos vistos.
@@ -38,7 +38,7 @@
 *** TODO -limit permitirá devolver sólo el número de elementos solicitados al momento de la petición, en caso de no recibir limit, éste será de 10.
 *** TODO page permitirá devolver la página que queremos buscar, en caso de no recibir page, ésta será de 1
 *** TODO query, el tipo de elemento que quiero buscar (es decir, qué filtro aplicar), en caso de no recibir query, realizar la búsqueda general
-*** TODO sort: asc/desc, para realizar ordenamiento ascendente o descendente por precio, en caso de no recibir sort, no realizar ningún ordenamiento
+*** sort: asc/desc, para realizar ordenamiento ascendente o descendente por precio, en caso de no recibir sort, no realizar ningún ordenamiento
 ** TODO El método GET deberá devolver un objeto con el siguiente formato:
 #+begin_src js
 {

@@ -5,6 +5,7 @@ let apiProductsRouter = Router();
 export default apiProductsRouter;
 
 apiProductsRouter.get('/', async (req, res) => {
+    
     let products = await managerProductosMongo.getProducts();
     const { limit } = req.query;
     if (limit) {
