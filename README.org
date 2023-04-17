@@ -1,6 +1,10 @@
 #+title: Readme: Proyecto Curso Backend - CODERHOUSE
 
 * Notas a esta entrega
-** Instancia de modelo de productos exportado desde schemaProducto.js (antes se instanciaba en el manager de productos).
+  - Instancia de modelo de productos exportado desde schemaProducto.js (antes se instanciaba en el manager de productos).
+  - Agregadas opciones de paginación a manager de productos
+  - Agregadas opciones de paginación al método get del router de productos por query params:
+    - /api/products?limit=5&page=2&sort=asc devuelve la segunda página de a cinco productos de la categoría ordenados por precio en forma ascendente por precio.
+
 * Notas Generales
 * Organización del proyecto

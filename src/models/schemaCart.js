@@ -9,7 +9,7 @@ const schemaCart = new mongoose.Schema(
             }
         ]
     },
-    { versionKey: False}
+    { versionKey: false}
 );
 
 export default schemaCart;

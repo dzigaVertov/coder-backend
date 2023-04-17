@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {productModel} from '../models/schemaProducto.js';
+import { productModel } from '../models/schemaProducto.js';
 
 export class ProductManagerMongo {
     #db;
@@ -13,9 +13,14 @@ export class ProductManagerMongo {
         return result;
     }
 
-    async getProducts() {
-        let products = await this.#db.find().lean();
+    async getProducts(busqueda, paginacion) {
+        let products = await this.#db.find().lean();        
         return products;
+    }
+
+    async getProductsQuery(busqueda, paginacion) {
+        let productsQuery = await this.#db.paginate(busqueda, paginacion);
+        return productsQuery;
     }
 
     async getProductById(id) {

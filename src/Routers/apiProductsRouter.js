@@ -5,13 +5,19 @@ let apiProductsRouter = Router();
 export default apiProductsRouter;
 
 apiProductsRouter.get('/', async (req, res) => {
-    
-    let products = await managerProductosMongo.getProducts();
-    const { limit } = req.query;
-    if (limit) {
-        products = products.slice(0, limit);
+    const { limit, page, sort, category } = req.query;
+
+    const busqueda = category ? { category } : {};
+
+    const paginacion = {
+        limit: limit ?? 10,
+        page: page ?? 1,
+        sort: { price: sort }
     }
-    res.json({ products: products });
+    let resultPaginado = await managerProductosMongo.getProducts(busqueda, paginacion);
+
+
+    res.json(resultPaginado);
 });
 
 apiProductsRouter.post('/', async (req, res) => {
@@ -116,7 +122,7 @@ function esProductoValido(body) {
     });
 
     let numsValidos = nums.every(n => !isNaN(Number(n)));
-    
+
     return ((status === 'true') || (status === 'false')) && strsValidas && numsValidos;
 }
 
