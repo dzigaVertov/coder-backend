@@ -13,7 +13,7 @@
     payload: Resultado de los productos solicitados
     totalPages: Total de páginas
     prevPage: Página anterior
-    nextPage: Página siguiente
+    nextPage: Página siguientekjnkjn
     page: Página actual
     hasPrevPage: Indicador para saber si la página previa existe
     hasNextPage: Indicador para saber si la página siguiente existe.
