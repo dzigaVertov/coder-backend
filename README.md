@@ -1,10 +1,10 @@
-- [Notas a esta entrega](#org7650513)
-- [Notas Generales](#org14a93ce)
-- [Organización del proyecto](#org9ed1531)
+- [Notas a esta entrega](#orgf756c7a)
+- [Notas Generales](#org60a00c0)
+- [Organización del proyecto](#org5a431c6)
 
 
 
-<a id="org7650513"></a>
+<a id="orgf756c7a"></a>
 
 # Notas a esta entrega
 
@@ -30,12 +30,17 @@
 
 ```
 
+-   Agregado parámetro de stock al get:
+    -   ?stock=available devuelve productos con stock
+    -   ?stock=unavailable devuelve productos sin stock
+-   
 
-<a id="org14a93ce"></a>
+
+<a id="org60a00c0"></a>
 
 # Notas Generales
 
 
-<a id="org9ed1531"></a>
+<a id="org5a431c6"></a>
 
 # Organización del proyecto

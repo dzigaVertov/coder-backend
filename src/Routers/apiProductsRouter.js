@@ -5,9 +5,12 @@ let apiProductsRouter = Router();
 export default apiProductsRouter;
 
 apiProductsRouter.get('/', async (req, res) => {
-    const { limit, page, sort, category } = req.query;
+    const { limit, page, sort, category, stock } = req.query;
 
     const busqueda = category ? { category } : {};
+    if (stock === 'available') busqueda['stock'] = {$gt : 0};
+    if (stock === 'unavailable') busqueda['stock'] = 0;
+    console.log(busqueda);
 
     const paginacion = {
         limit: limit ?? 10,

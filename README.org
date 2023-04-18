@@ -23,7 +23,10 @@
 
 #+end_src
 
-
+- Agregado parámetro de stock al get:
+  - ?stock=available devuelve productos con stock
+  - ?stock=unavailable devuelve productos sin stock
+- 
 
 
 
