@@ -7,7 +7,7 @@
     - /api/products?limit=5&page=2&sort=asc devuelve la segunda página de a cinco productos de la categoría ordenados por precio en forma ascendente por precio.
   - Agregado formato de objeto que devuelve el método GET:
 
-#+begin_src js
+```
 {
 	status:success/error
     payload: Resultado de los productos solicitados
@@ -20,7 +20,7 @@
     prevLink: Link directo a la página previa (null si hasPrevPage=false)
     nextLink: Link directo a la página siguiente (null si hasNextPage=false)
 }
-#+end_src
+```
 
 
 * Notas Generales
