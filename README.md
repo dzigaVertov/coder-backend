@@ -1,10 +1,10 @@
-- [Notas a esta entrega](#org11aaba1)
-- [Notas Generales](#org4d79f08)
-- [Organización del proyecto](#orga51f0c9)
+- [Notas a esta entrega](#org7650513)
+- [Notas Generales](#org14a93ce)
+- [Organización del proyecto](#org9ed1531)
 
 
 
-<a id="org11aaba1"></a>
+<a id="org7650513"></a>
 
 # Notas a esta entrega
 
@@ -14,14 +14,28 @@
     -   /api/products?limit=5&page=2&sort=asc devuelve la segunda página de a cinco productos de la categoría ordenados por precio en forma ascendente por precio.
 -   Agregado formato de objeto que devuelve el método GET:
 
-\`\`\` { status:success/error payload: Resultado de los productos solicitados totalPages: Total de páginas prevPage: Página anterior nextPage: Página siguientekjnkjn page: Página actual hasPrevPage: Indicador para saber si la página previa existe hasNextPage: Indicador para saber si la página siguiente existe. prevLink: Link directo a la página previa (null si hasPrevPage=false) nextLink: Link directo a la página siguiente (null si hasNextPage=false) } \`\`\`
+```js
+{
+	status:success/error
+    payload: Resultado de los productos solicitados
+    totalPages: Total de páginas
+    prevPage: Página anterior
+    nextPage: Página siguientekjnkjn
+    page: Página actual
+    hasPrevPage: Indicador para saber si la página previa existe
+    hasNextPage: Indicador para saber si la página siguiente existe.
+    prevLink: Link directo a la página previa (null si hasPrevPage=false)
+    nextLink: Link directo a la página siguiente (null si hasNextPage=false)
+}
+
+```
 
 
-<a id="org4d79f08"></a>
+<a id="org14a93ce"></a>
 
 # Notas Generales
 
 
-<a id="orga51f0c9"></a>
+<a id="org9ed1531"></a>
 
 # Organización del proyecto
