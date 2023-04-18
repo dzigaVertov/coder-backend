@@ -34,12 +34,12 @@
 ** TODO Profesionalizar las consultas de productos con filtros, paginación y ordenamientos
 ** TODO Profesionalizar la gestión de carrito para implementar los últimos conceptos vistos.
 ** TODO Con base en nuestra implementación actual de productos, modificar el método GET / para que cumpla con los siguientes puntos:
-*** TODO Deberá poder recibir por query params un limit (opcional), una page (opcional), un sort (opcional) y un query (opcional)
-*** TODO -limit permitirá devolver sólo el número de elementos solicitados al momento de la petición, en caso de no recibir limit, éste será de 10.
-*** TODO page permitirá devolver la página que queremos buscar, en caso de no recibir page, ésta será de 1
-*** TODO query, el tipo de elemento que quiero buscar (es decir, qué filtro aplicar), en caso de no recibir query, realizar la búsqueda general
-*** sort: asc/desc, para realizar ordenamiento ascendente o descendente por precio, en caso de no recibir sort, no realizar ningún ordenamiento
-** TODO El método GET deberá devolver un objeto con el siguiente formato:
+*** DONE Deberá poder recibir por query params un limit (opcional), una page (opcional), un sort (opcional) y un query (opcional)
+*** DONE -limit permitirá devolver sólo el número de elementos solicitados al momento de la petición, en caso de no recibir limit, éste será de 10.
+*** DONE page permitirá devolver la página que queremos buscar, en caso de no recibir page, ésta será de 1
+*** DONE query, el tipo de elemento que quiero buscar (es decir, qué filtro aplicar), en caso de no recibir query, realizar la búsqueda general
+*** DONE sort: asc/desc, para realizar ordenamiento ascendente o descendente por precio, en caso de no recibir sort, no realizar ningún ordenamiento
+** DONE El método GET deberá devolver un objeto con el siguiente formato:
 #+begin_src js
 {
 	status:success/error

@@ -14,13 +14,14 @@ export class ProductManagerMongo {
     }
 
     async getProducts(busqueda, paginacion) {
-        let products = await this.#db.find().lean();        
+        let products = await this.#db.find().lean();
         return products;
     }
 
     async getProductsQuery(busqueda, paginacion) {
-        let productsQuery = await this.#db.paginate(busqueda, paginacion);
-        return productsQuery;
+            let productsQuery = await this.#db.paginate(busqueda, paginacion);
+            return productsQuery;
+
     }
 
     async getProductById(id) {

@@ -23,10 +23,7 @@ const schemaProducto = new mongoose.Schema(
             type: String,
             unique: true,
             dropDups: true,
-            required: {
-                type: String,
-                required: campoRequerido
-            }
+            required: campoRequerido
         },
         stock: {
             type: Number,

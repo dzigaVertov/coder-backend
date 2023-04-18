@@ -37,10 +37,8 @@ if (form instanceof HTMLFormElement) {
 function nuevoProducto(event) {
     event.preventDefault();
     const formData = new FormData(form);
-    formData.append("price", 179);
     formData.append("status", true);
     formData.append("stock", 200);
-    formData.append("category", "categoria");
     formData.append("thumbnails", ["thumb-1", "thumb-2"]);
     
     const campos = {};

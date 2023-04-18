@@ -12,19 +12,42 @@ apiProductsRouter.get('/', async (req, res) => {
     const paginacion = {
         limit: limit ?? 10,
         page: page ?? 1,
-        sort: { price: sort }
+        sort: sort ? { price: sort } : {}
+    };
+
+    try {
+        let resultPaginado = await managerProductosMongo.getProductsQuery(busqueda, paginacion);
+
+        let [linkPrevPage, linkNextPage] = getLinks(resultPaginado, req);
+        console.log(linkPrevPage, linkNextPage);
+        let queryReturn = {
+            status: 'success',
+            payload: resultPaginado.docs,
+            totalPages: resultPaginado.totalPages,
+            prevPage: resultPaginado.prevPage,
+            nextPage: resultPaginado.nextPage,
+            page: resultPaginado.page,
+            hasPrevPage: resultPaginado.hasPrevPage,
+            hasNextPage: resultPaginado.hasNextPage,
+            prevLink: linkPrevPage,
+            nextLink: linkNextPage
+        };
+
+        res.json(queryReturn);
+    } catch (error) {
+        console.log(error);
+        res.json({status:'error', message:error});
     }
-    let resultPaginado = await managerProductosMongo.getProducts(busqueda, paginacion);
 
 
-    res.json(resultPaginado);
+
+
 });
 
 apiProductsRouter.post('/', async (req, res) => {
     if (!esProductoValido(req.body)) {
         console.log('petición recibida con error');
         console.log(req.body);
-        console.log(typeof req.body);
         return;
     }
     let producto = await managerProductosMongo.addProduct(req.body);
@@ -126,3 +149,13 @@ function esProductoValido(body) {
     return ((status === 'true') || (status === 'false')) && strsValidas && numsValidos;
 }
 
+function getLinks(resultPaginado, req) {
+    let { hasPrevPage, hasNextPage, prevPage, nextPage } = resultPaginado;
+    const { limit, sort, category } = req.query;
+
+    let linkPrevPage = hasPrevPage ? (req.baseUrl + `?limit=${limit}&page=${prevPage}`) : null;
+    let linkNextPage = hasNextPage ? (req.baseUrl + `?limit=${limit}&page=${nextPage}`) : null;
+
+    return [linkPrevPage, linkNextPage];
+
+}
