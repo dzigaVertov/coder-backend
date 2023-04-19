@@ -26,7 +26,8 @@
 - Agregado parámetro de stock al get:
   - ?stock=available devuelve productos con stock
   - ?stock=unavailable devuelve productos sin stock
-- 
+
+- Agregada la ruta de actualización de cantidad de producto en carrito: PUT api/carts/:cid/products/:pid
 
 
 

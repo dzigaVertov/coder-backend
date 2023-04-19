@@ -138,9 +138,9 @@ apiProductsRouter.get('/:pid', async (req, res) => {
 });
 
 function esProductoValido(body) {
-    let { title, description, code, price, status, stock, category } = body;
+    let { title, description, price, status, stock, category } = body;
 
-    let strs = [title, description, category, code];
+    let strs = [title, description, category];
     let nums = [price, stock];
 
     let strsValidas = strs.every(elem => {

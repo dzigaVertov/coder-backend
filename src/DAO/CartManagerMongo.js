@@ -8,29 +8,40 @@ export class CartManagerMongo {
     }
 
     async addCart(productos) {
-        return this.#db.create({productos: []});
+        return this.#db.create({ productos: productos });
     }
 
     async getCartById(id) {
         return this.#db.find({ id: id });
     }
 
-    async getCarts(){
+    async getCarts() {
         return this.#db.find();
     }
 
 
-    async getProductos(idCart){
-        return this.#db.find({"_id" : idCart}).productos;
+    async getProductos(idCart) {
+        return this.#db.find({ "_id": idCart }).productos;
     }
-    
+
+    async updateProductos(idCart, productos) {
+        return this.#db.findByIdAndUpdate(idCart, { productos: productos });
+    }
+
+    async updateProductQuantity(idCart, id_producto, quantity) {
+        let prueba = this.#db.findOneAndUpdate({ _id: idCart, productos: { $elemMatch: { _id: id_producto } } },
+            { $inc: { 'productos.$.quantity': quantity } });
+        console.log(prueba);
+        return prueba;
+    }
+
     async addProductoToCart(idCart, producto) {
         // Chequear si ya está ese procucto en el carrito
         const existeProducto = this.#db.find(
             {
                 "_id": idCart,
                 "productos": {
-                    "$eq": { 'codigoProducto': producto.codigoProducto }
+                    "$eq": { _id: producto._id }
                 }
             });
 
@@ -42,5 +53,12 @@ export class CartManagerMongo {
             return this.#db.updateOne({ "_id": idCart }, { "$push": { "productos": producto } });
         }
     }
+
+    async deleteProductFromCart(idCart, idProducto) {
+        return this.#db.updateOne({ "_id": idCart },
+            { $pullAll: { "productos": [{ _id: idProducto }] } });
+    }
+
+
 
 }

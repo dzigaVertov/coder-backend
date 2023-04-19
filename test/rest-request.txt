@@ -41,22 +41,28 @@ Content-Type: application/json
 
 #
 #
+POST http://localhost:8080/api/carts
+Content-Type: application/json
+
+[{
+    "_id" : "643ddb1edcfb6142f1043459",
+    "quantity": 1
+}]
 
 
 #
 POST http://localhost:8080/api/carts
 Content-Type: application/json
 
-{
+[{
         "title": "Este es un título actualizado",
         "description": "Esta es una descripción de prueba",
-        "code": "codigoprueba-9431",
         "price": 179,
         "status": true,
         "stock": 200,
         "category": "categoria",
         "thumbnails": ["thumb-1", "thumb-2"]
-}
+}]
 
 #
 # Post works too, entity just goes after an empty line. Same is for PUT.
@@ -118,3 +124,31 @@ Content-Type: application/json
 # # Set a variable to the value of your ip address using a jq expression
 # GET http://httpbin.org/ip
 # -> jq-set-var :my-ip .origin
+
+PUT http://localhost:8080/api/carts/6437480c93eb8672b1bdc13b
+Content-Type: application/json
+
+[
+    {
+    "_id" : "643ddb1edcfb6142f1043459",
+    "quantity": 8
+    },
+    {
+    "_id" : "643ddb2edcfb6142f104345d",
+    "quantity" : 12
+    }
+]
+
+#
+#
+#
+
+PUT http://localhost:8080/api/carts/6437480c93eb8672b1bdc13b/product/643ddb2edcfb6142f104345d
+Content-Type: application/json
+
+{
+    "quantityNueva" : 56
+    }
+#
+#
+#

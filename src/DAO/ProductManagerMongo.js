@@ -5,10 +5,9 @@ export class ProductManagerMongo {
     #db;
     constructor() {
         this.#db = productModel;
-        this.#db.syncIndexes();
     }
 
-    async addProduct({ title, description, price, thumbnails, code, category, status, stock }) {
+    async addProduct({ title, description, price, thumbnails, category, status, stock }) {
         let result = await this.#db.create(arguments[0]);
         return result;
     }
@@ -25,14 +24,14 @@ export class ProductManagerMongo {
     }
 
     async getProductById(id) {
-        return this.#db.find({ id: id });
+        return this.#db.findById(id);
     }
 
     async updateProduct(id, campo, nuevoValor) {
-        this.#db.findOneAndUpdate({ id: id }, { campo: nuevoValor });
+        this.#db.findOneAndUpdate({ _id: id }, { campo: nuevoValor });
     }
 
     async deleteProductById(id) {
-        this.#db.deleteOne({ id: id });
+        this.#db.findByIdAndDelete(id);
     }
 }

@@ -19,12 +19,6 @@ const schemaProducto = new mongoose.Schema(
             required: campoRequerido
         },
         thumbnail: String,
-        code: {
-            type: String,
-            unique: true,
-            dropDups: true,
-            required: campoRequerido
-        },
         stock: {
             type: Number,
             required: campoRequerido
