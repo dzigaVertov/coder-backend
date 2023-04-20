@@ -69,7 +69,7 @@
 **** DONE Armar view de Producto solo.
 **** DONE Armar router de producto aislado
 **** DONE Poner link a producto solo.
-**** TODO Poner botón de agregar a carrito en producto solo.
+**** DONE Poner botón de agregar a carrito en producto solo.
 **** TODO Poner botón de agregar carrito en producto lista.
 *** TODO  Además de un botón para agregar al carrito.
 *** TODO Contar con el botón de “agregar al carrito” directamente, sin necesidad de abrir una página adicional con los detalles del producto.

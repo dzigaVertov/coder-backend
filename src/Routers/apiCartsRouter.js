@@ -35,6 +35,8 @@ apiCartsRouter.post('/:cid/product/:pid', async (req, res) => {
     let idCarrito = req.params.cid;
     let codigoProducto = req.params.pid;
 
+    console.log('aca llegamos');
+
     let carritoActualizado = await cartManagerMongo.addProductoToCart(idCarrito, codigoProducto);
     res.json(carritoActualizado);
 });

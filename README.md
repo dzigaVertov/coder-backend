@@ -1,10 +1,10 @@
-- [Notas a esta entrega](#org1d30648)
-- [Notas Generales](#orgffd2384)
-- [Organización del proyecto](#orgb10cff6)
+- [Notas a esta entrega](#org98494a1)
+- [Notas Generales](#orga1a1570)
+- [Organización del proyecto](#org606d375)
 
 
 
-<a id="org1d30648"></a>
+<a id="org98494a1"></a>
 
 # Notas a esta entrega
 
@@ -46,12 +46,14 @@
 
 -   Agregado link a producto solo
 
+-   Agregado botón de agregar a carrito
 
-<a id="orgffd2384"></a>
+
+<a id="orga1a1570"></a>
 
 # Notas Generales
 
 
-<a id="orgb10cff6"></a>
+<a id="org606d375"></a>
 
 # Organización del proyecto

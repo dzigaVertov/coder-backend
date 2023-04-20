@@ -39,5 +39,7 @@
 
 + Agregado link a producto solo
 
++ Agregado botón de agregar a carrito
+
 * Notas Generales
 * Organización del proyecto

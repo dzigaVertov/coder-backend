@@ -152,6 +152,17 @@ Content-Type: application/json
 #
 #
 #
+#
+
+POST http://localhost:8080/api/carts/644085385b8175e0361c5efe/product/6440943e6a0639c030d40399
+Content-Type: application/json
+
+{
+    "quantityNueva" : 56
+    }
+#
+#
+
 
 DELETE http://localhost:8080/api/carts/64374e2fdb1b14573aba0c94
 Content-Type: application/json

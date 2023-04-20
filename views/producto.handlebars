@@ -3,4 +3,14 @@
 <div class='card'>{{#each producto}}
   <p>{{@key}}: {{this}}</p>
   {{/each}}
-  </div>
+</div>
+
+<button onclick="agregarCarrito('{{producto._id}}')">Agregar al carrito</button>
+
+<script>
+  function agregarCarrito(pid){
+  let pedido = `/api/carts/644085385b8175e0361c5efe/product/${pid}`;
+  console.log(pedido)
+      fetch(pedido, {method: 'POST'});
+  }
+</script>

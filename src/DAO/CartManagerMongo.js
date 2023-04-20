@@ -39,22 +39,33 @@ export class CartManagerMongo {
         return prueba;
     }
 
-    async addProductoToCart(idCart, producto) {
+    async addProductoToCart(idCart, idProducto) {
         // Chequear si ya está ese procucto en el carrito
-        const existeProducto = this.#db.find(
+        const existeProducto = await this.#db.find(
             {
                 "_id": idCart,
                 "productos": {
-                    "$eq": { _id: producto._id }
+                    "$eq": { _id: idProducto }
                 }
-            });
+            }).lean();
 
-        if (existeProducto) {
-            return this.#db.updateOne({ "_id": idCart },
+        console.log(existeProducto);
+
+        if (existeProducto.length > 0) {
+            console.log('primera rama');
+            return this.#db.updateOne(
+                {
+                    "_id": idCart,
+                    "productos._id": idProducto
+                    }
+                ,
                 { "$inc": { "productos.$.quantity": 1 } }
             );
         } else {
-            return this.#db.updateOne({ "_id": idCart }, { "$push": { "productos": producto } });
+            console.log(idProducto);
+            return this.#db.updateOne(
+                { "_id": idCart },
+                { "$push": { "productos": {"_id": idProducto, "quantity": 1} } });
         }
     }
 
