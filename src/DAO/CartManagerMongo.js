@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
-import schemaCart from '../models/schemaCart.js';
+import cartModel from '../models/schemaCart.js';
 
 export class CartManagerMongo {
     #db;
     constructor() {
-        this.#db = mongoose.model('carts', schemaCart);
+        this.#db = cartModel;
     }
 
     async addCart(productos) {
@@ -12,7 +12,7 @@ export class CartManagerMongo {
     }
 
     async getCartById(id) {
-        return this.#db.find({ id: id });
+        return this.#db.find({ "_id": id });
     }
 
     async getCarts() {
@@ -29,8 +29,12 @@ export class CartManagerMongo {
     }
 
     async updateProductQuantity(idCart, id_producto, quantity) {
-        let prueba = this.#db.findOneAndUpdate({ _id: idCart, productos: { $elemMatch: { _id: id_producto } } },
+        let prueba = this.#db.findOneAndUpdate({
+            _id: idCart,
+            productos: { $elemMatch: { _id: id_producto } }
+        },
             { $inc: { 'productos.$.quantity': quantity } });
+
         console.log(prueba);
         return prueba;
     }

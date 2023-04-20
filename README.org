@@ -23,11 +23,15 @@
 
 #+end_src
 
-- Agregado parámetro de stock al get:
++ Agregado parámetro de stock al get:
   - ?stock=available devuelve productos con stock
   - ?stock=unavailable devuelve productos sin stock
 
-- Agregada la ruta de actualización de cantidad de producto en carrito: PUT api/carts/:cid/products/:pid
++ Agregada la ruta de actualización de cantidad de producto en carrito: PUT api/carts/:cid/products/:pid
+
++ Agregada la ruta para vaciar el carrito.
+
++ Agregado populate de productos de carrito
 
 
 

@@ -45,7 +45,7 @@ POST http://localhost:8080/api/carts
 Content-Type: application/json
 
 [{
-    "_id" : "643ddb1edcfb6142f1043459",
+    "_id" : "6440845bf3838bf718691c24",
     "quantity": 1
 }]
 
@@ -125,7 +125,7 @@ Content-Type: application/json
 # GET http://httpbin.org/ip
 # -> jq-set-var :my-ip .origin
 
-PUT http://localhost:8080/api/carts/6437480c93eb8672b1bdc13b
+PUT http://localhost:8080/api/carts/64374e2fdb1b14573aba0c94
 Content-Type: application/json
 
 [
@@ -143,12 +143,30 @@ Content-Type: application/json
 #
 #
 
-PUT http://localhost:8080/api/carts/6437480c93eb8672b1bdc13b/product/643ddb2edcfb6142f104345d
+PUT http://localhost:8080/api/carts/64374e2fdb1b14573aba0c94/product/643ddb2edcfb6142f104345d
 Content-Type: application/json
 
 {
     "quantityNueva" : 56
     }
+#
+#
+#
+
+DELETE http://localhost:8080/api/carts/64374e2fdb1b14573aba0c94
+Content-Type: application/json
+
+[
+    {
+    "_id" : "643ddb1edcfb6142f1043459",
+    "quantity": 8
+    },
+    {
+    "_id" : "643ddb2edcfb6142f104345d",
+    "quantity" : 12
+    }
+]
+
 #
 #
 #

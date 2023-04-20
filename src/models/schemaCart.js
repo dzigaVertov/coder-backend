@@ -1,14 +1,25 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
+const cartsCollection = 'carts';
 
 const schemaCart = new mongoose.Schema(
     {
         productos: [
-            {
-                quantity: { type: Number, required: true },
-            }
-        ]
-    },
-    { versionKey: false}
+                {
+                    _id: {
+                        type: Schema.Types.ObjectId,
+                        ref: 'productos'
+                    },
+                    quantity: { type: Number, required: true }
+                }
+            ]
+        },
+    { versionKey: false }
 );
 
-export default schemaCart;
+schemaCart.pre(/^find/, function (next) {
+    this.populate('productos._id');
+    next();
+});
+
+const cartModel = model(cartsCollection, schemaCart);
+export default cartModel;

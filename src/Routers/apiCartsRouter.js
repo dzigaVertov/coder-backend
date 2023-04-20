@@ -43,7 +43,6 @@ apiCartsRouter.put('/:cid/product/:pid', async (req, res) => {
     let idCarrito = req.params.cid;
     let idProducto = req.params.pid;
     let { quantityNueva } = req.body;
-    console.log(idCarrito, idProducto, quantityNueva);
 
     let carritoActualizado = await cartManagerMongo.updateProductQuantity(idCarrito, idProducto, quantityNueva);
     res.json(carritoActualizado);
@@ -54,6 +53,12 @@ apiCartsRouter.delete('/:cid/product/:pid', async (req, res) => {
     let idCarrito = req.params.cid;
     let codigoProducto = req.params.pid;
     let carritoActualizado = await cartManagerMongo.deleteProductFromCart(idCarrito, codigoProducto);
+    res.json(carritoActualizado);
+});
+
+apiCartsRouter.delete('/:cid', async (req, res) => {
+    let idCarrito = req.params.cid;
+    let carritoActualizado = await cartManagerMongo.updateProductos(idCarrito, []);
     res.json(carritoActualizado);
 });
 

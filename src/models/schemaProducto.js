@@ -31,8 +31,7 @@ const schemaProducto = new mongoose.Schema(
             type: String,
             required: campoRequerido
         },
-    },
-    { versionKey: false }
+    }
 );
 
 schemaProducto.plugin(mongoosePaginate);
