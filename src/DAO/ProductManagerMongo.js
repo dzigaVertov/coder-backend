@@ -24,7 +24,7 @@ export class ProductManagerMongo {
     }
 
     async getProductById(id) {
-        return this.#db.findById(id);
+        return this.#db.findById(id).lean();
     }
 
     async updateProduct(id, campo, nuevoValor) {

@@ -35,7 +35,9 @@
 
 + Agregados links de paginacion
 
++ Agregada view de producto solo
 
++ Agregado link a producto solo
 
 * Notas Generales
 * Organización del proyecto

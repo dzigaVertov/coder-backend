@@ -28,6 +28,12 @@ productsRouter.get('/', async (req, res) => {
     res.render('home', contextoPaginacion);
 });
 
+productsRouter.get('/:pid', async (req, res) => {
+    let pid = req.params.pid;
+    let producto = await managerProductosMongo.getProductById(pid);
+    res.render('producto', { producto });
+});
+
 productsRouter.get('/realTimeProducts', async (req, res) => {
     let productos = await managerProductosMongo.getProducts();
     res.render('realTimeProducts',
