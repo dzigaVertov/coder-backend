@@ -7,9 +7,25 @@ export default productsRouter;
 
 
 productsRouter.get('/', async (req, res) => {
-    let productos = await managerProductosMongo.getProducts();
+    const { limit, page, sort, category, stock } = req.query;
 
-    res.render('home', { pageTitle: 'éxito', productos: productos });
+    const busqueda = category ? { category } : {};
+    if (stock === 'available') busqueda['stock'] = { $gt: 0 };
+    if (stock === 'unavailable') busqueda['stock'] = 0;
+    console.log(busqueda);
+
+    const paginacion = {
+        limit: limit ?? 5,
+        page: page ?? 1,
+        sort: sort ? { price: sort } : {},
+        lean: true  // para que devuelva objetos literales, no de mongoose
+    };
+
+    let productosPaginados = await managerProductosMongo.getProductsQuery(busqueda, paginacion);
+
+    let contextoPaginacion = getContextoPaginacion(productosPaginados);
+
+    res.render('home', contextoPaginacion);
 });
 
 productsRouter.get('/realTimeProducts', async (req, res) => {
@@ -44,4 +60,22 @@ function esProductoValido(body) {
     let numsValidos = nums.every(n => !isNaN(Number(n)));
 
     return (typeof status === 'boolean') && strsValidas && numsValidos;
+}
+
+
+function getContextoPaginacion(productosPaginados) {
+    let contexto = {
+        hayDocs: productosPaginados.docs.length > 0,
+        productos: productosPaginados.docs,
+        limit: productosPaginados.limit,
+        page: productosPaginados.page,
+        totalPages: productosPaginados.totalPages,
+        hasNextPage: productosPaginados.hasNextPage,
+        nextPage: productosPaginados.nextPage,
+        hasPrevPage: productosPaginados.hasPrevPage,
+        prevPage: productosPaginados.prevPage,
+        pagingCounter: productosPaginados.pagingCounter,
+    };
+
+    return contexto;
 }

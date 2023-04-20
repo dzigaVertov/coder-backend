@@ -33,6 +33,8 @@
 
 + Agregado populate de productos de carrito
 
++ Agregados links de paginacion
+
 
 
 * Notas Generales

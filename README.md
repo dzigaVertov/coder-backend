@@ -1,13 +1,13 @@
 
 # Table of Contents
 
-1.  [Notas a esta entrega](#org2048781)
-2.  [Notas Generales](#org829cf9e)
-3.  [Organización del proyecto](#org166a30d)
+1.  [Notas a esta entrega](#org7a53644)
+2.  [Notas Generales](#orgddc8c90)
+3.  [Organización del proyecto](#orgb7d066e)
 
 
 
-<a id="org2048781"></a>
+<a id="org7a53644"></a>
 
 # Notas a esta entrega
 
@@ -36,13 +36,19 @@
 
 -   Agregada la ruta de actualización de cantidad de producto en carrito: PUT api/carts/:cid/products/:pid
 
+-   Agregada la ruta para vaciar el carrito.
 
-<a id="org829cf9e"></a>
+-   Agregado populate de productos de carrito
+
+-   Agregados links de paginacion
+
+
+<a id="orgddc8c90"></a>
 
 # Notas Generales
 
 
-<a id="org166a30d"></a>
+<a id="orgb7d066e"></a>
 
 # Organización del proyecto
 
