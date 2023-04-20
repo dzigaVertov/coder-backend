@@ -1,13 +1,10 @@
-
-# Table of Contents
-
-1.  [Notas a esta entrega](#org7a53644)
-2.  [Notas Generales](#orgddc8c90)
-3.  [Organización del proyecto](#orgb7d066e)
+- [Notas a esta entrega](#org12b46c7)
+- [Notas Generales](#org7eda074)
+- [Organización del proyecto](#org0dd0bc7)
 
 
 
-<a id="org7a53644"></a>
+<a id="org12b46c7"></a>
 
 # Notas a esta entrega
 
@@ -17,18 +14,21 @@
     -   /api/products?limit=5&page=2&sort=asc devuelve la segunda página de a cinco productos de la categoría ordenados por precio en forma ascendente por precio.
 -   Agregado formato de objeto que devuelve el método GET:
 
-    {
-    	status:success/error
-        payload: Resultado de los productos solicitados
-        totalPages: Total de páginas
-        prevPage: Página anterior
-        nextPage: Página siguientekjnkjn
-        page: Página actual
-        hasPrevPage: Indicador para saber si la página previa existe
-        hasNextPage: Indicador para saber si la página siguiente existe.
-        prevLink: Link directo a la página previa (null si hasPrevPage=false)
-        nextLink: Link directo a la página siguiente (null si hasNextPage=false)
-    }
+```js
+{
+	status:success/error
+    payload: Resultado de los productos solicitados
+    totalPages: Total de páginas
+    prevPage: Página anterior
+    nextPage: Página siguientekjnkjn
+    page: Página actual
+    hasPrevPage: Indicador para saber si la página previa existe
+    hasNextPage: Indicador para saber si la página siguiente existe.
+    prevLink: Link directo a la página previa (null si hasPrevPage=false)
+    nextLink: Link directo a la página siguiente (null si hasNextPage=false)
+}
+
+```
 
 -   Agregado parámetro de stock al get:
     -   ?stock=available devuelve productos con stock
@@ -43,12 +43,11 @@
 -   Agregados links de paginacion
 
 
-<a id="orgddc8c90"></a>
+<a id="org7eda074"></a>
 
 # Notas Generales
 
 
-<a id="orgb7d066e"></a>
+<a id="org0dd0bc7"></a>
 
 # Organización del proyecto
-
