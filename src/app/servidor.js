@@ -8,6 +8,7 @@ import apiProductsRouter from '../Routers/apiProductsRouter.js';
 import apiCartsRouter from '../Routers/apiCartsRouter.js';
 import productsRouter from '../Routers/productsRouter.js';
 import chatRouter from '../Routers/chatRouter.js';
+import cartsRouter from '../Routers/cartsRouter.js';
 // Mongo imports
 // import ProductManagerFile from '../DAO/ProductManagerFile.js';
 import { conectar } from '../database/mongoose.js';
@@ -75,6 +76,6 @@ app.use('/', productsRouter);
 app.use('/api/products', apiProductsRouter);
 app.use('/api/carts', apiCartsRouter);
 app.use('/chat', chatRouter);
-
+app.use('/carts', cartsRouter);
 
 

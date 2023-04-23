@@ -32,7 +32,7 @@
 ** DONE Agregar Readme.md explicando la estructura del proyecto
 ** DONE Cambiar el campo de code de producto por el id???
 ** DONE Profesionalizar las consultas de productos con filtros, paginación y ordenamientos
-** TODO Profesionalizar la gestión de carrito para implementar los últimos conceptos vistos.
+** DONE Profesionalizar la gestión de carrito para implementar los últimos conceptos vistos.
 ** DONE Con base en nuestra implementación actual de productos, modificar el método GET / para que cumpla con los siguientes puntos:
 *** DONE Deberá poder recibir por query params un limit (opcional), una page (opcional), un sort (opcional) y un query (opcional)
 *** DONE -limit permitirá devolver sólo el número de elementos solicitados al momento de la petición, en caso de no recibir limit, éste será de 10.
@@ -57,6 +57,8 @@
 
 #+end_src
 ** DONE Se deberá poder buscar productos por categoría o por disponibilidad, y se deberá poder realizar un ordenamiento de estos productos de manera ascendente o descendente por precio.
+*** TODO Agregar ordenamiento por disponibilidad
+
 ** TODO Además, agregar al router de carts los siguientes endpoints:
 *** DONE DELETE api/carts/:cid/products/:pid deberá eliminar del carrito el producto seleccionado.
 *** DONE PUT api/carts/:cid deberá actualizar el carrito con un arreglo de productos con el formato especificado arriba.
@@ -73,7 +75,11 @@
 **** TODO Poner botón de agregar carrito en producto lista.
 *** TODO  Además de un botón para agregar al carrito.
 *** TODO Contar con el botón de “agregar al carrito” directamente, sin necesidad de abrir una página adicional con los detalles del producto.
-*** TODO  Además, agregar una vista en ‘/carts/:cid (cartId) para visualizar un carrito específico, donde se deberán listar SOLO los productos que pertenezcan a dicho carrito. 
+** TODO  Además, agregar una vista en ‘/carts/:cid (cartId) parakd visualizar un carrito específico, donde se deberán listar SOLO los productos que pertenezcan a dicho carrito.   
+*** TODO Agregar view de carrito
+*** TODO desglosar categorías que van en la view
+*** TODO Agregar botón de vaciar carrito
+
 
 
 * Notas
@@ -176,5 +182,6 @@ let orders = await orderModel.aggregate([
     { $merge: { into: 'reports' } }
 ])
 #+end_src
+
 
 

@@ -12,7 +12,7 @@ export class CartManagerMongo {
     }
 
     async getCartById(id) {
-        return this.#db.find({ "_id": id });
+        return this.#db.findOne({ "_id": id }).lean();
     }
 
     async getCarts() {
@@ -20,9 +20,6 @@ export class CartManagerMongo {
     }
 
 
-    async getProductos(idCart) {
-        return this.#db.find({ "_id": idCart }).productos;
-    }
 
     async updateProductos(idCart, productos) {
         return this.#db.findByIdAndUpdate(idCart, { productos: productos });
