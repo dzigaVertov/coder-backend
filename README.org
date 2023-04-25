@@ -41,5 +41,7 @@
 
 + Agregado botón de agregar a carrito
 
++ Agregado view de carrito
+
 * Notas Generales
 * Organización del proyecto
