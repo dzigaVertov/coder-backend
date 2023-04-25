@@ -3,12 +3,14 @@ import express from 'express';
 import { engine } from 'express-handlebars';
 import { Server as SocketIOServer } from 'socket.io';
 import { PORT } from '../config/servidor.config.js';
+
 // Routers
 import apiProductsRouter from '../Routers/apiProductsRouter.js';
 import apiCartsRouter from '../Routers/apiCartsRouter.js';
 import productsRouter from '../Routers/productsRouter.js';
 import chatRouter from '../Routers/chatRouter.js';
 import cartsRouter from '../Routers/cartsRouter.js';
+
 // Mongo imports
 // import ProductManagerFile from '../DAO/ProductManagerFile.js';
 import { conectar } from '../database/mongoose.js';
@@ -30,17 +32,18 @@ export const cartManagerMongo = new CartManagerMongo();
 
 const app = express();
 
-// Handlebars
-app.engine('handlebars', engine());
-app.set('views', './views');
-app.set('view engine', 'handlebars');
-
 // Archivos estáticos
 app.use(express.static('./public'));
 
 // Middleware para acceder al body del POST request
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Handlebars
+app.engine('handlebars', engine());
+app.set('views', './views');
+app.set('view engine', 'handlebars');
+
 
 // server WebSocket
 const httpServer = app.listen(PORT, () => console.log('Escuchando en puerto 8080'));
@@ -73,6 +76,7 @@ io.on('connection', async clientSocket => {
 
 
 app.use('/', productsRouter);
+app.use('/api/sessions', sessionsRouter)
 app.use('/api/products', apiProductsRouter);
 app.use('/api/carts', apiCartsRouter);
 app.use('/chat', chatRouter);
