@@ -1,36 +1,38 @@
 #+title: TO DO Backend
 
 * Cosas a hacer
-** TODO Validaciones y control de errores
-** DONE Ver video de entrega para ver si faltó algo
-** DONE Agregar handlebars
-** DONE Agregar Socket.io
-** DONE Agregar formulario
-** DONE Ruta productos
-*** DONE Generar validación para agregar producto: Los types y los obligatorios.
-*** DONE Generar id que no se repita
-*** DONE Generar agregar producto
-*** DONE Hacer ruta put para actualizar producto
-*** DONE Hacer ruta delete para borrar producto
-** DONE Ruta carts
-*** DONE Crear ruta post con creación de nuevo carrito
-*** TODO 
 
-** DONE Reemplazar la función callback del manager de productos con un middleware que agregue el socket server a la conexión http
-** DONE Generar manager dB a partir del productManager
-** DONE Generar la vista de chat y
-** DONE la lógica de la aplicación de chat
-** DONE La vista en tiempo real no actualiza los productos en tiempo real.
-** DONE Que no permita agregar producto con codigo repetido.
-** DONE Reemplazar los managers de file por los de mongo
-** DONE Mejorar la vista de productos
-*** DONE Que no muestre id
-** DONE Agregar puerto de servidor a través de archivo de configuración.
-** DONE Pasar lo que esta en servidor.js a los routers
-** DONE Agregar Router de views de productos
-** DONE Pasar el manager de productos a los routers
-** DONE Agregar Readme.md explicando la estructura del proyecto
-** DONE Cambiar el campo de code de producto por el id???
+** Preentregas anteriores
+*** TODO Validaciones y control de errores
+*** DONE Ver video de entrega para ver si faltó algo
+*** DONE Agregar handlebars
+*** DONE Agregar Socket.io
+*** DONE Agregar formulario
+*** DONE Ruta productos
+**** DONE Generar validación para agregar producto: Los types y los obligatorios.
+**** DONE Generar id que no se repita
+**** DONE Generar agregar producto
+**** DONE Hacer ruta put para actualizar producto
+**** DONE Hacer ruta delete para borrar producto
+*** DONE Ruta carts
+**** DONE Crear ruta post con creación de nuevo carrito
+**** TODO 
+
+*** DONE Reemplazar la función callback del manager de productos con un middleware que agregue el socket server a la conexión http
+*** DONE Generar manager dB a partir del productManager
+*** DONE Generar la vista de chat y
+*** DONE la lógica de la aplicación de chat
+*** DONE La vista en tiempo real no actualiza los productos en tiempo real.
+*** DONE Que no permita agregar producto con codigo repetido.
+*** DONE Reemplazar los managers de file por los de mongo
+*** DONE Mejorar la vista de productos
+**** DONE Que no muestre id
+*** DONE Agregar puerto de servidor a través de archivo de configuración.
+*** DONE Pasar lo que esta en servidor.js a los routers
+*** DONE Agregar Router de views de productos
+*** DONE Pasar el manager de productos a los routers
+*** DONE Agregar Readme.md explicando la estructura del proyecto
+*** DONE Cambiar el campo de code de producto por el id???
 
 ** Preentrega populate y queries  
 *** DONE Profesionalizar las consultas de productos con filtros, paginación y ordenamientos
