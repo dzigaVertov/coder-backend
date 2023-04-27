@@ -1,20 +1,33 @@
-const formRegistro = document.getElementById('formularioRegistro');
+const formularioRegistro = document.getElementById('formularioRegistro');
 
-if (formRegistro instanceof HTMLFormElement) {
-    formRegistro.addEventListener('submit', nuevoUsuario);
+if (formularioRegistro instanceof HTMLFormElement) {
+    formularioRegistro.addEventListener('submit', nuevoUsuario);
 }
 
-function nuevoUsuario(event) {
+async function nuevoUsuario(event) {
     event.preventDefault();
 
-    const campos = {};
-    const formData = new FormData(formRegistro);
-    formData.forEach((value, key) => (campos[key] = value));
-    fetch('/api/registro', {
+    const first_name = document.querySelector('#first_name');
+    const last_name = document.querySelector('#last_name');
+    const email = document.querySelector('#email');
+    const age = document.querySelector('#age');
+    const password = document.querySelector('#password');
+
+    const datosUsuario = {
+        first_name: first_name.value,
+        last_name: last_name.value,
+        email: email.value,
+        age: age.value,
+        password: password.value
+    }
+
+    const resultadoPeticion = await fetch('/api/sessions/registro', {
         method: 'POST',
-        body: JSON.stringify(campos),
+        body: JSON.stringify(datosUsuario),
         headers: {
             "Content-type": "application/json"
         }
     });
+
+    console.log(resultadoPeticion);
 }

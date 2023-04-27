@@ -1,6 +1,16 @@
 #+title: Readme: Proyecto Curso Backend - CODERHOUSE
 
 * Notas a esta entrega
+
+  - Agregado package express-session
+  - Agregado package connect-mongo para persistencia
+  - Agregado router de user para manejo de registro, login y perfil.
+  - Agregado router apiSession para manejo de sesión.
+  - Agregada vista de perfil
+  - Agregada vista de registro
+  - Agregada vista de login
+
+* Notas a entrega anterior
   - Instancia de modelo de productos exportado desde schemaProducto.js (antes se instanciaba en el manager de productos).
   - Agregadas opciones de paginación a manager de productos
   - Agregadas opciones de paginación al método get del router de productos por query params:
@@ -44,4 +54,11 @@
 + Agregado view de carrito
 
 * Notas Generales
+** Rutas web
+   - La ruta raíz dirige a login si no hay sesión iniciada, o a vista de productos si ya hay sesion
+   - /login /register /profile para vistas de login, registro y perfil.
+   - /profile redirige a login si no hay sesión iniciada por el usuario.
+   - 
+
+
 * Organización del proyecto
