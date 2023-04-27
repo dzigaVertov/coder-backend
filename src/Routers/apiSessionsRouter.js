@@ -36,18 +36,7 @@ apiSessionsRouter.post('/registro', async (req, res) => {
 
     const respuestaDb = await usuarioModel.create(datosUsuario);
 
-    const datosLogin = { email : respuestaDb.email, password : respuestaDb.password};
-
-    // logueamos al usuario nuevo
-    console.log(datosLogin);
-    req.session.user = {
-        nombre: respuestaDb.first_name + ' ' + respuestaDb.last_name,
-        email: respuestaDb.email,
-        edad: respuestaDb.age
-    };
-
-    // Redirigimos al perfil
-    res.redirect('/profile');
+    res.sendStatus(201);
 })
 
 

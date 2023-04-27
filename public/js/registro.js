@@ -21,13 +21,19 @@ async function nuevoUsuario(event) {
         password: password.value
     }
 
-    const resultadoPeticion = await fetch('/api/sessions/registro', {
+    const {status} = await fetch('/api/sessions/registro', {
         method: 'POST',
         body: JSON.stringify(datosUsuario),
         headers: {
             "Content-type": "application/json"
         }
     });
+
+     if (status === 201) {
+        window.location.href = '/profile'
+      } else {
+        console.log('[login] estado inesperado: ' + status)
+      }
 
     console.log(resultadoPeticion);
 }
