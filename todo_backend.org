@@ -243,15 +243,72 @@ let orders = await orderModel.aggregate([
   - Cookie-parser
     - Agrega las cookies en el objeto request
     - Las cookies se agregan automáticamente del lado del cliente y siempre se envían al sitio del que se recibieron originalmente.
-    - app.use(cookieParser())
+    - app.use(cookieParser()) cookieParser es una función que devuelve un middleware.
     - req.cookies
   - Se agrega una cookie a la respuesta con:
     - res.cookie('nombre', valor)
 - Para borrar una cookie:
   - res.clearCookie(cookieName)
+  - Tienen que enviarse todas las opciones que se usaron al momento de crearla.
+
+#+begin_src js
+
+app.get('/setRegular', (req, res) => {
+  res.status(200)
+  res.cookie('regular', 'cookie') // esto es lo que agrego para mandar una cookie al cliente
+  res.send('la cookie fue guardada con éxito')
+})
+
+app.get('/setPath', (req, res) => {
+  res.cookie('conPath', 'cookie', { path: '/conPath' }) // La cookie sólo se incluye en las peticiones a ese path
+  res.send('Set Cookie')
+})
+
+app.get('/setJSON', (req, res) => {
+  res.cookie('json', { tipo: 'cookie', nombre: 'cuqui' }) // cookie con json
+  res.send('Set Json Cookie')
+})
+
+app.get('/setEX', (req, res) => {
+  res.cookie('expirable', 'cookie', { maxAge: 15000 }) // cookie con timeOut se borra automáticamente
+  res.send('Set Exp Cookie')
+})
+
+// /////////////////////////////////
+app.use(cookieParser('papaFrita')) // palabra o array de palabras que se usa para firmar la cookie
+app.get('/setSigned', (req, res) => {
+  res.cookie('signed', 'cookie', { signed: true }) // firma la cookie 
+  res.send('Set Signed Cookie')
+})
+// //////////////////////////////////////
+
+app.get('/setHttpOnly', (req, res) => {
+  res.cookie('soloPeticiones', 'valorLoco', { httpOnly: true })
+  res.send('Set httpOnly Cookie')
+})
+
+app.get('/get', (req, res) => {
+  res.json({ notSigned: req.cookies, signed: req.signedCookies })
+})
+
+#+end_src
+
+- 
 
 *** Sessions
 
 **** session
 
-     - usamos el package session para generar sesiones
+     - usamos el package express-session para generar sesiones
+     - Genera sesiones usando cookies
+       #+begin_src js
+
+app.use(session({
+  secret: 'shhhhhhhhhhhhhhhhhhhhh',
+  resave: false,
+  saveUninitialized: true
+}))
+
+req.session.destroy(callback(error)) // termina la sesión
+       #+end_src
+
