@@ -131,7 +131,7 @@
 
 * Notas
 
-** Clase mongo avanzado I
+** Clase 16 mongo avanzado I
 
 *** Profiling - Execution stats
 
@@ -204,7 +204,7 @@ await studentModel.updateOne({ _id: '642c3b30f4b560d9f02d33ea' }, { $push: { cou
 #+end_src
 **** 
 
-** Clase mongo avanzado II
+** Clase 17 mongo avanzado II
 
 *** Aggregation pipeline
 #+begin_src js
@@ -230,7 +230,7 @@ let orders = await orderModel.aggregate([
 ])
 #+end_src
 
-** Clase cookies, Sessions y Storages
+** Clase 18 cookies, Sessions y Storages
 
 *** Cookies
 - Un pequeño archivo de texto
@@ -311,4 +311,221 @@ app.use(session({
 
 req.session.destroy(callback(error)) // termina la sesión
        #+end_src
+
+** Clase 19 cookies, Sessions y Storages 2
+
+*** Persistencia por File store
+#+begin_src js
+  
+/* ----------------------------------------------------- */
+/*           Persistencia por file store                 */
+/* ----------------------------------------------------- */
+import sfs from 'session-file-store'
+const FileStore = sfs(session)
+/* ----------------------------------------------------- */
+
+const app = express()
+app.use(
+  session({
+
+    /* ----------------------------------------------------- */
+    /*           Persistencia por file store                 */
+      /* ----------------------------------------------------- */
+      // ttl: persistencia de la sesión en segundos.  Cuando la sesión expira
+      // el archivo no se borra automáticamente
+    store: new FileStore({ path: './sesiones', ttl: 300, retries: 0 }),
+    /* ----------------------------------------------------- */
+
+    secret: 'shhhhhhhhhhhhhhhhhhhhh',
+    resave: false,
+    saveUninitialized: false,   // No guarda la sesión hasta que no está modificada
+    // cookie: {
+    //     maxAge: 40000
+    // }
+  })
+)
+
+#+end_src
+
+*** Persistencia por Mongo Atlas
+
+#+begin_src js
+
+/* ------------------------------------------------*/
+/*           Persistencia por MongoDB              */
+/* ------------------------------------------------*/
+import MongoStore from 'connect-mongo'
+/* ------------------------------------------------*/
+
+const app = express()
+
+app.use(session({
+    /* ----------------------------------------------------- */
+    /*           Persistencia por redis database             */
+    /* ----------------------------------------------------- */
+    store: MongoStore.create({ mongoUrl: `mongodb://localhost/coderhouse`, ttl: 10 }), // la base de datos gestiona automáticamente la persistencia de los documentos borrándolos cuando expira la sesión
+    /* ----------------------------------------------------- */
+
+    secret: 'shhhhhhhhhhhhhhhhhhhhh',
+    resave: false,
+    saveUninitialized: false
+}))
+  
+#+end_src
+
+** Clase 20 Autorización y autorización
+*** Bcrypt: librería para generar hashes
+#+begin_src js
+  
+// irreversible!
+export function hashear(frase) {
+    return bcrypt.hashSync(frase, bcrypt.genSaltSync(10))
+}
+
+export function validarQueSeanIguales(recibida, almacenada) {
+  // return hashear(recibida) === almacenada
+  return bcrypt.compareSync(recibida, almacenada)
+}
+#+end_src
+
+
+*** Passport
+**** Estrategias: Maneras de realizar la autenticación
+***** Local: se realiza la comparación de las contraseñas contra unas credenciales almacenadas de forma local.  
+**** Autenticación: Identificación de quien se presenta a un servidor - Código de procesos fallidos: 401
+***** Usuario y contraseña
+***** Por terceros: autenticación por otro sistema (Google, Facebook, etcétera)
+***** Datos biométricos
+***** JWT: Json Web Token
+***** OAuth: Api de autenticación
+
+**** Autorización: Permisos para acceder a distintos niveles de recursos.- Código de procesos fallidos: 403
+
+**** Genera middlewares de Express
+#+begin_src js
+  // acá cargo passport en el servidor express como middleware
+app.use(passportInitialize, passportSession)
+
+#+end_src
+
+**** Ejemplos de estrategias:
+#+begin_src js
+  passport.use('register', new Strategy({ passReqToCallback: true }, async (req, _u, _p, done) => {
+    // esto es lo que estaba en el controller de registro
+      const { username, password, ...datosPersonales } = req.body
+    const user = new User({ username, password: hashear(password), ...datosPersonales })
+    await userManager.guardar(user)
+    done(null, {
+        username: user.username,
+        nombre: user.nombre,
+        apellido: user.apellido,
+        edad: user.edad,
+        direccion: user.direccion,
+    })
+}))
+
+passport.use('login', new Strategy({ passReqToCallback: true }, async (req, _u, _p, done) => {
+    // esto es lo que estaba en el controller de login
+    const { username, password } = req.body
+    let buscado
+    try {
+        buscado = await userManager.buscarPorUsername(username)
+    } catch (error) {
+        return done(new ErrorDeAutenticacion())
+    }
+    if (!validarQueSeanIguales(password, buscado.password))
+        return done(new ErrorDeAutenticacion())
+    done(null, {
+        username: buscado.username,
+        nombre: buscado.nombre,
+        apellido: buscado.apellido,
+        edad: buscado.edad,
+        direccion: buscado.direccion,
+    })
+}))
+
+// esto lo tengo que agregar para que funcione passport! copiar y pegar, nada mas.
+passport.serializeUser((user, next) => { next(null, user) })
+passport.deserializeUser((user, next) => { next(null, user) })
+
+export const passportInitialize = passport.initialize()
+export const passportSession = passport.session()
+
+#+end_src
+
+**** Logout
+Passport crea una función logout en el objeto request para facilitar la destrucción de la sesión.
+#+begin_src js
+
+export async function logoutController(req, res, next) {
+    // lo que estaba acá lo reemplacé por el atajo que me provee passport
+    req.logout(err => {
+        res.sendStatus(200)
+    })
+}
+
+#+end_src
+
+** Clase 21 Autenticación por terceros
+*** Login a través de Githubt
+**** Strategy
+La passport.authenticate toma una Strategy y devuelve un middleware
+#+begin_src js
+import { Strategy as GithubStrategy } from 'passport-github2'
+import { githubCallbackUrl, githubClientSecret, githubClienteId } from '../config/auth.config.js'
+import { User } from '../entidades/User.js'
+
+
+
+passport.use('github', new GithubStrategy({
+    clientID: githubClienteId,
+    clientSecret: githubClientSecret,
+    callbackURL: githubCallbackUrl
+}, async (accessToken, refreshToken, profile, done) => {
+    console.log(profile)
+    let user
+    try {
+        user = await usersManager.buscarPorEmail(profile.username)
+    } catch (error) {
+        // @ts-ignore
+        user = new User({
+            email: profile.username,
+        })
+        await usersManager.guardar(user)
+    }
+    done(null, user)
+}))
+
+// esto lo tengo que agregar para que funcione passport! copiar y pegar, nada mas.
+passport.serializeUser((user, next) => { next(null, user) })
+passport.deserializeUser((user, next) => { next(null, user) })
+
+// estos son para cargar en express como middlewares a nivel aplicacion
+export const passportInitialize = passport.initialize()
+export const passportSession = passport.session()
+
+// estos son para cargar como middlewares antes de los controladores correspondientes
+export const autenticacionPorGithub = passport.authenticate('github', { scope: ['user:email'] })
+export const antenticacionPorGithub_CB = passport.authenticate('github', { failWithError: true })
+
+#+end_src
+
+**** Middlewares para routers
+#+begin_src js
+  
+// login con github
+// Hay que poner las dos rutas: una para hacer el pedido de autenticación a Github y otra para el callback de github
+sessionsRouter.get('/github', autenticacionPorGithub)
+sessionsRouter.get('/githubcallback', antenticacionPorGithub_CB, (req, res, next) => { res.redirect('/') })
+
+// logout
+sessionsRouter.post('/logout', logoutSessionsController)
+
+#+end_src
+
+
+** Clase 22 Passport avanzado
+
+*** JWT
+
 
