@@ -128,6 +128,16 @@
 
 
 
+** Entregable 25-4 Passport Login Github
+
+*** TODO [0%] Con base en el login de nuestro entregable anterior, refactorizar para incluir los nuevos conceptos.
+
+
+**** TODO Se deberá contar con un hasheo de contraseña utilizando bcrypt
+**** TODO Se deberá contar con una implementación de passport, tanto para register como para login.
+**** TODO Implementar el método de autenticación de GitHub a la vista de login.
+
+
 
 * Notas
 
