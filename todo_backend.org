@@ -130,13 +130,21 @@
 
 ** Entregable 25-4 Passport Login Github
 
-*** TODO [0%] Con base en el login de nuestro entregable anterior, refactorizar para incluir los nuevos conceptos.
+*** TODO [66%] Con base en el login de nuestro entregable anterior, refactorizar para incluir los nuevos conceptos.
+    
+**** DONE Se deberá contar con un hasheo de contraseña utilizando bcrypt
 
-
-**** TODO Se deberá contar con un hasheo de contraseña utilizando bcrypt
 **** TODO Se deberá contar con una implementación de passport, tanto para register como para login.
-**** TODO Implementar el método de autenticación de GitHub a la vista de login.
 
+***** TODO Devolver error informativo para registro de mail que ya existe
+
+***** TODO No se puede ir a login si ya está logeado
+
+***** TODO Agregar botón de deslogueo
+
+**** DONE Implementar el método de autenticación de GitHub a la vista de login.
+
+** Entregable 04-05
 
 
 * Notas
@@ -538,4 +546,9 @@ sessionsRouter.post('/logout', logoutSessionsController)
 
 *** JWT
 
+** Clase 23 Ruteo avanzado
+
+*** Validación de parámetros
+
+**** Expresiones regulares para las rutas y parámetros
 
