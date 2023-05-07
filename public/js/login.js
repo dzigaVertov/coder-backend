@@ -1,7 +1,6 @@
 const formularioLogin = document.querySelector('#formularioLogin');
 
 if (formularioLogin instanceof HTMLFormElement) {
-    console.log('afuera');
     formularioLogin.addEventListener('submit', loginSubmit)
 }
 

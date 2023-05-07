@@ -21,7 +21,11 @@ import { MensajeManagerMongo } from '../DAO/MensajeManagerMongo.js';
 import { CartManagerMongo } from '../DAO/CartManagerMongo.js';
 
 // Sesiones
-import session from  '../middlewares/session.js';
+// import session from  '../middlewares/session.js';
+
+// COOKIES
+import cookieParser from 'cookie-parser';
+import {COOKIE_SECRET} from '../config/auth.config.js';
 
 //  MONGO
 await conectar();
@@ -29,6 +33,8 @@ export const managerProductosMongo = new ProductManagerMongo();
 export const mensajeManager = new MensajeManagerMongo();
 export const cartManagerMongo = new CartManagerMongo();
 
+// PASSPORT
+import {passportInitialize} from '../middlewares/passport.js';
 
 // Manager persistencia en archivos
 // export const managerProductos = new ProductManagerFile('./src/products.json');
@@ -44,13 +50,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Manejo de la sesion
-app.use(session);
+// app.use(session);
 
 // Handlebars
 app.engine('handlebars', engine());
 app.set('views', './views');
 app.set('view engine', 'handlebars');
 
+// Cookies
+app.use(cookieParser(COOKIE_SECRET));
+
+// Passport
+app.use(passportInitialize);
 
 // server WebSocket
 const httpServer = app.listen(PORT, () => console.log('Escuchando en puerto 8080'));
