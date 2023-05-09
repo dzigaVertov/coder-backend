@@ -1,5 +1,5 @@
 #+title: Readme: Proyecto Curso Backend - CODERHOUSE
-
+#+options: h:1 num:nil toc:nil
 * Notas a esta entrega
 
   - Ordenamiento de routers para limpieza general de servidor.js y mejoramiento de calidad de vida.
