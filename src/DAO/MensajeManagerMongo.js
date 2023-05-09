@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import schemaMensaje from '../models/schemaMensaje.js';
 
-export class MensajeManagerMongo {
+class MensajeManagerMongo {
     #db;
     constructor() {
         this.#db = mongoose.model('mensajes', schemaMensaje);
@@ -23,3 +23,5 @@ export class MensajeManagerMongo {
         this.#db.deleteOne({ id: id });
     }
 }
+
+export const mensajeManager = new MensajeManagerMongo();

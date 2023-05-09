@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { mensajeManager } from '../app/servidor.js';
+import { mensajeManager } from '../DAO/MensajeManagerMongo.js';
 
 
 const chatRouter = Router();

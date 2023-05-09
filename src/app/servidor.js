@@ -5,23 +5,12 @@ import { Server as SocketIOServer } from 'socket.io';
 import { PORT } from '../config/servidor.config.js';
 
 // Routers
-import apiProductsRouter from '../Routers/apiProductsRouter.js';
-import apiCartsRouter from '../Routers/apiCartsRouter.js';
-import apiSessionsRouter from '../Routers/apiSessionsRouter.js';
-import userRouter from '../Routers/userRouter.js';
-import productsRouter from '../Routers/productsRouter.js';
-import chatRouter from '../Routers/chatRouter.js';
-import cartsRouter from '../Routers/cartsRouter.js';
+import apiRouter from '../Routers/apiRouter.js';
+import webRouter from '../Routers/webRouter.js';
+
 
 // Mongo imports
-// import ProductManagerFile from '../DAO/ProductManagerFile.js';
 import { conectar } from '../database/mongoose.js';
-import { ProductManagerMongo } from '../DAO/ProductManagerMongo.js';
-import { MensajeManagerMongo } from '../DAO/MensajeManagerMongo.js';
-import { CartManagerMongo } from '../DAO/CartManagerMongo.js';
-
-// Sesiones
-// import session from  '../middlewares/session.js';
 
 // COOKIES
 import cookieParser from 'cookie-parser';
@@ -29,16 +18,9 @@ import {COOKIE_SECRET} from '../config/auth.config.js';
 
 //  MONGO
 await conectar();
-export const managerProductosMongo = new ProductManagerMongo();
-export const mensajeManager = new MensajeManagerMongo();
-export const cartManagerMongo = new CartManagerMongo();
 
 // PASSPORT
 import {passportInitialize} from '../middlewares/passport.js';
-
-// Manager persistencia en archivos
-// export const managerProductos = new ProductManagerFile('./src/products.json');
-
 
 const app = express();
 
@@ -48,9 +30,6 @@ app.use(express.static('./public'));
 // Middleware para acceder al body del POST request
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Manejo de la sesion
-// app.use(session);
 
 // Handlebars
 app.engine('handlebars', engine());
@@ -74,31 +53,19 @@ app.use((req, res, next) => {
 });
 
 io.on('connection', async clientSocket => {
-    console.log(`Nuevo cliente conectado: socket id: ${clientSocket.id}`);
-
-    
+    console.log(`Nuevo cliente conectado: socket id: ${clientSocket.id}`);    
     clientSocket.on('mensaje', mensaje => {
         console.log(mensaje);
     });
-
     clientSocket.on('nuevoMensaje', async mensaje => {
         mensajeManager.addMensaje(mensaje);
         let mensajes = await mensajeManager.getMensajes();
         mensajes = mensajes.map(msj => ({ email: msj.email, mensaje: msj.mensaje }));
         io.sockets.emit('actualizacionMensajes', mensajes);
     });
-
-
 });
 
-
-
-app.use('/', userRouter);
-app.use('/products', productsRouter);
-app.use('/api/sessions', apiSessionsRouter);
-app.use('/api/products', apiProductsRouter);
-app.use('/api/carts', apiCartsRouter);
-app.use('/chat', chatRouter);
-app.use('/carts', cartsRouter);
+app.use('/', webRouter);
+app.use('/api', apiRouter);
 
 

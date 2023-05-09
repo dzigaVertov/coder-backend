@@ -2,7 +2,7 @@ import passport from 'passport';
 import { Strategy as JwtStrategy } from 'passport-jwt';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { ExtractJwt } from 'passport-jwt';
-import { JWT_SECRET_KEY } from '../config/auth.config.js';
+import { JWT_KEY } from '../config/auth.config.js';
 import { usuarioModel } from '../models/schemaUsuario.js';
 import { chequearPassword } from '../utils/criptografia.js';
 
@@ -21,7 +21,7 @@ async function checkUsernamePassword(email, password, done) {
 
 // JWT
 const opcionesJwt = {
-    secretOrKey: JWT_SECRET_KEY,
+    secretOrKey: JWT_KEY,
     jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor])
 };
 
@@ -38,9 +38,9 @@ function cookieExtractor(req) {
     return token;
 }
 
-function jwtVerificado(jwt_payload, done) {
+async function jwtVerificado(jwt_payload, done) {
     try {
-        return done(null, jwt_payload.user);
+        return done(null, jwt_payload);
     } catch (error) {
         done(error);
     }
@@ -53,14 +53,16 @@ export function autenticarJwtApi(req, res, next) {
         req.user = jwt_payload;
         next();
     }
-
     const auth_middleware_api = passport.authenticate('jwt', { session: false },  passportCB);
     auth_middleware_api(req, res, next);
 }
 
 export function autenticarJwtView(req, res, next) {
     function passportCB(error, jwt_payload, info) {
-        if (error || !jwt_payload) return res.redirect('login');
+        if (error || !jwt_payload){
+            return res.redirect('login');
+        } 
+
         req.user = jwt_payload;
         next();
     }

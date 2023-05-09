@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { productModel } from '../models/schemaProducto.js';
 
-export class ProductManagerMongo {
+class ProductManagerMongo {
     #db;
     constructor() {
         this.#db = productModel;
@@ -35,3 +35,5 @@ export class ProductManagerMongo {
         this.#db.findByIdAndDelete(id);
     }
 }
+
+export const managerProductosMongo = new ProductManagerMongo();

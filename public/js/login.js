@@ -4,7 +4,7 @@ if (formularioLogin instanceof HTMLFormElement) {
     formularioLogin.addEventListener('submit', loginSubmit)
 }
 
-function loginSubmit(event) {
+async function loginSubmit(event) {
     event.preventDefault();
     const email = document.querySelector('#input_email');
     const pass = document.querySelector('#input_password');
@@ -16,7 +16,7 @@ function loginSubmit(event) {
             password: pass.value
         };
 
-        fetch('/api/sessions/login', {
+        const {status} = await fetch('/api/sessions/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -24,5 +24,9 @@ function loginSubmit(event) {
             },
             body: JSON.stringify(datosUsuario)
         });
+
+        if([200,201].includes(status)){
+            window.location.href = '/profile'
+        }
     }
 }

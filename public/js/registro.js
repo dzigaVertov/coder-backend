@@ -30,7 +30,6 @@ async function nuevoUsuario(event) {
     });
 
     if (status === 201) {
-        console.log('retorno exitoso');
         window.location.href = '/profile'
       } else {
         console.log('[login] estado inesperado: ' + status)

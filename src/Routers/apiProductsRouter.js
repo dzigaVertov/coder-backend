@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { managerProductosMongo } from '../app/servidor.js';
+import { managerProductosMongo } from '../DAO/ProductManagerMongo.js';
 
 let apiProductsRouter = Router();
 export default apiProductsRouter;

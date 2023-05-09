@@ -141,7 +141,7 @@
 ** Entregable 04-05
 
 *** Continuar sobre el proyecto que has trabajado para tu ecommerce y configurar los siguientes elementos:
-
+    
 **** DONE Crear un modelo User el cual contará con los campos:
 ***** first_name:String,
 ***** last_name:String,
@@ -150,19 +150,19 @@
 ***** password:String(Hash)
 ***** cart:Id con referencia a Carts
 ***** role:String(default:’user’)
-**** TODO Desarrollar las estrategias de Passport para que funcionen con este modelo de usuarios
-**** TODO Modificar el sistema de login del usuario para poder trabajar con session o con jwt (a tu elección). 
-**** TODO Generar registro con el hash
+**** DONE Desarrollar las estrategias de Passport para que funcionen con este modelo de usuarios
+**** DONE Modificar el sistema de login del usuario para poder trabajar con session o con jwt (a tu elección). 
+**** DONE Generar registro con el hash
 ***** DONE Login por estrategia local
-***** TODO Generar la ruta de login por estrategia local
-****** TODO En apiSessionsRouter se autentica el usuario con la estrategia
-****** TODO Se recupera el usuario desde la base de datos
-****** TODO Se genera el jwt se lo guarda en la cookie
-****** TODO se responde con la cookie y se manda el usuario
-****** TODO En el javascript cliente se redirige a productos
-***** TODO Respuesta de cookie con jwt para sesion
-**** TODO (Sólo para jwt) desarrollar una estrategia “current” para extraer la cookie que contiene el token para obtener el usuario asociado a dicho token, en caso de tener el token, devolver al usuario asociado al token, caso contrario devolver un error de passport, utilizar un extractor de cookie.
-**** TODO Agregar al router /api/sessions/ la ruta /current, la cual utilizará el modelo de sesión que estés utilizando, para poder devolver en una respuesta el usuario actual.
+***** DONE Generar la ruta de login por estrategia local
+****** DONE En apiSessionsRouter se autentica el usuario con la estrategia
+****** DONE Se recupera el usuario desde la base de datos
+****** DONE Se genera el jwt se lo guarda en la cookie
+****** DONE se responde con la cookie y se manda el usuario
+****** DONE En el javascript cliente se redirige a productos
+***** DONE Respuesta de cookie con jwt para sesion
+**** DONE (Sólo para jwt) desarrollar una estrategia “current” para extraer la cookie que contiene el token para obtener el usuario asociado a dicho token, en caso de tener el token, devolver al usuario asociado al token, caso contrario devolver un error de passport, utilizar un extractor de cookie.
+**** DONE Agregar al router /api/sessions/ la ruta /current, la cual utilizará el modelo de sesión que estés utilizando, para poder devolver en una respuesta el usuario actual.
 
 
 

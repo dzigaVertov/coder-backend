@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import cartModel from '../models/schemaCart.js';
 
-export class CartManagerMongo {
+class CartManagerMongo {
     #db;
     constructor() {
         this.#db = cartModel;
@@ -74,3 +74,5 @@ export class CartManagerMongo {
 
 
 }
+
+export const cartManagerMongo = new CartManagerMongo();
