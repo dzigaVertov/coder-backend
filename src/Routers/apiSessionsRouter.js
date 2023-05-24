@@ -1,46 +1,16 @@
 import { Router } from 'express';
-import { usuarioModel } from '../models/schemaUsuario.js';
-import { autenticarLocal, autenticarJwtApi } from '../middlewares/passport.js';
-const apiSessionsRouter = Router();
-import { hashear, encriptarJwt } from '../utils/criptografia.js';
+import * as sessionController from '../controllers/sessionController.js';
 
+const apiSessionsRouter = Router();
 export default apiSessionsRouter;
 
 
-apiSessionsRouter.post('/login', autenticarLocal, (req, res) => {
+apiSessionsRouter.post('/login', sessionController.handleLogin);
 
-    const currentUser = req.user;
-    const jwtoken = encriptarJwt(currentUser);
-    res.cookie('jwt', jwtoken, {maxAge:100000, httpOnly:true, signed:true});
-    res.sendStatus(201);
-});
+apiSessionsRouter.post('/registro', sessionController.handleRegistro);
 
-apiSessionsRouter.post('/registro', async (req, res) => {
-    const datosUsuario = req.body;
+apiSessionsRouter.post('/logout', sessionController.handleLogout);
 
-    const usuarioYaExiste = await usuarioModel.findOne({ email: datosUsuario.email }).lean();
-
-    if (usuarioYaExiste) {
-        console.log('El usuario ya existe!!!!!');
-        return res.sendStatus(400);
-    }
-
-    datosUsuario.password = hashear(datosUsuario.password);
-    const respuestaDb = await usuarioModel.create(datosUsuario);
-    const jwtoken = encriptarJwt(datosUsuario);
-    res.cookie('jwt', jwtoken, {maxAge:100000, httpOnly:true, signed:true});
-    res.sendStatus(201);
-});
-
-apiSessionsRouter.post('/logout', autenticarJwtApi, (req, res)=>{
-    res.clearCookie('jwt', {maxAge:100000, httpOnly:true, signed:true});
-    res.sendStatus(200);
-});
-
-apiSessionsRouter.get('/current', autenticarJwtApi, (req, res)=> {
-    const currentUser = req.user;
-    delete currentUser.password;
-    res.json(currentUser);
-});
+apiSessionsRouter.get('/current', sessionController.handleGetCurrent);
 
 
