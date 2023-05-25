@@ -4,7 +4,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { ExtractJwt } from 'passport-jwt';
 import { JWT_KEY } from '../config/auth.config.js';
 import { usuarioModel } from '../models/schemaUsuario.js';
-import { chequearPassword } from '../utils/criptografia.js';
+import { chequearPassword, hashear } from '../utils/criptografia.js';
 
 // LOCAL
 passport.use('local', new LocalStrategy({ usernameField: 'email' }, checkUsernamePassword));
@@ -12,10 +12,8 @@ passport.use('local', new LocalStrategy({ usernameField: 'email' }, checkUsernam
 async function checkUsernamePassword(email, password, done) {
     const usuarioEncontrado = await usuarioModel.findOne({ email: email }).lean();
     if (!usuarioEncontrado || !chequearPassword(password, usuarioEncontrado.password)) {
-        console.log('usuario mal');
         return done(new Error('Error en el login'));
     }
-
     done(null, usuarioEncontrado);
 }
 
