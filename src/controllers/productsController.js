@@ -1,4 +1,5 @@
 import { managerProductosMongo } from '../DAO/ProductManagerMongo.js';
+import { prodRepository } from '../repositories/productRepository.js';
 
 export async function getHandler(req, res, next) {
     const { limit, page, sort, category, stock } = req.query;
@@ -6,7 +7,6 @@ export async function getHandler(req, res, next) {
     const busqueda = category ? { category } : {};
     if (stock === 'available') busqueda['stock'] = { $gt: 0 };
     if (stock === 'unavailable') busqueda['stock'] = 0;
-    console.log(busqueda);
 
     const paginacion = {
         limit: limit ?? 10,
@@ -38,6 +38,19 @@ export async function getHandler(req, res, next) {
         res.json({ status: 'error', message: error });
     }
 }
+
+export async function getPidHandler(req, res, next) {
+    const id = parseInt(req.params.pid);
+
+    try {
+        let producto = await managerProductosMongo.getProductById(id);
+        res.send(producto);
+    }
+    catch {
+        res.json({ error: 'id de producto no encontrada' });
+    }
+}
+
 
 
 export async function postHandler(req, res, next) {
@@ -78,18 +91,6 @@ export async function delHandler(req, res, next) {
     res.json(producto);
 }
 
-export async function getPidHandler(req, res, next) {
-    const id = parseInt(req.params.pid);
-
-    try {
-        let producto = await managerProductosMongo.getProductById(id);
-        res.send(producto);
-    }
-    catch {
-        res.json({ error: 'id de producto no encontrada' });
-    }
-
-}
 
 
 function esProductoValido(body) {
