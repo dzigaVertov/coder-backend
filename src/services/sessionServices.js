@@ -1,9 +1,8 @@
 import { hashear, encriptarJwt } from '../utils/criptografia.js';
 import { usuarioModel } from '../models/schemaUsuario.js';
 
-export async function construirJwt(req) {
-    const currentUser = req.user;
-    const jwtoken = encriptarJwt(currentUser);
+export async function construirJwt(datosUsuario) {
+    const jwtoken = encriptarJwt(datosUsuario);
     return jwtoken;
 }
 

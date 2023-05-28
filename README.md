@@ -1,15 +1,8 @@
 # Notas a esta entrega
 
--   Ordenamiento de routers para limpieza general de servidor.js y mejoramiento de calidad de vida.
--   Redirección a perfil luego de login exitoso
--   Agregadas funciones de encriptado y desencriptado de JWT
--   Agregado endpoint de logout para /api/sessions
--   Agregada estrategia de Passport de JWT para autenticación
--   Agregada estrategia Local de Passport para login con username y password
--   Agregada creación de cookie para JWT
--   Agregado extractor de cookie para JWT en Passport
--   Agregada ruta '/current' en el router de /api/sessions que devuelve el usuario actual
--   Agregado botón de logout a view de Perfil
+-   Refactorización del código de rutas de API según separación en capas.
+-   Se agregan controladores en archivos separados.
+-   Se agregan repositorios de productos y usuarios como capa de abstracción entre controladores y DAOS.
 
 
 # Correr el servidor de forma local
@@ -42,6 +35,19 @@
 
 
 # Notas a entregas anteriores
+
+-   Passport y JWT
+
+    -   Ordenamiento de routers para limpieza general de servidor.js y mejoramiento de calidad de vida.
+    -   Redirección a perfil luego de login exitoso
+    -   Agregadas funciones de encriptado y desencriptado de JWT
+    -   Agregado endpoint de logout para /api/sessions
+    -   Agregada estrategia de Passport de JWT para autenticación
+    -   Agregada estrategia Local de Passport para login con username y password
+    -   Agregada creación de cookie para JWT
+    -   Agregado extractor de cookie para JWT en Passport
+    -   Agregada ruta '/current' en el router de /api/sessions que devuelve el usuario actual
+    -   Agregado botón de logout a view de Perfil
 
 -   Entrega de Session
 

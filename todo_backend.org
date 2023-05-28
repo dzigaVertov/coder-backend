@@ -163,9 +163,9 @@
 ***** DONE Respuesta de cookie con jwt para sesion
 **** DONE (Sólo para jwt) desarrollar una estrategia “current” para extraer la cookie que contiene el token para obtener el usuario asociado a dicho token, en caso de tener el token, devolver al usuario asociado al token, caso contrario devolver un error de passport, utilizar un extractor de cookie.
 **** DONE Agregar al router /api/sessions/ la ruta /current, la cual utilizará el modelo de sesión que estés utilizando, para poder devolver en una respuesta el usuario actual.
-
-
-
+** Entregable 23-05
+*** TODO Terminar validaciones productos
+*** TODO Modificar controladores productos
 * Notas
 
 ** Clase 16 mongo avanzado I

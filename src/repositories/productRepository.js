@@ -1,46 +1,63 @@
 import { managerProductosMongo } from '../DAO/ProductManagerMongo.js';
-
+import { validarBusqueda } from '../services/productsServices.js';
 class ProductRepository {
-    constructor(dao){
+    constructor(dao) {
         this.dao = dao;
     }
 
-    async getProductsQuery(opcionesBusqueda){
-        const {busqueda, paginacion} = opcionesBusqueda;
-        const query = category ? { category } : {};
-    if (stock === 'available') query['stock'] = { $gt: 0 };
-    if (stock === 'unavailable') query['stock'] = 0;
+    async getProductsQuery(opcionesBusqueda) {
+        const { busqueda, paginacion } = opcionesBusqueda;
+        const query = {};
+        if (busqueda) {
+            const { category, stock } = validarBusqueda(busqueda);
+            query[category] = category;
+            query[stock] = stock;
+        }
 
-    const paginacion = {
-        limit: limit ?? 10,
-        page: page ?? 1,
-        sort: sort ? { price: sort } : {}
-    };
+        const opsPaginacion = {};
+        if (paginacion.paginate) {
+            opsPaginacion.paginate = true;
+            opsPaginacion.limit = paginacion.limit ?? 10;
+            opsPaginacion.page = paginacion.page ?? 1;
+            opsPaginacion.sort = paginacion.sort ? { price: sort } : {};
+        } else {
+            opsPaginacion.paginate = false;
+        }
 
-    try {
-        let resultPaginado = await managerProductosMongo.getProductsQuery(busqueda, paginacion);
-
-        let [linkPrevPage, linkNextPage] = getLinks(resultPaginado, req);
-        console.log(linkPrevPage, linkNextPage);
-        let queryReturn = {
-            status: 'success',
-            payload: resultPaginado.docs,
-            totalPages: resultPaginado.totalPages,
-            prevPage: resultPaginado.prevPage,
-            nextPage: resultPaginado.nextPage,
-            page: resultPaginado.page,
-            hasPrevPage: resultPaginado.hasPrevPage,
-            hasNextPage: resultPaginado.hasNextPage,
-            prevLink: linkPrevPage,
-            nextLink: linkNextPage
-        };
-
-        res.json(queryReturn);
-    } catch (error) {
-        console.log(error);
-        res.json({ status: 'error', message: error });
+        let resultPaginado = await this.dao.getProductsQuery(query, opsPaginacion);
+        return resultPaginado;
     }
-        
+
+    async getProductById(id) {
+        let producto = await managerProductosMongo.getProductById(id);
+        return producto;
+    }
+
+    async getProducts() {
+        const productos = await this.dao.getProducts();
+        return productos;
+    }
+
+    async addProduct(prodParams) {
+        // TODO: Agregar validación de producto
+        const producto = await this.dao.addProduct(prodParams);
+        return producto;
+    }
+
+    async updateProduct(pid, camposACambiar) {
+        let producto;
+        // TODO: Arreglar esto
+        for (const [campo, valorNuevo] of Object.entries(camposACambiar)) {
+            if (campo !== 'id') {   // El campo id no se actualiza
+                producto = await this.dao.updateProduct(pid, campo, valorNuevo);
+            }            
+        }
+        return producto;
+    }
+
+    async deleteProductById(pid){
+        const product = await this.dao.deleteProductById(pid);
+        return product;
     }
 }
 

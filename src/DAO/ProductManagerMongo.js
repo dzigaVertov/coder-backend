@@ -18,8 +18,13 @@ class ProductManagerMongo {
     }
 
     async getProductsQuery(busqueda, paginacion) {
-            let productsQuery = await this.#db.paginate(busqueda, paginacion);
-            return productsQuery;
+        let query = {};
+        if (busqueda.stock === 'available') query['stock'] = { $gt: 0 };
+        if (busqueda.stock === 'unavailable') query['stock'] = 0;
+
+        // Chequear si pide paginacion
+        let productsQuery = await this.#db.paginate(busqueda, paginacion);
+        return productsQuery;
 
     }
 

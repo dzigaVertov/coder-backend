@@ -1,12 +1,11 @@
 import { Router } from 'express';
 import { autenticarLocal, autenticarJwtApi } from '../middlewares/passport.js';
-import { hashear, encriptarJwt } from '../utils/criptografia.js';
-import { usuarioModel } from '../models/schemaUsuario.js';
 import { construirJwt, registrarUsuario } from '../services/sessionServices.js';
 
 export const handleLogin = Router();
 handleLogin.use(autenticarLocal, async (req, res) => {
-    const jwtoken = await construirJwt(req);
+    const datosUsuario = req.user;
+    const jwtoken = await construirJwt(datosUsuario);
     res.cookie('jwt', jwtoken, { maxAge: 100000, httpOnly: true, signed: true });
     res.sendStatus(201);
 });
@@ -16,15 +15,13 @@ export async function handleRegistro(req, res, next) {
     const datosUsuario = req.body;
     try {
         await registrarUsuario(datosUsuario);
-        const jwtoken = await construirJwt
-    }catch(error){
+        const jwtoken = await construirJwt(datosUsuario);
+        res.cookie('jwt', jwtoken, { maxAge: 100000, httpOnly: true, signed: true });
+        res.sendStatus(201);
+    } catch (error) {
         console.log(error);
-        res.sendStatus(400);
+        next(error);
     }
-    
-    const jwtoken = encriptarJwt(datosUsuario);
-    res.cookie('jwt', jwtoken, { maxAge: 100000, httpOnly: true, signed: true });
-    res.sendStatus(201);
 }
 
 export const handleLogout = Router();

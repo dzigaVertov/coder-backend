@@ -2,23 +2,15 @@ import { managerProductosMongo } from '../DAO/ProductManagerMongo.js';
 import { prodRepository } from '../repositories/productRepository.js';
 
 export async function getHandler(req, res, next) {
-    const { limit, page, sort, category, stock } = req.query;
-
-    const busqueda = category ? { category } : {};
-    if (stock === 'available') busqueda['stock'] = { $gt: 0 };
-    if (stock === 'unavailable') busqueda['stock'] = 0;
-
-    const paginacion = {
-        limit: limit ?? 10,
-        page: page ?? 1,
-        sort: sort ? { price: sort } : {}
-    };
+    const { paginate, limit, page, sort, category, stock } = req.query;
+    const busqueda = { category, stock };
+    const paginacion = { paginate, limit, page, sort };
 
     try {
-        let resultPaginado = await managerProductosMongo.getProductsQuery(busqueda, paginacion);
+        let resultPaginado = await prodRepository.getProductsQuery(busqueda, paginacion);
 
         let [linkPrevPage, linkNextPage] = getLinks(resultPaginado, req);
-        console.log(linkPrevPage, linkNextPage);
+
         let queryReturn = {
             status: 'success',
             payload: resultPaginado.docs,
@@ -31,11 +23,9 @@ export async function getHandler(req, res, next) {
             prevLink: linkPrevPage,
             nextLink: linkNextPage
         };
-
         res.json(queryReturn);
     } catch (error) {
-        console.log(error);
-        res.json({ status: 'error', message: error });
+        next(error);
     }
 }
 
@@ -43,57 +33,63 @@ export async function getPidHandler(req, res, next) {
     const id = parseInt(req.params.pid);
 
     try {
-        let producto = await managerProductosMongo.getProductById(id);
+        const producto = await prodRepository.getProductById(id);
         res.send(producto);
     }
-    catch {
-        res.json({ error: 'id de producto no encontrada' });
+    catch (error) {
+        next(error);
     }
 }
 
 
 
 export async function postHandler(req, res, next) {
-    if (!esProductoValido(req.body)) {
-        console.log('petición recibida con error');
-        console.log(req.body);
-        return;
+
+    try {
+        if (!parametrosValidos(req.body)) {
+            throw new Error('Error en la petición, parámetros no válidos');
+        }
+        const paramsProducto = req.body;
+        const producto = await prodRepository.addProduct(paramsProducto);
+        const productos = await prodRepository.getProducts();
+        req.io.sockets.emit('actualizacion', productos);
+        res.json(producto);
+
+        console.log('Ver necesidad de esto acá abajo');
+        let listaActualizadaProductos = await managerProductosMongo.getProducts();
+        req.io.sockets.emit('actualizacion', listaActualizadaProductos);
+    } catch (error) {
+        next(error);
     }
-    let producto = await managerProductosMongo.addProduct(req.body);
-    let productos = await managerProductosMongo.getProducts();
-    req.io.sockets.emit('actualizacion', productos);
-
-    res.json(producto);
-
-    let listaActualizadaProductos = await managerProductosMongo.getProducts();
-    req.io.sockets.emit('actualizacion', listaActualizadaProductos);
 }
 
 
 export async function putHandler(req, res, next) {
     const pid = req.params.pid;
     const camposAcambiar = Object.entries(req.body);
-
-    let producto;
-    for (const [campo, valorNuevo] of camposAcambiar) {
-        if (campo !== 'id') {   // El campo id no se actualiza
-            producto = await managerProductosMongo.updateProduct(pid, campo, valorNuevo);
-        }
+    try {
+        const producto = prodRepository.updateProduct(pid, camposAcambiar);
+        res.json(producto);
+    } catch (error) {
+        return next(error);
     }
-    res.json(producto);
 }
 
 export async function delHandler(req, res, next) {
-    let producto = await managerProductosMongo.deleteProductById(req.params.pid);
-    let productos = await managerProductosMongo.getProducts();
-    req.io.sockets.emit('actualizacion', productos);
-
-    res.json(producto);
+    const pid = req.params.pid;
+    try {
+        let producto = await prodRepository.deleteProductById(pid);
+        let productos = await prodRepository.getProducts();
+        req.io.sockets.emit('actualizacion', productos);
+        res.json(producto);
+    } catch (error) {
+        next(error);
+    }
 }
 
 
 
-function esProductoValido(body) {
+function parametrosValidos(body) {
     let { title, description, price, status, stock, category } = body;
 
     let strs = [title, description, category];
