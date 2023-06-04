@@ -10,7 +10,7 @@ const schemaUsuario = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'cartsCollection'
     },
-    role: {type: String, required: true, default:'user'}
+    role: {type: String, enum:['user', 'admin'], required: true, default:'user'}
 
 }, { versionKey: false });
 

@@ -1,10 +1,10 @@
 #+title: Readme: Proyecto Curso Backend - CODERHOUSE
 #+options: h:1 num:nil toc:nil
 * Notas a esta entrega
-  - Refactorización del código de rutas de API según separación en capas.
-  - Se agregan controladores en archivos separados.
-  - Se agregan repositorios de productos y usuarios como capa de abstracción entre controladores y DAOS.
- 
+  - Agregado modelo de Usuario separado de base de datos
+  - Agregado rol a modelo de Usuario
+  - Agregado Factory de Daos
+
 * Correr el servidor de forma local
 
 ** Para iniciar el servidor:  
@@ -38,6 +38,11 @@ src/config/mongoose.config.js
 
 * Notas a entregas anteriores
 
+** Arquitectura en capas
+  - Refactorización del código de rutas de API según separación en capas.
+  - Se agregan controladores en archivos separados.
+  - Se agregan repositorios de productos y usuarios como capa de abstracción entre controladores y DAOS.
+
 ** Passport y JWT
    - Ordenamiento de routers para limpieza general de servidor.js y mejoramiento de calidad de vida.
    - Redirección a perfil luego de login exitoso
@@ -59,7 +64,6 @@ src/config/mongoose.config.js
   - Agregada vista de perfil
   - Agregada vista de registro
   - Agregada vista de login
-
 ** Previously on Coder...
    - Instancia de modelo de productos exportado desde schemaProducto.js (antes se instanciaba en el manager de productos).
    - Agregadas opciones de paginación a manager de productos

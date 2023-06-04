@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import { MONGODB_STRING_CONEXION, MONGODB_STRING_CONEXION_ALT } from '../config/database.config.js';
+import { MONGODB_STRING_CONEXION, MONGODB_STRING_CONEXION_ALT } from '../config/mongodb.config';
 
-export async function conectar() {
+async function conectar() {
     try {
         await mongoose.connect(MONGODB_STRING_CONEXION);
         console.log(`Base de datos conectada a ${MONGODB_STRING_CONEXION}`);
@@ -11,3 +11,6 @@ export async function conectar() {
     };
 
 }
+
+await conectar();
+export default mongoose;
