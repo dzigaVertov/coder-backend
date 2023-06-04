@@ -1,4 +1,6 @@
-class Usuario {
+import * as valid from '../utils/validacion.js';
+
+export default class Usuario {
     #first_name;
     #last_name;
     #email;
@@ -6,13 +8,13 @@ class Usuario {
     #password;
     #role;
 
-    constructor({ first_name, last_name, email, age, password, cartId, role }) {
-        this.#first_name = first_name;
-        this.#last_name = last_name;
-        this.#email = email;
-        this.#age = age;
-        this.#password = password;
-        this.#role = role;
+    constructor({ first_name, last_name, email, age, password, role }) {
+        this.#first_name = valid.soloAlfabetico(valid.noVacio(first_name));
+        this.#last_name = valid.soloAlfabetico(valid.noVacio(last_name));
+        this.#email = valid.esMail(valid.noVacio(email));
+        this.#age = valid.positivo(valid.entero(valid.noVacio(age)));
+        this.#password = valid.noVacio(password);
+        this.#role = valid.esRole(valid.noVacio(role));
     }
 
     get email() { return this.#email }
@@ -33,3 +35,5 @@ class Usuario {
         }
     }
 }
+
+
