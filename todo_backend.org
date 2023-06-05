@@ -169,9 +169,9 @@
 ** Entregable 06-06
 *** TODO Crear modelos
 **** DONE Crear Factory
-**** TODO Crear modelo usuarios
-**** TODO Agregar rol
-**** TODO Agregar validación usuario
+**** DONE Crear modelo usuarios
+**** DONE Agregar rol
+**** DONE Agregar validación usuario
 **** TODO Cambiar schema usuario a carpeta DAO
 **** TODO Hacer que el repositorio de usuario trabaje con el modelo de usuario
 **** TODO Agregar middleware de rol
