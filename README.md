@@ -1,8 +1,10 @@
 # Notas a esta entrega
 
--   Refactorización del código de rutas de API según separación en capas.
--   Se agregan controladores en archivos separados.
--   Se agregan repositorios de productos y usuarios como capa de abstracción entre controladores y DAOS.
+-   Agregado modelo de Usuario separado de base de datos
+-   Agregado rol a modelo de Usuario
+-   Agregado Factory de Daos
+-   Agregados repositorios de Ticket y Carts
+-   
 
 
 # Correr el servidor de forma local
@@ -35,6 +37,12 @@
 
 
 # Notas a entregas anteriores
+
+-   Arquitectura en capas
+
+    -   Refactorización del código de rutas de API según separación en capas.
+    -   Se agregan controladores en archivos separados.
+    -   Se agregan repositorios de productos y usuarios como capa de abstracción entre controladores y DAOS.
 
 -   Passport y JWT
 
