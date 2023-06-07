@@ -1,6 +1,6 @@
 export class BaseRepository {
   #dao
-  oconstructor(dao) {
+  constructor(dao) {
     this.#dao = dao
   }
 

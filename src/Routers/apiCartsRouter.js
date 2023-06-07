@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 import { cartManagerMongo } from '../DAO/CartManagerMongo.js';
+import { purchaseController } from '../controllers/purchaseController.js';
 
 let apiCartsRouter = Router();
 export default apiCartsRouter;
@@ -22,6 +23,8 @@ apiCartsRouter.get('/:cid', async (req, res) => {
 
     res.json(cart);
 });
+
+apiCartsRouter.get('/:cid/purchase', purchaseController);
 
 apiCartsRouter.put('/:cid', async (req, res) => {
     let cartId = req.params.cid;
