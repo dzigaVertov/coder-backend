@@ -14,3 +14,5 @@ class CartRepository extends BaseRepository {
     
 }
 
+export const cartRepository = new CartRepository(cartsDao);
+
