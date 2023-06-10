@@ -7,12 +7,11 @@ import { PORT } from '../config/servidor.config.js';
 import apiRouter from '../Routers/apiRouter.js';
 import webRouter from '../Routers/webRouter.js';
 // Mongo imports
-import { conectar } from '../database/mongoose.js';
+import mongoose from '../database/mongoose.js';
 // COOKIES
 import cookieParser from 'cookie-parser';
 import {COOKIE_SECRET} from '../config/auth.config.js';
-//  MONGO
-await conectar();
+
 // PASSPORT
 import {passportInitialize} from '../middlewares/passport.js';
 

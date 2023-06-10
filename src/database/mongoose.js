@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { MONGODB_STRING_CONEXION, MONGODB_STRING_CONEXION_ALT } from '../config/mongodb.config';
+import { MONGODB_STRING_CONEXION, MONGODB_STRING_CONEXION_ALT } from '../config/mongodb.config.js';
 
 async function conectar() {
     try {

@@ -4,7 +4,7 @@ import { Cart } from '../models/cartModel.js';
 
 class CartRepository extends BaseRepository {
     constructor(dao) {
-        super(dao)
+        super(dao);
     }
 
     create(owner){
