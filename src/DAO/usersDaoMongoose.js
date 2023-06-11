@@ -18,7 +18,8 @@ class UsersDaoMongoose {
 
     async readOne(query) {
         const result = await this.#db.findOne(query).lean();
-        if (!result) throw new Erro('No Encontrado');
+        if (!result) throw new Error('No Encontrado');
+        return result;
     }
 
     async readMany(query) {
