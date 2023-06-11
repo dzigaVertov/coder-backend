@@ -8,32 +8,40 @@ export class BaseRepository {
 
     get dao() { return this.#dao; }
 
-    create(data, options) {
+    async create(data, options) {
         const domainObject = new this.#domainModel(data);
-        return this.#dao.create(domainObject);
+        return await this.#dao.create(domainObject.datos());
+
     }
 
-    readOne(query, options) {
-        return this.#dao.readOne(query);
+    async readOne(query, options) {
+        return await this.#dao.readOne(query);
     }
 
-    readMany(query, options) {
-        return this.#dao.readMany(query);
+    async readMany(query, options) {
+        return await this.#dao.readMany(query);
     }
 
-    updateOne(query, newData, options) {
-        return this.#dao.updateOne(query, newData);
+    async updateOne(query, newData, options) {
+        const daoUpdated = await this.#dao.updateOne(query, newData);
+        return daoUpdated;
     }
 
-    updateMany(query, newData, options) {
-        return this.#dao.updateMany(query, newData);
+    async findOneAndUpdate(query, newData, options) {
+        const daoUpdated = await this.#dao.findOneAndUpdate(query, newData);
+        const domainUpdated = new this.#domainModel(daoUpdated);
+        return domainUpdated;
     }
 
-    deleteOne(query, options) {
-        return this.#dao.deleteOne(query);
+    async updateMany(query, newData, options) {
+        return await this.#dao.updateMany(query, newData);
     }
 
-    deleteMany(query, options) {
-        return this.#dao.deleteMany(query);
+    async deleteOne(query, options) {
+        return await this.#dao.deleteOne(query);
+    }
+
+    async deleteMany(query, options) {
+        return await this.#dao.deleteMany(query);
     }
 }

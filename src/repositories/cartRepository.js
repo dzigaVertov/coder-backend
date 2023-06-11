@@ -3,16 +3,15 @@ import { cartsDao } from '../DAO/persistenciaFactory.js';
 import { Cart } from '../models/cartModel.js';
 
 class CartRepository extends BaseRepository {
-    constructor(dao) {
-        super(dao);
+    constructor(dao, cartModel) {
+        super(dao, cartModel);
     }
 
     create(owner){
-        let cart = new Cart(owner);
-        super.create(cart);
+        return super.create(owner);
     }
     
 }
 
-export const cartRepository = new CartRepository(cartsDao);
+export const cartRepository = new CartRepository(cartsDao, Cart);
 

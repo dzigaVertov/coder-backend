@@ -1,5 +1,6 @@
 import { hashear, encriptarJwt } from '../utils/criptografia.js';
-import { usuarioModel } from '../models/schemaUsuario.js';
+import { cartRepository } from '../repositories/cartRepository.js';
+import { usersRepository } from '../repositories/userRepository.js';
 
 export async function construirJwt(datosUsuario) {
     const jwtoken = encriptarJwt(datosUsuario);
@@ -7,13 +8,10 @@ export async function construirJwt(datosUsuario) {
 }
 
 export async function registrarUsuario(datosUsuario) {
-    const usuarioYaExiste = await usuarioModel.findOne({ email: datosUsuario.email }).lean();
-
-    if (usuarioYaExiste) {
-        console.log('El usuario ya existe!!!!!');
-        console.log(usuarioYaExiste);
-        throw( new Error('usuario ya existe'));
-    }
     datosUsuario.password = hashear(datosUsuario.password);
-    const respuestaDb = await usuarioModel.create(datosUsuario);
+
+    let nuevoUsuario = await usersRepository.create(datosUsuario);
+    const cartNuevoUsuario = await cartRepository.create(nuevoUsuario._id);
+    nuevoUsuario = await usersRepository.findOneAndUpdate({_id: nuevoUsuario._id},{cart: cartNuevoUsuario._id});
+    return nuevoUsuario;
 }

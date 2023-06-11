@@ -3,7 +3,7 @@ import { Strategy as JwtStrategy } from 'passport-jwt';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { ExtractJwt } from 'passport-jwt';
 import { JWT_KEY } from '../config/auth.config.js';
-import { usuarioModel } from '../models/schemaUsuario.js';
+import { usuarioSchemaModel } from '../models/schemaUsuario.js';
 import { chequearPassword, hashear } from '../utils/criptografia.js';
 
 // LOCAL

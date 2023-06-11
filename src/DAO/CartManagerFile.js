@@ -35,7 +35,7 @@ class CartManagerFile {
         fs.writeFile(this.path, data);
     }
 
-    async addCart() {
+    async create() {
         if (!this.archivoCargado) {
             await this.cargarArchivo();
         }

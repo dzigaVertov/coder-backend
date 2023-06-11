@@ -13,7 +13,7 @@ apiCartsRouter.get('/', async (req, res) => {
 
 apiCartsRouter.post('/', async (req, res) => {
     let productos = req.body;
-    let cartNuevo = await cartManagerMongo.addCart(productos);
+    let cartNuevo = await cartManagerMongo.create(productos);
     res.json(cartNuevo);
 });
 
