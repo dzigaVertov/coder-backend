@@ -15,6 +15,10 @@ class CartManagerMongo {
         return this.#db.findOne({ "_id": id }).lean();
     }
 
+    async readOne(query) {
+        return this.#db.findOne(query).lean();
+    }
+
     async getCarts() {
         return this.#db.find();
     }
@@ -54,7 +58,7 @@ class CartManagerMongo {
                 {
                     "_id": idCart,
                     "productos._id": idProducto
-                    }
+                }
                 ,
                 { "$inc": { "productos.$.quantity": 1 } }
             );
@@ -62,7 +66,7 @@ class CartManagerMongo {
             console.log(idProducto);
             return this.#db.updateOne(
                 { "_id": idCart },
-                { "$push": { "productos": {"_id": idProducto, "quantity": 1} } });
+                { "$push": { "productos": { "_id": idProducto, "quantity": 1 } } });
         }
     }
 

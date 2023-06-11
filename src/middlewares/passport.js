@@ -48,9 +48,10 @@ async function jwtVerificado(jwt_payload, done) {
 export function autenticarJwtApi(req, res, next) {
     function passportCB(error, jwt_payload, info) {
         if (error || !jwt_payload) return next(new Error('Error de autenticación'));
-        req.user = jwt_payload;
+        req.user = jwt_payload;        
         next();
     }
+
     const auth_middleware_api = passport.authenticate('jwt', { session: false }, passportCB);
     auth_middleware_api(req, res, next);
 }
@@ -58,9 +59,8 @@ export function autenticarJwtApi(req, res, next) {
 export function autenticarJwtView(req, res, next) {
     function passportCB(error, jwt_payload, info) {
         if (error || !jwt_payload) {
-            return res.redirect('login');
+            return res.redirect('/login');
         }
-
         req.user = jwt_payload;
         next();
     }
