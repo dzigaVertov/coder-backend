@@ -1,12 +1,12 @@
 import { managerProductosMongo } from '../DAO/ProductManagerMongo.js';
 import { validarBusqueda } from '../services/productsServices.js';
+
 class ProductRepository {
     constructor(dao) {
         this.dao = dao;
     }
 
-    async getProductsQuery(opcionesBusqueda) {
-        const { busqueda, paginacion } = opcionesBusqueda;
+    async getProductsQuery(busqueda, paginacion) {
         const query = {};
         if (busqueda) {
             const { category, stock } = validarBusqueda(busqueda);
@@ -15,6 +15,7 @@ class ProductRepository {
         }
 
         const opsPaginacion = {};
+
         if (paginacion.paginate) {
             opsPaginacion.paginate = true;
             opsPaginacion.limit = paginacion.limit ?? 10;
@@ -29,7 +30,7 @@ class ProductRepository {
     }
 
     async getProductById(id) {
-        let producto = await managerProductosMongo.getProductById(id);
+        let producto = await this.dao.getProductById(id);
         return producto;
     }
 

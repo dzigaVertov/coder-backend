@@ -1,5 +1,6 @@
 import { managerProductosMongo } from '../DAO/ProductManagerMongo.js';
 import { prodRepository } from '../repositories/productRepository.js';
+import { obtenerProductosPaginados } from '../services/productsServices.js';
 
 export async function getHandler(req, res, next) {
     const { paginate, limit, page, sort, category, stock } = req.query;
@@ -7,22 +8,7 @@ export async function getHandler(req, res, next) {
     const paginacion = { paginate, limit, page, sort };
 
     try {
-        let resultPaginado = await prodRepository.getProductsQuery(busqueda, paginacion);
-
-        let [linkPrevPage, linkNextPage] = getLinks(resultPaginado, req);
-
-        let queryReturn = {
-            status: 'success',
-            payload: resultPaginado.docs,
-            totalPages: resultPaginado.totalPages,
-            prevPage: resultPaginado.prevPage,
-            nextPage: resultPaginado.nextPage,
-            page: resultPaginado.page,
-            hasPrevPage: resultPaginado.hasPrevPage,
-            hasNextPage: resultPaginado.hasNextPage,
-            prevLink: linkPrevPage,
-            nextLink: linkNextPage
-        };
+        const queryReturn = obtenerProductosPaginados(busqueda, paginacion);
         res.json(queryReturn);
     } catch (error) {
         next(error);
@@ -41,23 +27,24 @@ export async function getPidHandler(req, res, next) {
     }
 }
 
-
+export async function getRealTimeProducts(req, res, next) {
+    try {
+        const productos = prodRepository.getProducts();      
+        res.render('realTimeProducts',
+            { pageTitle: 'realtime', productos: productos });
+    } catch (error) {
+        next(error);
+    }
+}
 
 export async function postHandler(req, res, next) {
 
     try {
-        if (!parametrosValidos(req.body)) {
-            throw new Error('Error en la petición, parámetros no válidos');
-        }
         const paramsProducto = req.body;
         const producto = await prodRepository.addProduct(paramsProducto);
         const productos = await prodRepository.getProducts();
         req.io.sockets.emit('actualizacion', productos);
         res.json(producto);
-
-        console.log('Ver necesidad de esto acá abajo');
-        let listaActualizadaProductos = await managerProductosMongo.getProducts();
-        req.io.sockets.emit('actualizacion', listaActualizadaProductos);
     } catch (error) {
         next(error);
     }
@@ -87,6 +74,20 @@ export async function delHandler(req, res, next) {
     }
 }
 
+// TODO: Arreglar esto
+export async function postRealTimeProducts(req, res, next) {
+    try {
+        let producto = await managerProductosMongo.addProduct(req.body);
+        let productos = await managerProductosMongo.getProducts();
+        req.io.sockets.emit('actualizacion', productos);
+        res.json(producto);
+
+    } catch (error) {
+        next(error);
+    }
+
+
+}
 
 
 function parametrosValidos(body) {
@@ -102,16 +103,5 @@ function parametrosValidos(body) {
     let numsValidos = nums.every(n => !isNaN(Number(n)));
 
     return ((status === 'true') || (status === 'false')) && strsValidas && numsValidos;
-}
-
-function getLinks(resultPaginado, req) {
-    let { hasPrevPage, hasNextPage, prevPage, nextPage } = resultPaginado;
-    const { limit, sort, category } = req.query;
-
-    let linkPrevPage = hasPrevPage ? (req.baseUrl + `?limit=${limit}&page=${prevPage}`) : null;
-    let linkNextPage = hasNextPage ? (req.baseUrl + `?limit=${limit}&page=${nextPage}`) : null;
-
-    return [linkPrevPage, linkNextPage];
-
 }
 

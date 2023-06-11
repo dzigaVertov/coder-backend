@@ -29,6 +29,7 @@ class ProductManagerMongo {
     }
 
     async getProductById(id) {
+        console.log('aqui mismo', id);
         return this.#db.findById(id).lean();
     }
 

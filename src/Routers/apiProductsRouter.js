@@ -14,3 +14,4 @@ apiProductsRouter.delete('/:pid', productsController.delHandler);
 
 apiProductsRouter.get('/:pid', productsController.getPidHandler);
 
+apiProductsRouter.post('/realTimeProducts', productsController.postRealTimeProducts);
