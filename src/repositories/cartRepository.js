@@ -7,10 +7,10 @@ class CartRepository extends BaseRepository {
         super(dao, cartModel);
     }
 
-    create(owner){
-        return super.create(owner);
-    }
     
+    async getCarts(){
+        super.dao.getCarts();
+    }       
 }
 
 export const cartRepository = new CartRepository(cartsDao, Cart);

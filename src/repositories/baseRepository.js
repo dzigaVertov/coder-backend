@@ -10,6 +10,7 @@ export class BaseRepository {
 
     async create(data, options) {
         const domainObject = new this.#domainModel(data);
+        console.log(domainObject.datos());
         return await this.#dao.create(domainObject.datos());
 
     }

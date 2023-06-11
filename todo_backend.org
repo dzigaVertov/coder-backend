@@ -174,7 +174,7 @@
 **** DONE Agregar validación usuario
 **** DONE Cambiar schema usuario a carpeta DAO
 **** TODO Generar cart de usuario al registrar
-**** TODO Hacer que el repositorio base trabaje con un modelo y no directamente con el DAO
+**** DONE Hacer que el repositorio base trabaje con un modelo y no directamente con el DAO
 **** TODO Agregar middleware de rol
 **** TODO Restringir acceso a rutas según rol
 *** DONE Crear modelo Ticket

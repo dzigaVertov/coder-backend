@@ -1,21 +1,15 @@
 import express, { Router } from 'express';
 import { cartManagerMongo } from '../DAO/CartManagerMongo.js';
 import { purchaseController } from '../controllers/purchaseController.js';
+import * as apiCartsController from '../controllers/apiCartsController.js';
 
 let apiCartsRouter = Router();
 export default apiCartsRouter;
 
 
-apiCartsRouter.get('/', async (req, res) => {
-    let carts = await cartManagerMongo.getCarts();
-    res.json(carts);
-});
+apiCartsRouter.get('/',apiCartsController.getHandler);
 
-apiCartsRouter.post('/', async (req, res) => {
-    let productos = req.body;
-    let cartNuevo = await cartManagerMongo.create(productos);
-    res.json(cartNuevo);
-});
+apiCartsRouter.post('/', apiCartsController.postHandler);
 
 apiCartsRouter.get('/:cid', async (req, res) => {
     let cartId = req.params.cid;

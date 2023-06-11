@@ -1,3 +1,10 @@
+export function esArray(value){
+    if(value instanceof Array){
+        return value;
+    }
+    throw new Error('No es array');
+}
+
 export function noVacio(value) {
     if (!value) throw new Error('el dato no puede ser vacio');
     return value;
