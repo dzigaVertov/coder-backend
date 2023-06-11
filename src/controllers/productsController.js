@@ -1,4 +1,3 @@
-import { managerProductosMongo } from '../DAO/ProductManagerMongo.js';
 import { prodRepository } from '../repositories/productRepository.js';
 import { obtenerProductosPaginados } from '../services/productsServices.js';
 
@@ -77,8 +76,9 @@ export async function delHandler(req, res, next) {
 // TODO: Arreglar esto
 export async function postRealTimeProducts(req, res, next) {
     try {
-        let producto = await managerProductosMongo.addProduct(req.body);
-        let productos = await managerProductosMongo.getProducts();
+        
+        let producto = await prodRepository.addProduct(req.body);
+        let productos = await prodRepository.getProducts();
         req.io.sockets.emit('actualizacion', productos);
         res.json(producto);
 
