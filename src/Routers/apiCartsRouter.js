@@ -1,64 +1,27 @@
 import express, { Router } from 'express';
-import { cartManagerMongo } from '../DAO/CartManagerMongo.js';
 import { purchaseController } from '../controllers/purchaseController.js';
 import * as apiCartsController from '../controllers/apiCartsController.js';
+import { soloRol, soloCartDeUsuarioOadmin } from '../middlewares/autorizacion.js';
+import { autenticarJwtApi } from '../middlewares/passport.js';
 
 let apiCartsRouter = Router();
 export default apiCartsRouter;
 
 
-apiCartsRouter.get('/',apiCartsController.getHandler);
+apiCartsRouter.get('/', autenticarJwtApi, soloRol('admin'), apiCartsController.getHandler);
 
 apiCartsRouter.post('/', apiCartsController.postHandler);
 
-apiCartsRouter.get('/:cid', async (req, res) => {
-    let cartId = req.params.cid;
-    let cart = await cartManagerMongo.getCartById(cartId);
+apiCartsRouter.get('/:cid', soloCartDeUsuarioOadmin(), apiCartsController.getCidHandler);
 
-    res.json(cart);
-});
+apiCartsRouter.get('/:cid/purchase', soloCartDeUsuarioOadmin(), purchaseController);
 
-apiCartsRouter.get('/:cid/purchase', purchaseController);
+apiCartsRouter.put('/:cid', soloCartDeUsuarioOadmin(), apiCartsController.putCidHandler);
 
-apiCartsRouter.put('/:cid', async (req, res) => {
-    let cartId = req.params.cid;
-    let productos = req.body;
-    // TODO: Esto no devuelve el carrito actualizado
-    let actualizado = await cartManagerMongo.updateProductos(cartId, productos);
-    res.json(actualizado);
-});
+apiCartsRouter.post('/:cid/product/:pid',soloCartDeUsuarioOadmin(), apiCartsController.postProductHandler);
 
-apiCartsRouter.post('/:cid/product/:pid', async (req, res) => {
-    let idCarrito = req.params.cid;
-    let codigoProducto = req.params.pid;
+apiCartsRouter.put('/:cid/product/:pid',soloCartDeUsuarioOadmin(),apiCartsController.putProductQuantityHandler);
 
-    console.log('aca llegamos');
+apiCartsRouter.delete('/:cid/product/:pid',soloCartDeUsuarioOadmin(), apiCartsController.deleteProductHandler);
 
-    let carritoActualizado = await cartManagerMongo.addProductoToCart(idCarrito, codigoProducto);
-    res.json(carritoActualizado);
-});
-
-apiCartsRouter.put('/:cid/product/:pid', async (req, res) => {
-    let idCarrito = req.params.cid;
-    let idProducto = req.params.pid;
-    let { quantityNueva } = req.body;
-
-    let carritoActualizado = await cartManagerMongo.updateProductQuantity(idCarrito, idProducto, quantityNueva);
-    res.json(carritoActualizado);
-});
-
-
-apiCartsRouter.delete('/:cid/product/:pid', async (req, res) => {
-    let idCarrito = req.params.cid;
-    let codigoProducto = req.params.pid;
-    let carritoActualizado = await cartManagerMongo.deleteProductFromCart(idCarrito, codigoProducto);
-    res.json(carritoActualizado);
-});
-
-apiCartsRouter.delete('/:cid', async (req, res) => {
-    let idCarrito = req.params.cid;
-    let carritoActualizado = await cartManagerMongo.updateProductos(idCarrito, []);
-    res.json(carritoActualizado);
-});
-
-
+apiCartsRouter.delete('/:cid', soloCartDeUsuarioOadmin(), apiCartsController.vaciarCarritoHandler);
