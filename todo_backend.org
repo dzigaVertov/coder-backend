@@ -173,23 +173,23 @@
 **** DONE Agregar rol
 **** DONE Agregar validación usuario
 **** DONE Cambiar schema usuario a carpeta DAO
-**** TODO Generar cart de usuario al registrar
+**** DONE Generar cart de usuario al registrar
 **** DONE Hacer que el repositorio base trabaje con un modelo y no directamente con el DAO
-**** TODO Agregar middleware de rol
+**** DONE Agregar middleware de rol
 **** TODO Restringir acceso a rutas según rol
 *** DONE Crear modelo Ticket
-*** TODO Agregar validaciones a modelos
+*** DONE Agregar validaciones a modelos
 *** TODO Agregar variables de entorno
 *** TODO Crear estrategia /current
 *** Modificar nuestra capa de persistencia para aplicar los conceptos de Factory (opcional), DAO y DTO. 
 *** Se debe entregar:
-**** El DAO seleccionado (por un parámetro en línea de comandos como lo hicimos anteriormente) será devuelto por una Factory para que la capa de negocio opere con él. (Factory puede ser opcional)
-**** Implementar el patrón Repository para trabajar con el DAO en la lógica de negocio. 
-**** Modificar la ruta  /current Para evitar enviar información sensible, enviar un DTO del usuario sólo con la información necesaria.
+**** DONE El DAO seleccionado (por un parámetro en línea de comandos como lo hicimos anteriormente) será devuelto por una Factory para que la capa de negocio opere con él. (Factory puede ser opcional)
+**** DONE Implementar el patrón Repository para trabajar con el DAO en la lógica de negocio. 
+**** TODO Modificar la ruta  /current Para evitar enviar información sensible, enviar un DTO del usuario sólo con la información necesaria.
 **** Realizar un middleware que pueda trabajar en conjunto con la estrategia “current” para hacer un sistema de autorización y delimitar el acceso a dichos endpoints:
-***** Sólo el administrador puede crear, actualizar y eliminar productos.
-***** Sólo el usuario puede enviar mensajes al chat.
-***** Sólo el usuario puede agregar productos a su carrito.
+***** DONE Sólo el administrador puede crear, actualizar y eliminar productos.
+***** DONE Sólo el usuario puede enviar mensajes al chat.
+***** DONE Sólo el usuario puede agregar productos a su carrito.
 **** DONE Crear un modelo Ticket el cual contará con todas las formalizaciones de la compra. Éste contará con los campos
 ***** Id (autogenerado por mongo)
 ***** code: String debe autogenerarse y ser único
@@ -206,7 +206,7 @@
 ** Nuevo entregable
 *** DONE Hacer estrategia de rol
 *** DONE restringir vista carrito a usuario logueado
-*** TODO Restringir agregado de productos a admin
+*** DONE Restringir agregado de productos a admin
 * Notas
 
 ** Clase 16 mongo avanzado I

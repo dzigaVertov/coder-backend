@@ -103,6 +103,23 @@ Content-Type: application/json
 #
 #
 #
+#
+GET http://localhost:8080/api/sessions/current
+Content-Type: application/json
+
+{
+        "title": "Este es un título actualizado",
+        "description": "Esta es una descripción de prueba",
+        "code": "codigoprueba-9431",
+        "price": 179,
+        "status": true,
+        "stock": 200,
+        "category": "categoria",
+        "thumbnails": ["thumb-1", "thumb-2"]
+}
+
+#
+
 GET http://localhost:8080/api/carts
 Content-Type: application/json
 
@@ -119,6 +136,23 @@ Content-Type: application/json
 
 #
 #
+#
+GET http://localhost:8080/api/carts
+Content-Type: application/json
+
+{
+        "title": "Este es un título actualizado",
+        "description": "Esta es una descripción de prueba",
+        "code": "codigoprueba-9431",
+        "price": 179,
+        "status": true,
+        "stock": 200,
+        "category": "categoria",
+        "thumbnails": ["thumb-1", "thumb-2"]
+}
+
+#
+
 
 #
 POST http://localhost:8080/api/carts

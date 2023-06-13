@@ -11,6 +11,6 @@ export async function getCidHandler(req, res, next) {
         res.render('cart', { productos, hayDocs });
 
     } catch (error) {
-        next(error);
+        next(error)
     }
 }

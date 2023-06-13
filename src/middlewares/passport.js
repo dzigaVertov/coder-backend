@@ -47,7 +47,11 @@ async function jwtVerificado(jwt_payload, done) {
 
 export function autenticarJwtApi(req, res, next) {
     function passportCB(error, jwt_payload, info) {
-        if (error || !jwt_payload) return next(new Error('Error de autenticación'));
+        if (error || !jwt_payload){
+            console.log('error', error);
+            console.log('jwt', jwt_payload);
+            return next(new Error('Error de autenticación'));
+        }
         req.user = jwt_payload;        
         next();
     }

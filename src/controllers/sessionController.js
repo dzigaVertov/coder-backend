@@ -35,4 +35,11 @@ handleGetCurrent.use(autenticarJwtApi, (req, res) => {
     const currentUser = req.user;
     delete currentUser.password;
     res.json(currentUser);
+
 });
+
+// function mostrarCookies(req, res, next){
+//     console.log('signed: ', req.signedCookies['jwt']);
+//     console.log('cookies', req.cookies);
+//     next();
+// }
