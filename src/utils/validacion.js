@@ -15,6 +15,11 @@ export function soloAlfabetico(value) {
     return value;
 }
 
+export function soloAlfabeticoYpuntuacion(value) {
+    if (!/^[a-zA-Z .-_!]+$/.test(value)) throw new Error('El dato solo puede tener letras y puntuación');
+    return value;
+}
+
 export function entero(value) {
     if (!Number.isInteger(value)) throw new Error('el dato debe ser entero');
     return value;

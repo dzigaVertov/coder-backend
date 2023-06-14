@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { NotFoundError } from '../models/errors/NotFound.error.js';
 import { productModel } from '../models/schemaProducto.js';
 
 class ProductManagerMongo {
@@ -29,16 +30,19 @@ class ProductManagerMongo {
     }
 
     async getProductById(id) {
-        console.log('aqui mismo', id);
-        return this.#db.findById(id).lean();
+        const prod =this.#db.findById(id);
+        if(!prod) throw new NotFoundError('Product not found');
+        return prod.lean();
     }
 
     async updateProduct(id, campo, nuevoValor) {
-        this.#db.findOneAndUpdate({ _id: id }, { campo: nuevoValor });
+        const prod = this.#db.findOneAndUpdate({ _id: id }, { campo: nuevoValor });
+        if(!prod) throw new NotFoundError('Product not found');
     }
 
     async deleteProductById(id) {
-        this.#db.findByIdAndDelete(id);
+        const prod = this.#db.findByIdAndDelete(id);
+        if(!prod) throw new NotFoundError('Product not found');
     }
 }
 
