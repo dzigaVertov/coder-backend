@@ -10,5 +10,6 @@ apiRouter.use('/sessions', apiSessionsRouter);
 apiRouter.use('/users', apiUsersRouter);
 apiRouter.use('/products', apiProductsRouter);
 apiRouter.use('/carts', apiCartsRouter);
+apiRouter.use('/mockingProducts', mockingProductsRouter);
 
 export default apiRouter;
