@@ -1,4 +1,5 @@
 import mongoose from '../database/mongoose.js';
+import { NotFoundError } from '../models/errors/NotFound.error.js';
 import { usuarioSchemaModel } from '../models/schemaUsuario.js';
 import { toPojo } from '../utils/topojo.js';
 
@@ -18,7 +19,7 @@ class UsersDaoMongoose {
 
     async readOne(query) {
         const result = await this.#db.findOne(query).lean();
-        if (!result) throw new Error('No Encontrado');
+        if (!result) throw new NotFoundError('Usuario no encontrado');
         return result;
     }
 
@@ -27,13 +28,15 @@ class UsersDaoMongoose {
     }
 
     async updateOne(query, newData) {
-        return await this.#db.updateOne(query, newData);
+        const result = await this.#db.updateOne(query, newData);
+        if (!result) throw new NotFoundError('Usuario no encontrado');
+        return result;
     }
 
     async findOneAndUpdate(query, newData) {
-        const modified_user = this.#db.findOneAndUpdate(query, newData).lean();
-        if (!modified_user) throw new Error('No encontrado');
-        return modified_user;
+        const result = this.#db.findOneAndUpdate(query, newData);
+        if (!result) throw new NotFoundError('Usuario no encontrado');
+        return result.lean();
     }
 
     async updateMany(query, newData) {
@@ -41,9 +44,9 @@ class UsersDaoMongoose {
     }
 
     async deleteOne(query) {
-        const deletedUser = await this.#db.findOneAndDelete(query).lean();
-        if (!deletedUser) throw new Error('No encontrado');;
-        return toPojo(deletedUser);
+        const result = await this.#db.findOneAndDelete(query);
+        if (!result) throw new NotFoundError('Usuario no encontrado');
+        return toPojo(result);
     }
 
     async deleteMany(query) {
