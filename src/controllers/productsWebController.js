@@ -30,7 +30,7 @@ export async function getHandler(req, res, next) {
 }
 
 export async function getPidHandler(req, res, next) {
-    const id = parseInt(req.params.pid);
+    const id = req.params.pid;
 
     try {
         const producto = await prodRepository.getProductById(id);

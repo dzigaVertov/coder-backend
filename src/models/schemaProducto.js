@@ -1,5 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose from '../database/mongoose.js';
 import mongoosePaginate from 'mongoose-paginate-v2';
+import { ObjectId } from 'mongodb';
 
 const productsCollection = 'productos';
 const campoRequerido = [true, "El campo es requerido"];
@@ -31,7 +32,11 @@ const schemaProducto = new mongoose.Schema(
             type: String,
             required: campoRequerido
         },
-    }
+        id: {
+            type: String,
+            required: campoRequerido
+        }
+    }, { versionKey: false }
 );
 
 schemaProducto.plugin(mongoosePaginate);

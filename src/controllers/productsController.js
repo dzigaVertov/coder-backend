@@ -1,6 +1,6 @@
 import { prodRepository } from '../repositories/productRepository.js';
-import { obtenerProductosPaginados } from '../services/ProductsService.js';
-import { productService } from '../services/ProductsService.js'
+import { productService } from '../services/ProductsService.js';
+
 
 export async function getHandler(req, res, next) {
     try {
@@ -84,22 +84,4 @@ export async function postRealTimeProducts(req, res, next) {
         next(error);
     }
 
-
 }
-
-
-function parametrosValidos(body) {
-    let { title, description, price, status, stock, category } = body;
-
-    let strs = [title, description, category];
-    let nums = [price, stock];
-
-    let strsValidas = strs.every(elem => {
-        return (typeof (elem) === 'string');
-    });
-
-    let numsValidos = nums.every(n => !isNaN(Number(n)));
-
-    return ((status === 'true') || (status === 'false')) && strsValidas && numsValidos;
-}
-

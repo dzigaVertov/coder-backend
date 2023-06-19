@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 import * as valid from '../utils/validacion.js';
+import { InvalidArgumentError } from './errors/InvalidArgument.error.js';
 
 export class Producto {
     #title
@@ -9,7 +10,7 @@ export class Producto {
     #stock
     #category
     #status
-    #productCode
+    #id
 
     constructor(title,
         description,
@@ -19,14 +20,15 @@ export class Producto {
         category,
         status) {
 
+
         this.#title = valid.soloAlfabeticoYpuntuacion(valid.noVacio(title));
         this.#description = valid.soloAlfabeticoYpuntuacion(valid.noVacio(description));
         this.#price = valid.positivo(valid.noVacio(price));
         this.#thumbnail = thumbnail;
         this.#stock = valid.positivo(stock);
-        this.#category = valid.soloAlfabetico(valid.noVacio(category));
+        this.#category = validarCategory(category);
         this.#status = status;
-        this.#productCode = randomUUID();
+        this.#id = randomUUID();
     }
 
     datos() {
@@ -38,7 +40,14 @@ export class Producto {
             stock: this.#stock,
             category: this.#category,
             status: this.#status,
-            productCode: this.#productCode
+            id: this.#id
         };
     }
+}
+
+function validarCategory(category) {
+    const categoryOptions = ['bebidas', 'computacion', 'frutas', 'muebles'];
+    if (!categoryOptions.includes(category)) throw new InvalidArgumentError(`Categoría inválida: ${category}`);
+
+    return category;
 }

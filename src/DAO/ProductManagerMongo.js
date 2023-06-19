@@ -8,7 +8,7 @@ class ProductManagerMongo {
         this.#db = productModel;
     }
 
-    async addProduct({ title, description, price, thumbnails, category, status, stock }) {
+    async addProduct({ title, description, price, thumbnails, category, status, stock, id }) {
         let result = await this.#db.create(arguments[0]);
         return result;
     }
@@ -28,7 +28,7 @@ class ProductManagerMongo {
             query['category'] = parametrosBusqueda.category;
         }
 
-        let paginacion = { lean: true };
+        let paginacion = { lean: true, leanWithId: false };
         if (parametrosBusqueda.paginacion) {
             paginacion.limit = parametrosBusqueda.paginacion.limit;
             paginacion.page = parametrosBusqueda.paginacion.page;
@@ -42,20 +42,24 @@ class ProductManagerMongo {
         }
 
         let productsQueryResult = await this.#db.paginate(query, paginacion);
+
         // Limpiar el id de mongo
-        productsQueryResult.docs.forEach(x => delete(x._id));
+        productsQueryResult.docs.forEach(x => delete (x._id));
 
         return productsQueryResult;
     }
 
-    async getProductById(id) {
-        const prod = this.#db.findById(id);
+    async getProductById(pid) {
+        console.log('pid: ', pid);
+        const prod = await this.#db.findOne({ id: pid }).lean();
         if (!prod) throw new NotFoundError('Product not found');
-        return prod.lean();
+        // Limpiar el id de mongo
+        delete (prod._id);
+        return prod;
     }
 
     async updateProduct(id, campo, nuevoValor) {
-        const prod = this.#db.findOneAndUpdate({ _id: id }, { campo: nuevoValor });
+        const prod = this.#db.findOneAndUpdate({ id: id }, { campo: nuevoValor });
         if (!prod) throw new NotFoundError('Product not found');
     }
 
