@@ -1,32 +1,14 @@
 import { managerProductosMongo } from '../DAO/ProductManagerMongo.js';
-import { validarBusqueda } from '../services/productsServices.js';
 
 class ProductRepository {
     constructor(dao) {
         this.dao = dao;
     }
 
-    async getProductsQuery(busqueda, paginacion) {
-        const query = {};
-        if (busqueda) {
-            const { category, stock } = validarBusqueda(busqueda);
-            query[category] = category;
-            query[stock] = stock;
-        }
+    async getProductsQuery(parametrosBusqueda) {
 
-        const opsPaginacion = {};
-
-        if (paginacion.paginate) {
-            opsPaginacion.paginate = true;
-            opsPaginacion.limit = paginacion.limit ?? 10;
-            opsPaginacion.page = paginacion.page ?? 1;
-            opsPaginacion.sort = paginacion.sort ? { price: sort } : {};
-        } else {
-            opsPaginacion.paginate = false;
-        }
-
-        let resultPaginado = await this.dao.getProductsQuery(query, opsPaginacion);
-        return resultPaginado;
+        let resultadoBusqueda = await this.dao.getProductsQuery(parametrosBusqueda);
+        return resultadoBusqueda;
     }
 
     async getProductById(id) {

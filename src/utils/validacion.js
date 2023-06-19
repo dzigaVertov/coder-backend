@@ -1,4 +1,4 @@
-import { InvalidArgumentError } from "../models/errors/InvalidArgument.error";
+import { InvalidArgumentError } from "../models/errors/InvalidArgument.error.js";
 
 export function esArray(value){
     if(value instanceof Array){

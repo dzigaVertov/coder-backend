@@ -1,14 +1,29 @@
 import { prodRepository } from "../repositories/productRepository.js";
-import { obtenerProductosPaginados } from "../services/productsServices.js";
+import { productService } from "../services/ProductsService.js";
+import { getLinksPaginacion } from "../utils/paginacion.js";
 
 export async function getHandler(req, res, next) {
-    const { paginate, limit, page, sort, category, stock } = req.query;
-    const busqueda = { category: category || 'all', stock: stock || 'all' };
-    const paginacion = { paginate, limit, page, sort };
-
     try {
-        const queryReturn = obtenerProductosPaginados(busqueda, paginacion);
-        res.render('home', queryReturn);
+        const opcionesBusqueda = req.query;
+        const queryReturn = await productService.obtenerListaProductos(opcionesBusqueda);
+
+        let [linkPrevPage, linkNextPage] = getLinksPaginacion(queryReturn,req.baseUrl ,opcionesBusqueda?.category, opcionesBusqueda?.sort, opcionesBusqueda?.sortField);
+
+        let renderInfo = {
+            status: 'success',
+            payload: queryReturn.docs,
+            totalPages: queryReturn.totalPages,
+            prevPage: queryReturn.prevPage,
+            nextPage: queryReturn.nextPage,
+            page: queryReturn.page,
+            limit: queryReturn.limit,
+            hasPrevPage: queryReturn.hasPrevPage,
+            hasNextPage: queryReturn.hasNextPage,
+            prevLink: linkPrevPage,
+            nextLink: linkNextPage
+        };
+
+        res.render('home', renderInfo);
     } catch (error) {
         next(error);
     }

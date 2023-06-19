@@ -1,8 +1,8 @@
 <h1>Productos agregados</h1>
 
-{{#if hayDocs}}
+{{#if payload}}
 <ul class='lista'>  
-  {{#each productos}}    
+  {{#each payload}}    
       <li class='card'>
     <a href="/{{_id}}">Ver Detalle</a>
         {{#each this}}
@@ -13,14 +13,14 @@
 </ul>
 {{/if}}
 
-<a {{#if hasPrevPage}} href="/?limit={{limit}}&page={{prevPage}}" {{/if}}>Prev</a>
+<a {{#if hasPrevPage}} href={{prevLink}} {{/if}}>Prev</a>
 [{{ page }} de {{totalPages}}]
-<a {{#if hasNextPage}} href="/?limit={{limit}}&page={{nextPage}}" {{/if}}>Next</a><br>
+<a {{#if hasNextPage}} href={{nextLink}} {{/if}}>Next</a><br>
 Página: <input type="text"> <button onclick="irAPag({{limit}})">ir</button>
 <script>
   function irAPag(limit) {
     const pagDeseada = document.querySelector('input').value || 1
-    window.location = `/?limit=${limit}&page=${pagDeseada}`
+    window.location = `/products?paginate=true&limit=${limit}&page=${pagDeseada}`
   }
 </script>
 

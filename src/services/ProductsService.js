@@ -1,18 +1,20 @@
-import { stockOptions, categoryOptions } from '../models/busquedaOptions.js';
 import { prodRepository } from '../repositories/productRepository.js';
-
-export function validarBusqueda({ category, stock }) {
-
-    if (!stockOptions.includes(stock)) throw new Error('Invalid Stock');
-    if (!categoryOptions.includes(category)) throw new Error('Invalid Category');
-
-    return { category, stock };
-}
+import { BusquedaProductos } from '../models/BusquedaProductos.js';
 
 
-export function validarPaginacion(paginacion) {
-    const { limit, page, sort } = paginacion;
-    if (paginacion) {
+// TODO: incluir dentro de ese objeto los métodos para generar links
+// TODO: Pasar ese modelo al repositorio para que haga la búsqueda (¿?)
+// TODO: Eliminar del repositorio y del DAO cualquier responsabilidad en relación a la validación de la búsqueda.
+
+class ProductsService {
+    constructor(prodRepository) {
+        this.prodRepository = prodRepository;
+    }
+
+    async obtenerListaProductos(opcionesBusqueda) {
+        const parametrosBusqueda = new BusquedaProductos(opcionesBusqueda);
+        const resultadoBusqueda = await prodRepository.getProductsQuery(parametrosBusqueda);
+        return resultadoBusqueda;
 
     }
 }
@@ -52,3 +54,5 @@ function getLinks(resultPaginado, busqueda, paginacion) {
     return [linkPrevPage, linkNextPage];
 
 }
+
+export const productService = new ProductsService(prodRepository);

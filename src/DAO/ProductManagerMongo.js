@@ -18,31 +18,50 @@ class ProductManagerMongo {
         return products;
     }
 
-    async getProductsQuery(busqueda, paginacion) {
+    async getProductsQuery(parametrosBusqueda) {
         let query = {};
-        if (busqueda.stock === 'available') query['stock'] = { $gt: 0 };
-        if (busqueda.stock === 'unavailable') query['stock'] = 0;
 
-        // Chequear si pide paginacion
-        let productsQuery = await this.#db.paginate(busqueda, paginacion);
-        return productsQuery;
+        if (parametrosBusqueda.stock === 'available') query['stock'] = { $gt: 0 };
+        if (parametrosBusqueda.stock === 'unavailable') query['stock'] = 0;
 
+        if (parametrosBusqueda.category !== 'all') {
+            query['category'] = parametrosBusqueda.category;
+        }
+
+        let paginacion = { lean: true };
+        if (parametrosBusqueda.paginacion) {
+            paginacion.limit = parametrosBusqueda.paginacion.limit;
+            paginacion.page = parametrosBusqueda.paginacion.page;
+
+            if (parametrosBusqueda.sort !== 'none') {
+                paginacion.sort = {};
+                const sortAscendente = parametrosBusqueda.sort === 'asc';
+                paginacion.sort[parametrosBusqueda.sortField] = sortAscendente ? 1 : -1;
+            }
+
+        }
+
+        let productsQueryResult = await this.#db.paginate(query, paginacion);
+        // Limpiar el id de mongo
+        productsQueryResult.docs.forEach(x => delete(x._id));
+
+        return productsQueryResult;
     }
 
     async getProductById(id) {
-        const prod =this.#db.findById(id);
-        if(!prod) throw new NotFoundError('Product not found');
+        const prod = this.#db.findById(id);
+        if (!prod) throw new NotFoundError('Product not found');
         return prod.lean();
     }
 
     async updateProduct(id, campo, nuevoValor) {
         const prod = this.#db.findOneAndUpdate({ _id: id }, { campo: nuevoValor });
-        if(!prod) throw new NotFoundError('Product not found');
+        if (!prod) throw new NotFoundError('Product not found');
     }
 
     async deleteProductById(id) {
         const prod = this.#db.findByIdAndDelete(id);
-        if(!prod) throw new NotFoundError('Product not found');
+        if (!prod) throw new NotFoundError('Product not found');
     }
 }
 

@@ -92,7 +92,7 @@
 
 ****  Se deberá contar además con un router de vistas en la ruta base / para llevar al formulario de login, de registro y de perfil.
 
-**** TODO El formulario de registro insertará en la base de datos el usuario. El cual deberá contar con:
+**** DONE El formulario de registro insertará en la base de datos el usuario. El cual deberá contar con:
 
 *****  first_name
 
@@ -104,7 +104,7 @@
 
 *****  password
 
-**** TODO Se debe contar con el formulario de login el cual corroborará que el usuario exista en la base, y además genere un objeto user en req.session, indicando que puede utilizar la página.
+**** DONE Se debe contar con el formulario de login el cual corroborará que el usuario exista en la base, y además genere un objeto user en req.session, indicando que puede utilizar la página.
 
 **** TODO Agregar validaciones a las rutas de vistas para que, si aún no estoy logueado, no pueda entrar a ver mi perfil, y si ya estoy logueado, no pueda volver a loguearme o registrarme.
 
@@ -207,6 +207,9 @@
 *** DONE Hacer estrategia de rol
 *** DONE restringir vista carrito a usuario logueado
 *** DONE Restringir agregado de productos a admin
+*** TODO Hacer chequeo general del proyecto:
+**** TODO Agregar variables de entorno
+**** TODO Chequear que la separación en capas incluya todo el proyecto
 * Notas
 
 ** Clase 16 mongo avanzado I

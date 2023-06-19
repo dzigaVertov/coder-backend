@@ -1,13 +1,11 @@
 import { prodRepository } from '../repositories/productRepository.js';
-import { obtenerProductosPaginados } from '../services/productsServices.js';
+import { obtenerProductosPaginados } from '../services/ProductsService.js';
+import { productService } from '../services/ProductsService.js'
 
 export async function getHandler(req, res, next) {
-    const { paginate, limit, page, sort, category, stock } = req.query;
-    const busqueda = { category, stock };
-    const paginacion = { paginate, limit, page, sort };
-
     try {
-        const queryReturn = obtenerProductosPaginados(busqueda, paginacion);
+        const opcionesBusqueda = req.query;
+        const queryReturn = await productService.obtenerListaProductos(opcionesBusqueda);
         res.json(queryReturn);
     } catch (error) {
         next(error);
@@ -28,7 +26,7 @@ export async function getPidHandler(req, res, next) {
 
 export async function getRealTimeProducts(req, res, next) {
     try {
-        const productos = prodRepository.getProducts();      
+        const productos = prodRepository.getProducts();
         res.render('realTimeProducts',
             { pageTitle: 'realtime', productos: productos });
     } catch (error) {
@@ -76,7 +74,7 @@ export async function delHandler(req, res, next) {
 // TODO: Arreglar esto
 export async function postRealTimeProducts(req, res, next) {
     try {
-        
+
         let producto = await prodRepository.addProduct(req.body);
         let productos = await prodRepository.getProducts();
         req.io.sockets.emit('actualizacion', productos);
