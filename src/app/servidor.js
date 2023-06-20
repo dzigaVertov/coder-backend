@@ -15,6 +15,9 @@ import {COOKIE_SECRET} from '../config/auth.config.js';
 // PASSPORT
 import {passportInitialize} from '../middlewares/passport.js';
 
+// LOGGER
+import { loggerMiddleware } from '../middlewares/logger.js';
+
 const app = express();
 
 // Archivos estáticos
@@ -23,6 +26,9 @@ app.use(express.static('./public'));
 // Middleware para acceder al body del POST request
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Logger
+app.use(loggerMiddleware);
 
 // Handlebars
 app.engine('handlebars', engine());
