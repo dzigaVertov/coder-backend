@@ -1,10 +1,7 @@
 # Notas a esta entrega
 
--   Agregado modelo de Usuario separado de base de datos
--   Agregado rol a modelo de Usuario
--   Agregado Factory de Daos
--   Agregados repositorios de Ticket y Carts
--   
+-   Agregado logger de winston
+-   Agregado endpoint de testeo de logger *loggerTest*:tipoMensaje
 
 
 # Correr el servidor de forma local
@@ -37,6 +34,14 @@
 
 
 # Notas a entregas anteriores
+
+-   Roles y Factory
+
+    -   Agregado modelo de Usuario separado de base de datos
+    -   Agregado rol a modelo de Usuario
+    -   Agregado Factory de Daos
+    -   Agregados repositorios de Ticket y Carts
+    -   
 
 -   Arquitectura en capas
 
