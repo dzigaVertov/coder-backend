@@ -10,13 +10,14 @@ import webRouter from '../Routers/webRouter.js';
 import mongoose from '../database/mongoose.js';
 // COOKIES
 import cookieParser from 'cookie-parser';
-import {COOKIE_SECRET} from '../config/auth.config.js';
+import { COOKIE_SECRET } from '../config/auth.config.js';
 
 // PASSPORT
-import {passportInitialize} from '../middlewares/passport.js';
+import { passportInitialize } from '../middlewares/passport.js';
 
 // LOGGER
 import { loggerMiddleware } from '../middlewares/logger.js';
+import { loggerRouter } from '../Routers/loggerRouter.js';
 
 const app = express();
 
@@ -52,7 +53,7 @@ app.use((req, res, next) => {
 });
 
 io.on('connection', async clientSocket => {
-    console.log(`Nuevo cliente conectado: socket id: ${clientSocket.id}`);    
+    console.log(`Nuevo cliente conectado: socket id: ${clientSocket.id}`);
     clientSocket.on('mensaje', mensaje => {
         console.log(mensaje);
     });
@@ -64,6 +65,7 @@ io.on('connection', async clientSocket => {
     });
 });
 
+app.use('/loggerTest', loggerRouter);
 app.use('/', webRouter);
 app.use('/api', apiRouter);
 

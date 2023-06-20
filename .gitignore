@@ -28,3 +28,7 @@ servidor.js~
 *~
 servidor.js~
 /#todo_backend.org#
+/errors.log
+/infoProductionServer.log
+/src/DAO/#CartManagerMongo.js#
+/src/DAO/.#CartManagerMongo.js

@@ -1,22 +1,30 @@
 import mongoose from 'mongoose';
 import cartModel from '../models/schemaCart.js';
+import { logger } from '../utils/logger.js';
 
 class CartManagerMongo {
     #db;
     constructor() {
         this.#db = cartModel;
+        logger.debug('DAO de Carts creado')
     }
 
     async create(cartData) {
-        return await this.#db.create(cartData);
+        const cart = await this.#db.create(cartData);
+        logger.info('Cart creado por DAO');
+        return cart;
     }
 
     async getCartById(id) {
-        return this.#db.findOne({ "_id": id }).lean();
+        const cart = this.#db.findOne({ "_id": id }).lean();
+        logger.info(`Cart id:${id} encontrado en el DAO`);
+        return cart;
     }
 
     async readOne(query) {
-        return this.#db.findOne(query).lean();
+        const cart = this.#db.findOne(query).lean();
+        logger.info(`Cart recuperado en DAO con query:${query}`);
+        return cart;
     }
 
     async getCarts() {

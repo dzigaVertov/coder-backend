@@ -28,7 +28,7 @@ const winstonLoggerProd = winston.createLogger({
     transports: [
         new winston.transports.File({
             level: 'info',
-            filename: 'info.log'
+            filename: 'infoProductionServer.log'
         }),
         new winston.transports.File({
             level: 'error',
@@ -40,8 +40,10 @@ const winstonLoggerProd = winston.createLogger({
 export let logger;
 if (NODE_ENV === 'production') {
     logger = winstonLoggerProd;
+    logger.info(`NODE_ENV: ${NODE_ENV}`);
 } else {
     logger = winstonLoggerDev;
+    logger.info(`NODE_ENV: ${NODE_ENV}`);
 }
 
 
