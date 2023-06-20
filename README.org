@@ -7,13 +7,15 @@
 
 ** Para iniciar el servidor:  
 #+begin_src bash
-npm start
+NODE_ENV="development" npm start mongoose # En modo desarrollo
+NODE_ENV="production" npm start mongoose # En modo producción
 #+end_src
 
 
 ** Iniciar el servidor con nodemon para desarrollo:
 #+begin_src bash
-npm test
+NODE_ENV="development" npm test mongoose # En modo desarrollo
+NODE_ENV="production" npm test mongoose # En modo producción
 #+end_src
 
 ** El servidor intenta conectarse a una base de datos, por defecto en alguna de urls: 

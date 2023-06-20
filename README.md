@@ -9,13 +9,15 @@
 -   Para iniciar el servidor:
 
     ```bash
-    npm start
+    NODE_ENV="development" npm start mongoose # En modo desarrollo
+    NODE_ENV="production" npm start mongoose # En modo producción
     ```
 
 -   Iniciar el servidor con nodemon para desarrollo:
 
     ```bash
-    npm test
+    NODE_ENV="development" npm test mongoose # En modo desarrollo
+    NODE_ENV="production" npm test mongoose # En modo producción
     ```
 
 -   El servidor intenta conectarse a una base de datos, por defecto en alguna de urls:
