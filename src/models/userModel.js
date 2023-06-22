@@ -1,4 +1,5 @@
 import * as valid from '../utils/validacion.js';
+import { randomUUID } from 'crypto';
 
 export default class Usuario {
     #first_name;
@@ -16,6 +17,7 @@ export default class Usuario {
         this.#role = valid.esRole(role);
         age = parseInt(age);
         this.#age = valid.positivo(valid.entero(valid.noVacio(age)));
+        this.#id = randomUUID();
     }
 
     get_email() { return this.#email; }
@@ -24,9 +26,10 @@ export default class Usuario {
     get_first_name() { return this.#first_name; }
     get_age() { return this.#age; }
     get_role() { return this.#role; }
+    get_id() { return this.#id; }
 
-    set_role(newRole){
-        if(!valid.esRole(newRole)) throw new Error('No es rol válido');
+    set_role(newRole) {
+        if (!valid.esRole(newRole)) throw new Error('No es rol válido');
 
         this.#role = role;
     }
@@ -38,18 +41,19 @@ export default class Usuario {
             email: this.#email,
             password: this.#password,
             age: this.#age,
-            role: this.#role
-        }
+            role: this.#role,
+            id: this.#id
+        };
     }
 
     dto() {
         return {
             first_name: this.#first_name,
             last_name: this.#last_name,
-            email: this.#email,    
+            email: this.#email,
             age: this.#age,
             role: this.#role
-        }
+        };
     }
 }
 

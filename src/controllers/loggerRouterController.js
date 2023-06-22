@@ -11,6 +11,7 @@ export function getHandler(req, res, next) {
     } else {
         const mensaje = `Log de nivel info generado en LoggerTest en entorno ${NODE_ENV} - ${new Date().toLocaleTimeString()}`;
         req.logger.info(mensaje);
+
         res.json({ mensaje: mensaje });
     }
 }

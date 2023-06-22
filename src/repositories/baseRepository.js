@@ -1,30 +1,39 @@
+import { logger } from '../utils/logger.js';
+
 export class BaseRepository {
     #dao;
     #domainModel;
     constructor(dao, domainModel) {
         this.#dao = dao;
         this.#domainModel = domainModel;
+        logger.debug(`BaseRepository creado - ${new Date().toLocaleDateString()}`);
     }
 
     get dao() { return this.#dao; }
 
     async create(data, options) {
         const domainObject = new this.#domainModel(data);
-        console.log(domainObject.datos());
-        return await this.#dao.create(domainObject.datos());
+        const dbObject = await this.#dao.create(domainObject.datos());
+        logger.debug(`Objecto creado en BaseRepository - ${new Date().toLocaleDateString()}`);
+        return dbObject;
 
     }
 
     async readOne(query, options) {
-        return await this.#dao.readOne(query);
+        const queryResult = await this.#dao.readOne(query);
+        logger.debug(`Objecto leído en BaseRepository - ${new Date().toLocaleDateString()}`);
+        return queryResult;
     }
 
     async readMany(query, options) {
-        return await this.#dao.readMany(query);
+        const queryResult = await this.#dao.readMany(query);
+        logger.debug(`readMany en BaseRepository - ${new Date().toLocaleDateString()}`);
+        return queryResult;
     }
 
     async updateOne(query, newData, options) {
         const daoUpdated = await this.#dao.updateOne(query, newData);
+        logger.debug(`readMany en BaseRepository - ${new Date().toLocaleDateString()}`);
         return daoUpdated;
     }
 

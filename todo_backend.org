@@ -208,24 +208,24 @@
 ***** DONE Al final, utilizar el servicio de Tickets para poder generar un ticket con los datos de la compra.
 ***** DONE En caso de existir una compra no completada, devolver el arreglo con los ids de los productos que no pudieron procesarse.
 ***** DONE Una vez finalizada la compra, el carrito asociado al usuario que compró deberá contener sólo los productos que no pudieron comprarse. Es decir, se filtran los que sí se compraron y se quedan aquellos que no tenían disponibilidad.
-** TODO Entregable 20/06 - Implementación de logger
+** DONE Entregable 20/06 - Implementación de logger
 *** DONE Primero, definir un sistema de niveles que tenga la siguiente prioridad (de menor a mayor):
 **** debug, http, info, warning, error, fatal
 *** DONE Después implementar un logger para desarrollo y un logger para producción, el logger de desarrollo deberá loggear a partir del nivel debug, sólo en consola
 *** DONE Sin embargo, el logger del entorno productivo debería loggear sólo a partir de nivel info.
 *** DONE Además, el logger deberá enviar en un transporte de archivos a partir del nivel de error en un nombre “errors.log”
 *** DONE Agregar logs de valor alto en los puntos importantes de tu servidor (errores, advertencias, etc) y modificar los console.log() habituales que tenemos para que muestren todo a partir de winston.
-*** TODO Crear un endpoint /loggerTest que permita probar todos los logs
+*** DONE Crear un endpoint /loggerTest que permita probar todos los logs
 **** DONE Se revisará que la estructura del servidor en general esté implementada con el logger de winston.
 **** DONE Se ejecutará el proyecto en entorno de desarrollo y entorno productivo para corroborar que se implementen los diferentes loggers según el entorno.
-**** TODO Se probará un endpoint (proporcionado por el alumno). para revisar que los logs se escriban correctamente, tanto para consola (desarrollo) como para consola y archivos (productivo).
+**** DONE Se probará un endpoint (proporcionado por el alumno). para revisar que los logs se escriban correctamente, tanto para consola (desarrollo) como para consola y archivos (productivo).
 
 ** Nuevo entregable
 *** DONE Hacer estrategia de rol
 *** DONE restringir vista carrito a usuario logueado
 *** DONE Restringir agregado de productos a admin
 *** TODO Hacer chequeo general del proyecto:
-**** TODO Agregar variables de entorno
+**** DONE Agregar variables de entorno
 **** TODO Chequear que la separación en capas incluya todo el proyecto
 * Notas
 

@@ -28,7 +28,7 @@ class ProductManagerMongo {
             query['category'] = parametrosBusqueda.category;
         }
 
-        let paginacion = { lean: true, leanWithId: false };
+        let paginacion = { lean: true, leanWithId: false }; // leanWithId: con esta opción evito que al transformar el objeto de mongoose en un objeto plano sobreescriba el campo id (generado por mí) con el valor del campo _id generado por mongo
         if (parametrosBusqueda.paginacion) {
             paginacion.limit = parametrosBusqueda.paginacion.limit;
             paginacion.page = parametrosBusqueda.paginacion.page;
