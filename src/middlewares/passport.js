@@ -23,9 +23,15 @@ const opcionesJwt = {
     jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor])
 };
 
+// JWT password reset
+const opcionesJwtPasswordReset = {
+    secretOrKey: JWT_KEY,
+    jwtFromRequest: ExtractJwt.fromUrlQueryParameter("token")
+};
+
 passport.use('jwt', new JwtStrategy(opcionesJwt, jwtVerificado));
 
-
+passport.use('jwtPasswordReset', new JwtStrategy(opcionesJwtPasswordReset, verificarTiempoToken));
 
 
 function cookieExtractor(req) {
@@ -44,15 +50,20 @@ async function jwtVerificado(jwt_payload, done) {
     }
 }
 
+async function verificarTiempoToken(jwt_payload, done){
+    
+}
+
+
 
 export function autenticarJwtApi(req, res, next) {
     function passportCB(error, jwt_payload, info) {
-        if (error || !jwt_payload){
+        if (error || !jwt_payload) {
             console.log('error', error);
             console.log('jwt', jwt_payload);
             return next(new Error('Error de autenticación'));
         }
-        req.user = jwt_payload;        
+        req.user = jwt_payload;
         next();
     }
 

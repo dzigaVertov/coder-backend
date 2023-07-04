@@ -16,7 +16,7 @@ class EmailService {
             to: destinatario,
             subject: subject,
             mensaje: mensaje
-        }
+        };
 
         try {
             const info = await this.#clienteNodemailer.sendMail(mailOptions);
@@ -29,6 +29,9 @@ class EmailService {
     }
 
     async sendPwdReset(emailUsuario, jwt) {
+        let mensaje;
+        // TODO: Construir mensaje de mail con URL que contiene token
+        this.send("estaEmpresa", emailUsuario, "Password Reset", mensaje);
 
     }
 

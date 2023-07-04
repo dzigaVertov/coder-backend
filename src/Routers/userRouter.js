@@ -19,4 +19,6 @@ userRouter.get('/register', (req, res) => {
     res.render('registro');
 });
 
+userRouter.get('/resetpassword', )
+
 userRouter.get('/profile', passport.authenticate('jwt', { session: false }), handleGetProfile);
