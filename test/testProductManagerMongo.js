@@ -6,7 +6,7 @@ async function cargarProductosEnLaBase(cantidad = 1) {
     const productos = crearMockProducto(cantidad);
 
     for (const pr of productos) {
-        await managerProductosMongo.addProduct(pr)
+        await managerProductosMongo.addProduct(pr);
     };
     console.log('terminado');
     return process.exit();
