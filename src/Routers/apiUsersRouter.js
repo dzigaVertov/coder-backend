@@ -7,6 +7,8 @@ export default apiUsersRouter;
 
 apiUsersRouter.post('/', usersController.postUserController);
 
+apiUsersRouter.post('/sendLink', usersController.postUserSendLinkController);
+
 apiUsersRouter.get('/:uid', usersController.getUserController);
 
 // TODO: agregar ruta de obtener usuario por búsqueda en el body

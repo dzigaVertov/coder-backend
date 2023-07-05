@@ -3,6 +3,7 @@ import { EMAIL_CONFIG } from '../config/email.config.js';
 import { construirJwt } from './sessionServices.js';
 
 
+
 class EmailService {
     #clienteNodemailer
 
@@ -15,7 +16,7 @@ class EmailService {
             from: from,
             to: destinatario,
             subject: subject,
-            mensaje: mensaje
+            text: mensaje
         };
 
         try {
@@ -29,7 +30,7 @@ class EmailService {
     }
 
     async sendPwdReset(emailUsuario, jwt) {
-        let mensaje;
+        let mensaje = "Comienzo de mensaje";
         // TODO: Construir mensaje de mail con URL que contiene token
         this.send("estaEmpresa", emailUsuario, "Password Reset", mensaje);
 

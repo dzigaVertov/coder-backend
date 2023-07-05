@@ -8,6 +8,7 @@ export default class Usuario {
     #age;
     #password;
     #role;
+    #id;
 
     constructor({ first_name, last_name, email, age, password, role }) {
         this.#first_name = valid.soloAlfabetico(valid.noVacio(first_name));

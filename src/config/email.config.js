@@ -11,14 +11,9 @@ const TEST_EMAIL_CONFIG = {
   host: 'smtp.ethereal.email',
   port: 587,
   auth: {
-    user: process.env.TEST_EMAIL_USER,
-    pass: process.env.TEST_EMAIL_PASS
+    user: 'kathlyn13@ethereal.email',
+    pass: 'ksKXmN5C76WzK4Bejk'
   }
 }
 
-export let EMAIL_CONFIG
-if (process.env.NODE_ENV === 'PROD') {
-  EMAIL_CONFIG = PROD_EMAIL_CONFIG
-} else {
-  EMAIL_CONFIG = TEST_EMAIL_CONFIG
-}
+export let EMAIL_CONFIG = TEST_EMAIL_CONFIG;

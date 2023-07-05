@@ -27,5 +27,5 @@ async function sendLink(event) {
         console.log('[login] estado inesperado: ' + status)
       }
 
-    console.log(resultadoPeticion);
+    console.log(status);
 }

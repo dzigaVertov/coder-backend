@@ -1,6 +1,6 @@
 import { usersRepository } from '../repositories/userRepository.js';
 import { construirJwt } from '../services/sessionServices.js';
-
+import { userService } from '../services/userService.js';
 
 export async function postUserController(req, res, next) {
     const datosUsuario = req.body;
@@ -16,6 +16,18 @@ export async function postUserController(req, res, next) {
         req.logger.error(`Error: ${error.message} atrapado en postUserController `);
         next(error);
     }
+}
+
+export async function postUserSendLinkController(req, res, next) {
+    const datosUsuario = req.body;
+    try {
+        const email = datosUsuario.email;
+        userService.resetPassword(email);
+        res.sendStatus(201);
+    } catch (error) {
+        next(error);
+    }
+
 }
 
 export async function getUserController(req, res, next) {

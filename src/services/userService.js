@@ -6,7 +6,7 @@ import { emailService } from './emailService.js'
 class UserService {
 
     async resetPassword(email) {
-        let datosUsuario = usersRepository.readOne({ email: email });
+        let datosUsuario = await usersRepository.readOne({ email: email });
         let horaCreacion = new Date().toDateString();
         datosUsuario['tokenTime'] = horaCreacion;
         let jwt = construirJwt(datosUsuario);
