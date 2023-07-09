@@ -16,7 +16,7 @@ class EmailService {
             from: from,
             to: destinatario,
             subject: subject,
-            text: mensaje
+            html: mensaje
         };
 
         try {
@@ -30,9 +30,14 @@ class EmailService {
     }
 
     async sendPwdReset(emailUsuario, jwt) {
-        let mensaje = "Comienzo de mensaje";
+        const mensaje = "Click en el link para establecer una nueva contraseña: \n\n";
+        const baseUrl = '<a href="http://localhost:8080/resetPassword/?token=';
+        const url = baseUrl + jwt + '"> Link de reset </a>\n\n';
+
+        const mensajeCompleto = mensaje + url;
         // TODO: Construir mensaje de mail con URL que contiene token
-        this.send("estaEmpresa", emailUsuario, "Password Reset", mensaje);
+        this.send("estaEmpresa", emailUsuario, "Password Reset", mensajeCompleto);
+
 
     }
 

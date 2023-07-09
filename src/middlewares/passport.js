@@ -5,6 +5,7 @@ import { ExtractJwt } from 'passport-jwt';
 import { JWT_KEY } from '../config/auth.config.js';
 import { chequearPassword, hashear } from '../utils/criptografia.js';
 import { usersRepository } from '../repositories/userRepository.js';
+// import { JsonWebTokenError } from 'jsonwebtoken';
 
 // LOCAL
 passport.use('local', new LocalStrategy({ usernameField: 'email' }, checkUsernamePassword));
@@ -31,7 +32,7 @@ const opcionesJwtPasswordReset = {
 
 passport.use('jwt', new JwtStrategy(opcionesJwt, jwtVerificado));
 
-passport.use('jwtPasswordReset', new JwtStrategy(opcionesJwtPasswordReset, verificarTiempoToken));
+passport.use('jwtPasswordReset', new JwtStrategy(opcionesJwtPasswordReset, jwtVerificado));
 
 
 function cookieExtractor(req) {
@@ -44,17 +45,13 @@ function cookieExtractor(req) {
 
 async function jwtVerificado(jwt_payload, done) {
     try {
+        console.log('llegamos aca');
         return done(null, jwt_payload);
     } catch (error) {
+        console.log('aca estamos');
         done(error);
     }
 }
-
-async function verificarTiempoToken(jwt_payload, done){
-    
-}
-
-
 
 export function autenticarJwtApi(req, res, next) {
     function passportCB(error, jwt_payload, info) {
@@ -64,6 +61,7 @@ export function autenticarJwtApi(req, res, next) {
             return next(new Error('Error de autenticación'));
         }
         req.user = jwt_payload;
+        console.log('la autenticacion pasa');
         next();
     }
 

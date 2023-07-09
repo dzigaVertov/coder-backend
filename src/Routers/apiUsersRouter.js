@@ -1,13 +1,20 @@
 import { Router } from 'express';
 import * as usersController from '../controllers/userController.js';
+import { autenticarJwtApi } from '../middlewares/passport.js';
 
 const apiUsersRouter = Router();
 export default apiUsersRouter;
 
+function middlePrueba(req, res, next) {
+    console.log('llega la peticion', req);
+    next();
+}
 
 apiUsersRouter.post('/', usersController.postUserController);
 
 apiUsersRouter.post('/sendLink', usersController.postUserSendLinkController);
+
+apiUsersRouter.post('/newpassword', middlePrueba, autenticarJwtApi, usersController.postUserNewPassController);
 
 apiUsersRouter.get('/:uid', usersController.getUserController);
 

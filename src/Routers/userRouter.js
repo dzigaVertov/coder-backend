@@ -19,8 +19,12 @@ userRouter.get('/register', (req, res) => {
     res.render('registro');
 });
 
-userRouter.get('/resetpassword', (req, res) => {
-    res.render('resetpassword');
+userRouter.get('/sendPasswordEmail', (req, res) => {
+    res.render('sendPasswordEmail');
 });
+
+userRouter.get('/resetPassword', passport.authenticate('jwtPasswordReset', { session: false }), (req, res) => { res.render('resetPassword'); });
+
+
 
 userRouter.get('/profile', passport.authenticate('jwt', { session: false }), handleGetProfile);

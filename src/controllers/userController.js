@@ -22,7 +22,20 @@ export async function postUserSendLinkController(req, res, next) {
     const datosUsuario = req.body;
     try {
         const email = datosUsuario.email;
-        userService.resetPassword(email);
+        userService.sendResetPassMail(email);
+        res.sendStatus(201);
+    } catch (error) {
+        next(error);
+    }
+
+}
+
+export async function postUserNewPassController(req, res, next) {
+    try {
+        const datosUsuario = req.user;
+        const newPass = req.body.password;
+
+        const passwordActualizado = userService.resetPassword(datosUsuario, newPass);
         res.sendStatus(201);
     } catch (error) {
         next(error);

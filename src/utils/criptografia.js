@@ -11,6 +11,6 @@ export function chequearPassword(aChequear, passHasheado) {
     return compareSync(aChequear, passHasheado);
 }
 
-export function encriptarJwt(user){
-    return jwt.sign(user, JWT_KEY);
+export function encriptarJwt(user, options={}){
+    return jwt.sign(user, JWT_KEY, options);
 }
