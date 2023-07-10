@@ -34,8 +34,10 @@ export async function postUserNewPassController(req, res, next) {
     try {
         const datosUsuario = req.user;
         const newPass = req.body.password;
-
+        console.log('en el controller');
         const passwordActualizado = userService.resetPassword(datosUsuario, newPass);
+        // logging out the user:
+        res.clearCookie('jwt', { maxAge: 100000, httpOnly: true, signed: true });
         res.sendStatus(201);
     } catch (error) {
         next(error);

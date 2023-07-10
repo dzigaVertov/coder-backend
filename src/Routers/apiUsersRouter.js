@@ -1,12 +1,14 @@
 import { Router } from 'express';
 import * as usersController from '../controllers/userController.js';
-import { autenticarJwtApi } from '../middlewares/passport.js';
-
+import { autenticarJwtApi, autenticarReset } from '../middlewares/passport.js';
+import passport from 'passport';
 const apiUsersRouter = Router();
 export default apiUsersRouter;
 
 function middlePrueba(req, res, next) {
-    console.log('llega la peticion', req);
+    console.log('llega la peticion');
+    console.log(req.query);
+    console.log(req.baseUrl);
     next();
 }
 
@@ -14,7 +16,7 @@ apiUsersRouter.post('/', usersController.postUserController);
 
 apiUsersRouter.post('/sendLink', usersController.postUserSendLinkController);
 
-apiUsersRouter.post('/newpassword', middlePrueba, autenticarJwtApi, usersController.postUserNewPassController);
+apiUsersRouter.post('/newpassword', passport.authenticate('jwt', { session: false }), usersController.postUserNewPassController);
 
 apiUsersRouter.get('/:uid', usersController.getUserController);
 

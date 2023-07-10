@@ -12,9 +12,11 @@ async function resetSubmit(event) {
     if (!(pwd1 instanceof HTMLInputElement) ||
         !(pwd2 instanceof HTMLInputElement) ||
         (pwd1.value !== pwd2.value)) {
+        
         return
     };
-
+    
+    
     const { status } = await fetch('/api/users/newpassword', {
         method: 'POST',
         headers: {

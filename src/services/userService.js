@@ -18,7 +18,8 @@ class UserService {
             throw new Error('El password no puede ser el ya utilizdo');
         }
         const newPassHasheado = hashear(newPass);
-        const updated = usersRepository.updateOne({ email: user.email }, { password: newPassHasheado });
+        const updated = await usersRepository.updateOne({ email: user.email }, { password: newPassHasheado });
+        console.log('updated: ', updated);
         return updated;
     }
 }

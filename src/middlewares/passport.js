@@ -45,23 +45,33 @@ function cookieExtractor(req) {
 
 async function jwtVerificado(jwt_payload, done) {
     try {
-        console.log('llegamos aca');
         return done(null, jwt_payload);
     } catch (error) {
-        console.log('aca estamos');
         done(error);
     }
+}
+
+
+export function autenticarReset(req, res, next) {
+    function passportCB(error, jwt_payload, info) {
+        if (error || !jwt_payload) {
+            console.log('error pasado al callback', error);
+            return next(new Error('Error de autenticación'));
+        }
+        req.user = jwt_payload;
+        next();
+    }
+
+    const auth_middleware_api = passport.authenticate('jwtPasswordReset', { session: false }, passportCB);
+    auth_middleware_api(req, res, next);
 }
 
 export function autenticarJwtApi(req, res, next) {
     function passportCB(error, jwt_payload, info) {
         if (error || !jwt_payload) {
-            console.log('error', error);
-            console.log('jwt', jwt_payload);
             return next(new Error('Error de autenticación'));
         }
         req.user = jwt_payload;
-        console.log('la autenticacion pasa');
         next();
     }
 
