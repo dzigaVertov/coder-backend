@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 import { handleGetProfile, handleGetResetPassword } from '../controllers/userWebController.js';
+import { autenticarReset } from '../middlewares/passport.js';
 // import { autenticarJwtView } from '../middlewares/passport.js';
 
 
@@ -23,7 +24,7 @@ userRouter.get('/sendPasswordEmail', (req, res) => {
     res.render('sendPasswordEmail');
 });
 
-userRouter.get('/resetPassword', passport.authenticate('jwtPasswordReset', { session: false }), handleGetResetPassword);
+userRouter.get('/resetPassword', autenticarReset, handleGetResetPassword);
 
 
 

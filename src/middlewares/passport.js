@@ -5,6 +5,8 @@ import { ExtractJwt } from 'passport-jwt';
 import { JWT_KEY } from '../config/auth.config.js';
 import { chequearPassword, hashear } from '../utils/criptografia.js';
 import { usersRepository } from '../repositories/userRepository.js';
+import { logger } from '../utils/logger.js';
+import { ExpiredTokenError } from '../models/errors/ExpiredToken.error.js';
 // import { JsonWebTokenError } from 'jsonwebtoken';
 
 // LOCAL
@@ -47,6 +49,7 @@ async function jwtVerificado(jwt_payload, done) {
     try {
         return done(null, jwt_payload);
     } catch (error) {
+        console.log(error);
         done(error);
     }
 }
@@ -54,9 +57,17 @@ async function jwtVerificado(jwt_payload, done) {
 
 export function autenticarReset(req, res, next) {
     function passportCB(error, jwt_payload, info) {
-        if (error || !jwt_payload) {
-            console.log('error pasado al callback', error);
+
+        if (error) {
+            logger.error(`Error: ${error.message} atrapado en callback de autendicación - ${new Date().toLocaleString()} `);
             return next(new Error('Error de autenticación'));
+        }
+
+        if (!jwt_payload) {
+            if (info.name === 'TokenExpiredError') {
+                logger.debug(`Token expirado atrapado en callback de autenticación - ${new Date().toLocaleString()} `);
+                return next(new ExpiredTokenError('Token de Password reset expirado'));
+            }
         }
         req.user = jwt_payload;
         next();

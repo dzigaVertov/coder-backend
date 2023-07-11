@@ -8,7 +8,7 @@ class UserService {
 
     async sendResetPassMail(email) {
         let datosUsuario = await usersRepository.readOne({ email: email });
-        const options = { expiresIn: 6000 };
+        const options = { expiresIn: 1 };
         let jwt = await construirJwt(datosUsuario, options);
         emailService.sendPwdReset(email, jwt);
     }

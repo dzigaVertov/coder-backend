@@ -2,6 +2,7 @@ import { InvalidArgumentError } from '../models/errors/InvalidArgument.error.js'
 import { NotFoundError } from '../models/errors/NotFound.error.js';
 
 export async function apiErrorHandler(error, req, res, next) {
+    
     switch (true) {
         case error instanceof InvalidArgumentError:
             res.status(400);
