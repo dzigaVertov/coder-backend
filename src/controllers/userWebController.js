@@ -12,10 +12,11 @@ export async function handleGetProfile(req, res, next) {
 export async function handleGetResetPassword(req, res, next) {
     try {
         const usuario = req.user;
+        const { message } = req.query;
         const jwtoken = await construirJwt(usuario);
         req.logger.info(`Creado jwtoken en userWebController - ${new Date().toLocaleString()}`);
         res.cookie('jwt', jwtoken, { maxAge: 100000, httpOnly: true, signed: true });
-        res.render('resetPassword');
+        res.render('resetPassword', { message });
 
     } catch (error) {
         next(error);

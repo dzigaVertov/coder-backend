@@ -12,11 +12,11 @@ async function resetSubmit(event) {
     if (!(pwd1 instanceof HTMLInputElement) ||
         !(pwd2 instanceof HTMLInputElement) ||
         (pwd1.value !== pwd2.value)) {
-        
+
         return
     };
-    
-    
+
+
     const { status } = await fetch('/api/users/newpassword', {
         method: 'POST',
         headers: {
@@ -26,9 +26,12 @@ async function resetSubmit(event) {
         body: JSON.stringify({ password: pwd1.value })
     });
 
-
     if ([200, 201].includes(status)) {
         window.location.href = '/login';
     }
+    if (status === 400) {
+        window.location.href = '/resetPassword?message=Debe elegir un password distinto';
+    }
+
 }
 

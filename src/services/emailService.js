@@ -23,7 +23,6 @@ class EmailService {
             const info = await this.#clienteNodemailer.sendMail(mailOptions);
             return info;
         } catch (error) {
-            console.log(error);
             throw error;
         }
 

@@ -28,6 +28,4 @@ userRouter.get('/resetPassword', autenticarReset, handleGetResetPassword);
 
 
 
-
-
 userRouter.get('/profile', passport.authenticate('jwt', { session: false }), handleGetProfile);

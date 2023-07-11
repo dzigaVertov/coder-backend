@@ -29,7 +29,7 @@ const opcionesJwt = {
 // JWT password reset
 const opcionesJwtPasswordReset = {
     secretOrKey: JWT_KEY,
-    jwtFromRequest: ExtractJwt.fromUrlQueryParameter("token")
+    jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor, ExtractJwt.fromUrlQueryParameter("token")])
 };
 
 passport.use('jwt', new JwtStrategy(opcionesJwt, jwtVerificado));

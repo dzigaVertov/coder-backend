@@ -19,7 +19,6 @@ export async function handleRegistro(req, res, next) {
         res.cookie('jwt', jwtoken, { maxAge: 100000, httpOnly: true, signed: true });
         res.sendStatus(201);
     } catch (error) {
-        console.log(error);
         next(error);
     }
 }

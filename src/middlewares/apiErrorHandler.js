@@ -13,7 +13,7 @@ export async function apiErrorHandler(error, req, res, next) {
             return;
         case error instanceof RepeatedPasswordError:
             req.logger.debug('Redirecting in apiErrorHandler');
-            res.redirect(307, '/login');
+            res.status(400).send('password repetido'); //redirect(307, '/resetPassword');
             return;
 
 

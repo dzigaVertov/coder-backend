@@ -5,6 +5,7 @@ import { emailService } from './emailService.js';
 import { chequearPassword, hashear } from '../utils/criptografia.js';
 import { RepeatedPasswordError } from '../models/errors/RepeatedPassword.error.js';
 import { PASSWORD_RESET_EXP_TIME } from '../config/auth.config.js';
+import { logger } from '../utils/logger.js';
 
 class UserService {
 
@@ -21,6 +22,7 @@ class UserService {
         }
         const newPassHasheado = hashear(newPass);
         const updated = await usersRepository.updateOne({ email: user.email }, { password: newPassHasheado });
+        logger.debug('Password actualizado en UserService');
         console.log('updated: ', updated);
         return updated;
     }
