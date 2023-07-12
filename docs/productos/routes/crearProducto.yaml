@@ -9,11 +9,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/requestBodies/DatosCrearMascota'
+              $ref: '#/components/requestBodies/NewProduct'
       responses:
         "201":
-          description: La mascota creada.
+          description: El producto creado.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Mascota'
+                $ref: '#/components/schemas/Product'

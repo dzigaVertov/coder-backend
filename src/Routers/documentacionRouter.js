@@ -16,6 +16,7 @@ const options = {
 };
 
 const specs = swaggerJsdoc(options);
+console.log(specs);
 
 export const docsRouter = Router();
 
