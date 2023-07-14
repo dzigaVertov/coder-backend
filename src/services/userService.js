@@ -6,8 +6,18 @@ import { chequearPassword, hashear } from '../utils/criptografia.js';
 import { RepeatedPasswordError } from '../models/errors/RepeatedPassword.error.js';
 import { PASSWORD_RESET_EXP_TIME } from '../config/auth.config.js';
 import { logger } from '../utils/logger.js';
+import { cartRepository } from '../repositories/cartRepository.js';
 
 class UserService {
+
+    async crearUsuario(datosUsuario) {
+        datosUsuario.password = hashear(datosUsuario.password);
+        const usuarioCreado = await usersRepository.create(datosUsuario);
+        const cartUsuario = await cartRepository.create(usuarioCreado.id);
+        const usuarioCompleto = await usersRepository.findOneAndUpdate({ id: usuarioCreado.id }, { cart: cartUsuario.id });
+        return usuarioCompleto;
+
+    }
 
     async sendResetPassMail(email) {
         let datosUsuario = await usersRepository.readOne({ email: email });
@@ -26,6 +36,7 @@ class UserService {
         console.log('updated: ', updated);
         return updated;
     }
+
 }
 
 export const userService = new UserService();

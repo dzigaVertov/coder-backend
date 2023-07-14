@@ -19,8 +19,8 @@ export class BaseRepository {
     }
 
     async readOne(query, options) {
-        const queryResult = await this.#dao.readOne(query);
         logger.debug(`Objecto leído en BaseRepository - ${new Date().toLocaleDateString()}`);
+        const queryResult = await this.#dao.readOne(query);
         return queryResult;
     }
 
@@ -38,7 +38,7 @@ export class BaseRepository {
 
     async findOneAndUpdate(query, newData, options) {
         const daoUpdated = await this.#dao.findOneAndUpdate(query, newData);
-        const domainUpdated = new this.#domainModel(daoUpdated);
+        const domainUpdated = new this.#domainModel(daoUpdated).datos();
         return domainUpdated;
     }
 

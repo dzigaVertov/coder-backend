@@ -1,13 +1,12 @@
 import { BaseRepository } from './baseRepository.js';
 import { cartsDao } from '../DAO/persistenciaFactory.js';
 import { Cart } from '../models/cartModel.js';
-import { cartManagerMongo } from '../DAO/CartManagerMongo.js';
+
 
 class CartRepository extends BaseRepository {
     constructor(dao, cartModel) {
         super(dao, cartModel);
     }
-
 
     async getCarts() {
         super.dao.getCarts();

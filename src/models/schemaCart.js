@@ -4,7 +4,7 @@ const cartsCollection = 'carts';
 const schemaCart = new mongoose.Schema(
     {
         productos: [
-            {                
+            {
                 _id: {
                     type: Schema.Types.ObjectId,
                     ref: 'productos'
@@ -13,10 +13,10 @@ const schemaCart = new mongoose.Schema(
             }
         ],
         cartOwner: {
-            type: Schema.Types.ObjectId,
+            type: String,
             ref: 'usuarios'
         },
-        cartCode: {type: String, required: true}        
+        id: { type: String, required: true }
     },
     { versionKey: false }
 );

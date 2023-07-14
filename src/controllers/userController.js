@@ -1,12 +1,13 @@
 import { usersRepository } from '../repositories/userRepository.js';
+import { cartService } from '../services/cartService.js';
 import { construirJwt } from '../services/sessionServices.js';
 import { userService } from '../services/userService.js';
 
 export async function postUserController(req, res, next) {
-    const datosUsuario = req.body;
 
     try {
-        const usuario = await usersRepository.create(datosUsuario);
+        const datosUsuario = req.body;
+        const usuario = await userService.crearUsuario(datosUsuario);
         const jwtoken = await construirJwt(usuario);
         req.logger.info(`Creado jwtoken en postUserController - ${new Date().toLocaleString()}`);
         res.cookie('jwt', jwtoken, { maxAge: 100000, httpOnly: true, signed: true });
@@ -24,6 +25,20 @@ export async function postUserSendLinkController(req, res, next) {
         const email = datosUsuario.email;
         userService.sendResetPassMail(email);
         res.sendStatus(201);
+    } catch (error) {
+        next(error);
+    }
+
+}
+
+export async function postAddToCartController(req, res, next) {
+    try {
+        const pid = req.params.pid;
+        const user = req.user;
+        const cartId = user.cartId;
+        cartService.agregarProducto(cartId, pid);
+        res.status(201);
+
     } catch (error) {
         next(error);
     }

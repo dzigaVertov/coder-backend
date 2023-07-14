@@ -3,20 +3,20 @@ import * as valid from '../utils/validacion.js';
 
 export class Cart {
     #cartOwner;
-    #cartCode;
+    #id;
     #productos;
 
     constructor(owner) {
         this.#cartOwner = valid.noVacio(owner);
         this.#productos = [];
-        this.#cartCode = randomUUID();
+        this.#id = randomUUID();
     }
 
     datos() {
         return {
             cartOwner: this.#cartOwner,
             productos: this.#productos,
-            cartCode: this.#cartCode
+            id: this.#id
         };
     }
 }

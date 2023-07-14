@@ -9,8 +9,9 @@ export default class Usuario {
     #password;
     #role;
     #id;
+    #cart;
 
-    constructor({ first_name, last_name, email, age, password, role }) {
+    constructor({ first_name, last_name, email, age, password, role, cart }) {
         this.#first_name = valid.soloAlfabetico(valid.noVacio(first_name));
         this.#last_name = valid.soloAlfabetico(valid.noVacio(last_name));
         this.#email = valid.esMail(valid.noVacio(email));
@@ -19,6 +20,7 @@ export default class Usuario {
         age = parseInt(age);
         this.#age = valid.positivo(valid.entero(valid.noVacio(age)));
         this.#id = randomUUID();
+        this.#cart = cart;
     }
 
     get_email() { return this.#email; }
@@ -43,7 +45,8 @@ export default class Usuario {
             password: this.#password,
             age: this.#age,
             role: this.#role,
-            id: this.#id
+            id: this.#id,
+            cart: this.#cart
         };
     }
 

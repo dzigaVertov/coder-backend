@@ -76,7 +76,7 @@
 ***** DONE Armar router de producto aislado
 ***** DONE Poner link a producto solo.
 ***** DONE Poner botón de agregar a carrito en producto solo.
-***** TODO Poner botón de agregar carrito en producto lista.
+***** TODO Poner botón de agregar a carrito en producto lista.
 **** TODO  Además de un botón para agregar al carrito.
 **** TODO Contar con el botón de “agregar al carrito” directamente, sin necesidad de abrir una página adicional con los detalles del producto.
 *** TODO  Además, agregar una vista en ‘/carts/:cid (cartId) parakd visualizar un carrito específico, donde se deberán listar SOLO los productos que pertenezcan a dicho carrito.   
@@ -224,9 +224,9 @@
 *** DONE Hacer estrategia de rol
 *** DONE restringir vista carrito a usuario logueado
 *** DONE Restringir agregado de productos a admin
-*** TODO Hacer chequeo general del proyecto:
+*** DONE Hacer chequeo general del proyecto:
 **** DONE Agregar variables de entorno
-**** TODO Chequear que la separación en capas incluya todo el proyecto
+**** DONE Chequear que la separación en capas incluya todo el proyecto
 
 ** Tercera práctica integradora
 

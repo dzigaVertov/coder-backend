@@ -6,10 +6,7 @@ const schemaUsuario = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     age: { type: Number, required: true },
     password: { type: String, required: true }, // hasheado
-    cart: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'cartsCollection'
-    },
+    cart: { type: String },
     role: { type: String, enum: ['user', 'admin'], required: true, default: 'user' },
     id: { type: String }
 

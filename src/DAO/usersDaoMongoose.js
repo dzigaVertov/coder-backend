@@ -41,10 +41,11 @@ class UsersDaoMongoose {
     }
 
     async findOneAndUpdate(query, newData) {
-        let result = this.#db.findOneAndUpdate(query, newData).lean();
+        let result = await this.#db.findOneAndUpdate(query, newData, { new: true }).lean();
         if (!result) throw new NotFoundError('Usuario no encontrado');
         logger.debug(`find and update user en DAO - ${new Date().toLocaleDateString()}`);
         delete (result._id);
+        console.log(result);
         return result;
     }
 

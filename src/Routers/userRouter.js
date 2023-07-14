@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 import { handleGetProfile, handleGetResetPassword } from '../controllers/userWebController.js';
-import { autenticarReset } from '../middlewares/passport.js';
+import { autenticarJwtView, autenticarReset } from '../middlewares/passport.js';
 // import { autenticarJwtView } from '../middlewares/passport.js';
 
 
@@ -28,4 +28,4 @@ userRouter.get('/resetPassword', autenticarReset, handleGetResetPassword);
 
 
 
-userRouter.get('/profile', passport.authenticate('jwt', { session: false }), handleGetProfile);
+userRouter.get('/profile', autenticarJwtView, handleGetProfile);

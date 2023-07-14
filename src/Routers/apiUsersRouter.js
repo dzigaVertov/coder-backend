@@ -2,6 +2,7 @@ import { Router } from 'express';
 import * as usersController from '../controllers/userController.js';
 import { autenticarJwtApi, autenticarReset } from '../middlewares/passport.js';
 import passport from 'passport';
+import { soloLogueado } from '../middlewares/autorizacion.js';
 const apiUsersRouter = Router();
 export default apiUsersRouter;
 
@@ -15,6 +16,8 @@ function middlePrueba(req, res, next) {
 apiUsersRouter.post('/', usersController.postUserController);
 
 apiUsersRouter.post('/sendLink', usersController.postUserSendLinkController);
+
+apiUsersRouter.post('/addtocart/:pid', autenticarJwtApi, soloLogueado, usersController.postAddToCartController);
 
 apiUsersRouter.post('/newpassword', passport.authenticate('jwt', { session: false }), usersController.postUserNewPassController);
 
