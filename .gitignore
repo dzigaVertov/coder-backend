@@ -32,3 +32,5 @@ servidor.js~
 /infoProductionServer.log
 /src/DAO/#CartManagerMongo.js#
 /src/DAO/.#CartManagerMongo.js
+*.log
+testDebug.log

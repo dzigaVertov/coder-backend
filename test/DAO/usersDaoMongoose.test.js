@@ -81,6 +81,97 @@ describe('DAO de Users Mongoose', () => {
 
         })
     })
+
+    describe('updateOne', () => {
+        beforeEach(async () => {
+            await usersDaoMongoose.create(USUARIO_TEST.inputCorrecto);
+
+        });
+
+        it('Actualiza los campos de un y solo un usuario', async () => {
+            const name = USUARIO_TEST.inputCorrecto.first_name;
+            const resultado = await usersDaoMongoose.updateOne({ first_name: name }, { age: 89 });
+            assert.equal(resultado.matchedCount, 1);
+            let actualizadoEnDb = await fetchFromMongoDb({ first_name: name }, 'usuarios');
+            let actualizadoCorrecto = { ...USUARIO_TEST.inputCorrecto };
+            actualizadoCorrecto.age = 89;
+            assert.deepEqual(actualizadoEnDb, actualizadoCorrecto);
+
+        });
+        it('Lanza un error NotFoundError si no encuentra el usuario', async () => {
+            assert.rejects(usersDaoMongoose.updateOne({ first_name: 'Marilina' }, { age: 27 }), NotFoundError);
+        });
+    })
+
+    describe('updateMany', () => {
+        beforeEach(async () => {
+            await usersDaoMongoose.create(USUARIO_TEST.inputCorrecto);
+            await usersDaoMongoose.create(USUARIO_TEST_2.inputCorrecto);
+        })
+        it('Actualiza los campos de uno o más usuarios', async () => {
+            const resultado = await usersDaoMongoose.updateMany({ role: "user" }, { first_name: 'Atahualpa' });
+            assert.equal(resultado.matchedCount, 2);
+            let actualizadoCorrecto1 = { ...USUARIO_TEST.inputCorrecto, first_name: 'Atahualpa' };
+            let actualizadoCorrecto2 = { ...USUARIO_TEST_2.inputCorrecto, first_name: 'Atahualpa' };
+            const recuperados = await usersDaoMongoose.readMany({ first_name: 'Atahualpa' }, 'usuarios');
+            assert.deepEqual([actualizadoCorrecto1, actualizadoCorrecto2], recuperados);
+        });
+        it('Lanza un NotFoundError si no encuentra ningún usuario', async () => {
+            assert.rejects(usersDaoMongoose.updateMany({ first_name: 'Fernandito' }, { last_name: 'De La Rúa' }), NotFoundError);
+        });
+    })
+
+    describe('findOneAndUpdate', () => {
+        beforeEach(async () => {
+            await usersDaoMongoose.create(USUARIO_TEST.inputCorrecto);
+
+        });
+
+        it('Actualiza los campos de un y solo un usuario y lo devuelve actualizado', async () => {
+            const name = USUARIO_TEST.inputCorrecto.first_name;
+            const usuariodevuelto = await usersDaoMongoose.findOneAndUpdate({ first_name: name }, { age: 89 });
+            let actualizadoEnDb = await fetchFromMongoDb({ first_name: name }, 'usuarios');
+            let actualizadoCorrecto = { ...USUARIO_TEST.inputCorrecto, age: 89 };
+
+            assert.deepEqual(actualizadoEnDb, actualizadoCorrecto);
+            assert.deepEqual(usuariodevuelto, actualizadoCorrecto);
+
+        });
+        it('Lanza un error NotFoundError si no encuentra el usuario', async () => {
+            assert.rejects(usersDaoMongoose.findOneAndUpdate({ first_name: 'Marilina' }, { age: 27 }), NotFoundError);
+        });
+    });
+
+    describe('deleteOne', () => {
+        beforeEach(async () => {
+            await usersDaoMongoose.create(USUARIO_TEST.inputCorrecto);
+
+        });
+
+        it('Elimina un usuario de la base y lo devuelve', async () => {
+            const nombre = USUARIO_TEST.inputCorrecto.first_name;
+            const usuarioDevuelto = await usersDaoMongoose.deleteOne({ first_name: nombre });
+            assert.deepEqual(usuarioDevuelto, USUARIO_TEST.inputCorrecto);
+            assert.rejects(usersDaoMongoose.readOne({ first_name: nombre }), NotFoundError);
+        })
+
+        it('Lanza un error NotFoundError si no encuentra el usuario', async () => {
+            assert.rejects(usersDaoMongoose.deleteOne({ first_name: 'xxxxxxxx' }), NotFoundError);
+        })
+
+    });
+
+    describe('deleteMany', () => {
+        beforeEach(async () => {
+            await usersDaoMongoose.create(USUARIO_TEST.inputCorrecto);
+            await usersDaoMongoose.create(USUARIO_TEST_2.inputCorrecto);
+        })
+        it('Elimina uno o más usuarios de la base', async () => {
+            const result = await usersDaoMongoose.deleteMany({ role: 'user' });
+            assert.equal(result.deletedCount, 2);
+            assert.rejects(usersDaoMongoose.readMany({}), NotFoundError);
+        })
+    });
 })
 
 

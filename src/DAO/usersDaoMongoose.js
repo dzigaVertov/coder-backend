@@ -78,7 +78,7 @@ class UsersDaoMongoose {
     }
 
     async deleteMany(query) {
-        await this.#db.deleteMany(query);
+        return await this.#db.deleteMany(query);
     }
 
 }
