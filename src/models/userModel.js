@@ -61,4 +61,107 @@ export default class Usuario {
     }
 }
 
+export const USUARIO_TEST = {
+    inputCorrecto: {
+        first_name: 'Marcelo',
+        last_name: 'Ortega',
+        email: 'marceloortega@gmail.com',
+        age: 75,
+        role: 'user',
+        password: '123'
+    },
+    rolIncorrecto: {
+        first_name: 'Marcelo',
+        last_name: 'Ortega',
+        email: 'marceloortega@gmail.com',
+        age: 75,
+        role: 'hacker',
+        password: '123'
+    },
+    mailIncorrecto: {
+        first_name: 'Marcelo',
+        last_name: 'Ortega',
+        email: 'www.google.com',
+        age: 75,
+        role: 'user',
+        password: '123'
+    },
+    ageIncorrecto: {
+        first_name: 'Marcelo',
+        last_name: 'Ortega',
+        email: 'marceloortega@gmail.com',
+        age: 'viejito',
+        role: 'user',
+        password: '123'
+    },
+    dto: {
+        first_name: 'Marcelo',
+        last_name: 'Ortega',
+        email: 'marceloortega@gmail.com',
+        age: 75,
+        role: 'user'
+    },
+    datos: {
+        first_name: 'Marcelo',
+        last_name: 'Ortega',
+        email: 'marceloortega@gmail.com',
+        age: 75,
+        role: 'user',
+        password: '123'
+    }
+
+}
+
+
+export const USUARIO_TEST_2 = {
+    inputCorrecto: {
+        first_name: 'Bruno',
+        last_name: 'Lopez',
+        email: 'brunolopez@gmail.com',
+        age: 75,
+        role: 'user',
+        password: '123'
+    },
+    rolIncorrecto: {
+        first_name: 'Bruno',
+        last_name: 'Lopez',
+        email: 'brunolopez@gmail.com',
+        age: 75,
+        role: 'hacker',
+        password: '123'
+    },
+    mailIncorrecto: {
+        first_name: 'Bruno',
+        last_name: 'Lopez',
+        email: 'www.google.com',
+        age: 75,
+        role: 'user',
+        password: '123'
+    },
+    ageIncorrecto: {
+        first_name: 'Bruno',
+        last_name: 'Lopez',
+        email: 'brunolopez@gmail.com',
+        age: 'viejito',
+        role: 'user',
+        password: '123'
+    },
+    dto: {
+        first_name: 'Bruno',
+        last_name: 'Lopez',
+        email: 'brunolopez@gmail.com',
+        age: 75,
+        role: 'user'
+    },
+    datos: {
+        first_name: 'Bruno',
+        last_name: 'Lopez',
+        email: 'brunolopez@gmail.com',
+        age: 75,
+        role: 'user',
+        password: '123'
+    }
+
+}
+
 

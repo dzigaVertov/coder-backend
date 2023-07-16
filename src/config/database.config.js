@@ -1,1 +1,1 @@
-export const PERSISTENCIA = process.argv[2];
+export const PERSISTENCIA = process.argv[2] || 'mongoose';

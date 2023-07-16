@@ -1,6 +1,6 @@
-import mongoose from '../src/database/mongoose.js';
-import { managerProductosMongo } from "../src/DAO/ProductManagerMongo.js";
-import { crearMockProducto } from "../src/mocks/productMock.js";
+import mongoose from '../../src/database/mongoose.js';
+import { managerProductosMongo } from "../../src/DAO/ProductManagerMongo.js";
+import { crearMockProducto } from "../../src/mocks/productMock.js";
 
 async function cargarProductosEnLaBase(cantidad = 1) {
     const productos = crearMockProducto(cantidad);

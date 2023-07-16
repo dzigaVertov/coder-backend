@@ -1,5 +1,7 @@
-import mongoose from '../database/mongoose.js';
+//import mongoose from '../database/mongoose.js';
 import { NotFoundError } from '../models/errors/NotFound.error.js';
+import { InvalidOperationError } from '../models/errors/InvalidOperation.error.js';
+import { InvalidArgumentError } from '../models/errors/InvalidArgument.error.js';
 import { usuarioSchemaModel } from '../models/schemaUsuario.js';
 import { toPojo } from '../utils/topojo.js';
 import { logger } from '../utils/logger.js';
@@ -12,10 +14,22 @@ class UsersDaoMongoose {
     }
 
     async create(newUser) {
-        const userCreado = toPojo(await this.#db.create(newUser));
-        logger.debug(`User creado en DAO - ${new Date().toLocaleDateString()}`);
-        delete (userCreado._id);
-        return userCreado;
+        try {
+            const userCreado = toPojo(await this.#db.create(newUser));
+            logger.debug(`User creado en DAO - ${new Date().toLocaleDateString()}`);
+            delete userCreado._id;
+            return userCreado;
+
+        } catch (error) {
+            // Duplicate key
+            if (error.code === 11000) {
+                throw new InvalidOperationError('El usuario ya existe');
+            }
+            if (error.name === 'ValidationError') {
+                throw new InvalidArgumentError(error.message);
+            }
+            throw error;
+        }
     }
 
     async readOne(query) {
@@ -27,7 +41,7 @@ class UsersDaoMongoose {
     }
 
     async readMany(query) {
-        const queryResult = await this.#db.find(query).lean();
+        const queryResult = await this.#db.find(query).select({ _id: 0 }).lean();
         if (!queryResult) throw new NotFoundError('Usuario no encontrado');
         logger.debug(`readMany en DAO Users - ${new Date().toLocaleDateString()}`);
         return queryResult;
@@ -45,7 +59,6 @@ class UsersDaoMongoose {
         if (!result) throw new NotFoundError('Usuario no encontrado');
         logger.debug(`find and update user en DAO - ${new Date().toLocaleDateString()}`);
         delete (result._id);
-        console.log(result);
         return result;
     }
 
