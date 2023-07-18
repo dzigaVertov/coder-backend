@@ -7,6 +7,7 @@ import { RepeatedPasswordError } from '../models/errors/RepeatedPassword.error.j
 import { PASSWORD_RESET_EXP_TIME } from '../config/auth.config.js';
 import { logger } from '../utils/logger.js';
 import { cartRepository } from '../repositories/cartRepository.js';
+import { DatosConsultaUsuario } from '../models/dtos/DatosConsultaUsuario.js';
 
 class UserService {
 
@@ -15,7 +16,8 @@ class UserService {
         const usuarioCreado = await usersRepository.create(datosUsuario);
         const cartUsuario = await cartRepository.create(usuarioCreado.id);
         const usuarioCompleto = await usersRepository.findOneAndUpdate({ id: usuarioCreado.id }, { cart: cartUsuario.id });
-        return usuarioCompleto;
+
+        return new DatosConsultaUsuario(usuarioCompleto);
 
     }
 

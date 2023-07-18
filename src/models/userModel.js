@@ -56,7 +56,9 @@ export default class Usuario {
             last_name: this.#last_name,
             email: this.#email,
             age: this.#age,
-            role: this.#role
+            role: this.#role,
+            id: this.#id,
+            cart: this.#cart
         };
     }
 }
@@ -101,7 +103,6 @@ export const USUARIO_TEST = {
         first_name: 'Marcelo',
         last_name: 'Ortega',
         email: 'marceloortega@gmail.com',
-        age: 75,
         role: 'user'
     },
     datos: {
@@ -157,7 +158,6 @@ export const USUARIO_TEST_2 = {
         first_name: 'Bruno',
         last_name: 'Lopez',
         email: 'brunolopez@gmail.com',
-        age: 75,
         role: 'user'
     },
     datos: {

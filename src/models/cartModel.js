@@ -19,4 +19,12 @@ export class Cart {
             id: this.#id
         };
     }
+
+    dto() {
+        return {
+            cartOwner: this.#cartOwner,
+            productos: this.#productos,
+            id: this.#id
+        };
+    }
 }

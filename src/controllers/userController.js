@@ -2,16 +2,18 @@ import { usersRepository } from '../repositories/userRepository.js';
 import { cartService } from '../services/cartService.js';
 import { construirJwt } from '../services/sessionServices.js';
 import { userService } from '../services/userService.js';
+import { toPojo } from '../utils/topojo.js';
 
 export async function postUserController(req, res, next) {
 
     try {
         const datosUsuario = req.body;
-        const usuario = await userService.crearUsuario(datosUsuario);
+        const usuario = toPojo(await userService.crearUsuario(datosUsuario));
+
         const jwtoken = await construirJwt(usuario);
         req.logger.info(`Creado jwtoken en postUserController - ${new Date().toLocaleString()}`);
         res.cookie('jwt', jwtoken, { maxAge: 100000, httpOnly: true, signed: true });
-        res.sendStatus(201);
+        res.status(201).json(usuario);
 
     } catch (error) {
         req.logger.error(`Error: ${error.message} atrapado en postUserController `);

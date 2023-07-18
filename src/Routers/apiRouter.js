@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import apiSessionsRouter from './apiSessionsRouter.js'
+import apiSessionsRouter from './apiSessionsRouter.js';
 import apiCartsRouter from './apiCartsRouter.js';
 import apiProductsRouter from './apiProductsRouter.js';
 import apiUsersRouter from './apiUsersRouter.js';

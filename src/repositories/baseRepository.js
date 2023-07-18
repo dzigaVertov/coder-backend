@@ -15,7 +15,7 @@ export class BaseRepository {
         const domainObject = new this.#domainModel(data);
         const dbObject = await this.#dao.create(domainObject.datos());
         logger.debug(`Objecto creado en BaseRepository - ${new Date().toLocaleDateString()}`);
-        return dbObject;
+        return domainObject.dto();
     }
 
     async readOne(query, options) {
