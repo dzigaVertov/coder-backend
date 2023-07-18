@@ -91,73 +91,52 @@ describe('DAO de Productos Mongoose', () => {
         });
     })
 
-    // describe('updateMany', () => {
-    //     beforeEach(async () => {
-    //         await usersDaoMongoose.create(USUARIO_TEST.inputCorrecto);
-    //         await usersDaoMongoose.create(USUARIO_TEST_2.inputCorrecto);
-    //     })
-    //     it('Actualiza los campos de uno o más usuarios', async () => {
-    //         const resultado = await usersDaoMongoose.updateMany({ role: "user" }, { first_name: 'Atahualpa' });
-    //         assert.equal(resultado.matchedCount, 2);
-    //         let actualizadoCorrecto1 = { ...USUARIO_TEST.inputCorrecto, first_name: 'Atahualpa' };
-    //         let actualizadoCorrecto2 = { ...USUARIO_TEST_2.inputCorrecto, first_name: 'Atahualpa' };
-    //         const recuperados = await usersDaoMongoose.readMany({ first_name: 'Atahualpa' }, 'usuarios');
-    //         assert.deepEqual([actualizadoCorrecto1, actualizadoCorrecto2], recuperados);
-    //     });
-    //     it('Lanza un NotFoundError si no encuentra ningún usuario', async () => {
-    //         assert.rejects(usersDaoMongoose.updateMany({ first_name: 'Fernandito' }, { last_name: 'De La Rúa' }), NotFoundError);
-    //     });
-    // })
+    describe('updateMany', () => {
+        beforeEach(async () => {
+            await managerProductosMongo.addProduct(PRODUCTO_TEST.inputCorrecto);
+            await managerProductosMongo.addProduct(PRODUCTO_TEST_2.inputCorrecto);
+        });
 
-    // describe('findOneAndUpdate', () => {
-    //     beforeEach(async () => {
-    //         await usersDaoMongoose.create(USUARIO_TEST.inputCorrecto);
+        it('Actualiza los campos de uno o más productos', async () => {
+            const resultado = await managerProductosMongo.updateMany({ status: 'available' }, { price: 45000 });
+            assert.equal(resultado.matchedCount, 2);
+            let actualizadoCorrecto1 = { ...PRODUCTO_TEST.inputCorrecto, price: 45000 };
+            let actualizadoCorrecto2 = { ...PRODUCTO_TEST_2.inputCorrecto, price: 45000 };
+            const recuperados = await managerProductosMongo.readMany({ status: 'available' });
+            assert.deepEqual([actualizadoCorrecto1, actualizadoCorrecto2], recuperados);
+        });
+        it('Lanza un NotFoundError si ningún producto cumple el criterio', async () => {
+            assert.rejects(managerProductosMongo.updateMany({ status: 'dazzling' }, { price: 45000 }), NotFoundError);
+        });
+    })
 
-    //     });
+    describe('deleteOne', () => {
+        beforeEach(async () => {
+            await managerProductosMongo.addProduct(PRODUCTO_TEST.inputCorrecto);
+        });
 
-    //     it('Actualiza los campos de un y solo un usuario y lo devuelve actualizado', async () => {
-    //         const name = USUARIO_TEST.inputCorrecto.first_name;
-    //         const usuariodevuelto = await usersDaoMongoose.findOneAndUpdate({ first_name: name }, { age: 89 });
-    //         let actualizadoEnDb = await fetchFromMongoDb({ first_name: name }, 'usuarios');
-    //         let actualizadoCorrecto = { ...USUARIO_TEST.inputCorrecto, age: 89 };
+        it('Elimina un producto de la base y lo devuelve', async () => {
+            const title = PRODUCTO_TEST.inputCorrecto.title;
+            const productoDevuelto = await managerProductosMongo.deleteOne({ title: title });
+            assert.deepEqual(productoDevuelto, PRODUCTO_TEST.inputCorrecto);
+            await assert.rejects(managerProductosMongo.readOne({ title: title }), err => err instanceof NotFoundError);
+        })
 
-    //         assert.deepEqual(actualizadoEnDb, actualizadoCorrecto);
-    //         assert.deepEqual(usuariodevuelto, actualizadoCorrecto);
+        it('Lanza un error NotFoundError si no encuentra el usuario', async () => {
+            await assert.rejects(managerProductosMongo.deleteOne({ title: 'xxxxxxxx' }), err => err instanceof NotFoundError);
+        })
 
-    //     });
-    //     it('Lanza un error NotFoundError si no encuentra el usuario', async () => {
-    //         assert.rejects(usersDaoMongoose.findOneAndUpdate({ first_name: 'Marilina' }, { age: 27 }), NotFoundError);
-    //     });
-    // });
+    });
 
-    // describe('deleteOne', () => {
-    //     beforeEach(async () => {
-    //         await usersDaoMongoose.create(USUARIO_TEST.inputCorrecto);
-
-    //     });
-
-    //     it('Elimina un usuario de la base y lo devuelve', async () => {
-    //         const nombre = USUARIO_TEST.inputCorrecto.first_name;
-    //         const usuarioDevuelto = await usersDaoMongoose.deleteOne({ first_name: nombre });
-    //         assert.deepEqual(usuarioDevuelto, USUARIO_TEST.inputCorrecto);
-    //         assert.rejects(usersDaoMongoose.readOne({ first_name: nombre }), NotFoundError);
-    //     })
-
-    //     it('Lanza un error NotFoundError si no encuentra el usuario', async () => {
-    //         assert.rejects(usersDaoMongoose.deleteOne({ first_name: 'xxxxxxxx' }), NotFoundError);
-    //     })
-
-    // });
-
-    // describe('deleteMany', () => {
-    //     beforeEach(async () => {
-    //         await usersDaoMongoose.create(USUARIO_TEST.inputCorrecto);
-    //         await usersDaoMongoose.create(USUARIO_TEST_2.inputCorrecto);
-    //     })
-    //     it('Elimina uno o más usuarios de la base', async () => {
-    //         const result = await usersDaoMongoose.deleteMany({ role: 'user' });
-    //         assert.equal(result.deletedCount, 2);
-    //         assert.rejects(usersDaoMongoose.readMany({}), NotFoundError);
-    //     })
-    // });
+    describe('deleteMany', () => {
+        beforeEach(async () => {
+            await managerProductosMongo.addProduct(PRODUCTO_TEST.inputCorrecto);
+            await managerProductosMongo.addProduct(PRODUCTO_TEST_2.inputCorrecto);
+        })
+        it('Elimina uno o más productos de la base', async () => {
+            const result = await managerProductosMongo.deleteMany({ status: 'available' });
+            assert.equal(result.deletedCount, 2);
+            await assert.rejects(managerProductosMongo.readMany({}), err => err instanceof NotFoundError);
+        })
+    });
 })

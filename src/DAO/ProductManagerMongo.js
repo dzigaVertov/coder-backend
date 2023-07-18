@@ -3,6 +3,8 @@ import { InvalidArgumentError } from '../models/errors/InvalidArgument.error.js'
 import { NotFoundError } from '../models/errors/NotFound.error.js';
 import { productModel } from '../models/schemaProducto.js';
 import { toPojo } from '../utils/topojo.js';
+import { logger } from '../utils/logger.js';
+
 class ProductManagerMongo {
     #db;
     constructor() {
@@ -84,9 +86,27 @@ class ProductManagerMongo {
         return prod;
     }
 
+    async updateMany(query, newValues) {
+        const result = await this.#db.updateMany(query, newValues);
+        if (result.matchedCount === 0) throw new NotFoundError('Ningún producto cumple el criterio');
+        return result;
+    }
+
+    //TODO: Borrar esta función
     async deleteProductById(id) {
-        const prod = this.#db.findByIdAndDelete(id);
-        if (!prod) throw new NotFoundError('Product not found');
+        this.deleteOne({ id: id });
+    }
+
+    async deleteOne(query) {
+        const result = await this.#db.findOneAndDelete(query).lean();
+        if (!result) throw new NotFoundError('Producto no encontrado');
+        delete (result._id);
+        logger.debug(`borrado produto en DAO - ${new Date().toLocaleDateString()}`);
+        return result;
+    }
+
+    async deleteMany(query) {
+        return await this.#db.deleteMany(query);
     }
 }
 
