@@ -1,16 +1,24 @@
 import mongoose from 'mongoose';
+import { InvalidArgumentError } from '../models/errors/InvalidArgument.error.js';
 import { NotFoundError } from '../models/errors/NotFound.error.js';
 import { productModel } from '../models/schemaProducto.js';
-
+import { toPojo } from '../utils/topojo.js';
 class ProductManagerMongo {
     #db;
     constructor() {
         this.#db = productModel;
     }
 
-    async addProduct({ title, description, price, thumbnails, category, status, stock, id }) {
-        let result = await this.#db.create(arguments[0]);
-        return result;
+    async addProduct(datosProducto) {
+        try {
+            let result = toPojo(await this.#db.create(datosProducto));
+            delete result._id
+            return result;
+        } catch (error) {
+            if (error.name === 'ValidationError') {
+                throw new InvalidArgumentError('error.message');
+            }
+        }
     }
 
     async getProducts(busqueda, paginacion) {
@@ -50,17 +58,30 @@ class ProductManagerMongo {
     }
 
     async getProductById(pid) {
-        console.log('pid: ', pid);
         const prod = await this.#db.findOne({ id: pid }).lean();
         if (!prod) throw new NotFoundError('Product not found');
-        // Limpiar el id de mongo
         delete (prod._id);
         return prod;
     }
 
-    async updateProduct(id, campo, nuevoValor) {
-        const prod = this.#db.findOneAndUpdate({ id: id }, { campo: nuevoValor });
+    async readOne(query) {
+        const prod = await this.#db.findOne(query).lean();
         if (!prod) throw new NotFoundError('Product not found');
+        delete (prod._id);
+        return prod;
+    }
+
+    async readMany(query) {
+        const prods = await this.#db.find(query).select({ _id: 0 }).lean();
+        if (!prods || prods.length === 0) throw new NotFoundError('Product not found');
+        return prods;
+    }
+
+    async updateProduct(query, newValues) {
+        const prod = await this.#db.findOneAndUpdate(query, newValues, { new: true }).lean();
+        if (!prod) throw new NotFoundError('Product not found');
+        delete prod._id;
+        return prod;
     }
 
     async deleteProductById(id) {

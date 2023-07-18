@@ -42,7 +42,7 @@ class UsersDaoMongoose {
 
     async readMany(query) {
         const queryResult = await this.#db.find(query).select({ _id: 0 }).lean();
-        if (!queryResult) throw new NotFoundError('Usuario no encontrado');
+        if (!queryResult || queryResult.length === 0) throw new NotFoundError('Usuario no encontrado');
         logger.debug(`readMany en DAO Users - ${new Date().toLocaleDateString()}`);
         return queryResult;
     }

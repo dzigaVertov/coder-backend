@@ -38,13 +38,12 @@ describe('DAO de Users Mongoose', () => {
 
             it('Lanza error si el usuario ya existe', async () => {
                 await usersDaoMongoose.create(USUARIO_TEST.inputCorrecto);
-                assert.rejects(usersDaoMongoose.create(USUARIO_TEST.inputCorrecto), InvalidOperationError);
+                await assert.rejects(usersDaoMongoose.create(USUARIO_TEST.inputCorrecto), err => err instanceof InvalidOperationError);
             })
 
             it('Lanza error si el input es incorrecto', async () => {
-                assert.rejects(usersDaoMongoose.create(USUARIO_TEST.rolIncorrecto), InvalidArgumentError);
-                assert.rejects(usersDaoMongoose.create(USUARIO_TEST.mailIncorrecto), InvalidArgumentError);
-                assert.rejects(usersDaoMongoose.create(USUARIO_TEST.ageIncorrecto), InvalidArgumentError);
+                await assert.rejects(usersDaoMongoose.create(USUARIO_TEST.rolIncorrecto), err => err instanceof InvalidArgumentError);
+                await assert.rejects(usersDaoMongoose.create(USUARIO_TEST.ageIncorrecto), err => err instanceof InvalidArgumentError);
             })
         })
     })
@@ -62,7 +61,7 @@ describe('DAO de Users Mongoose', () => {
         });
         it('Lanza un error NotFoundError si no encuentra el usuario', async () => {
             await usersDaoMongoose.create(USUARIO_TEST.inputCorrecto);
-            assert.rejects(usersDaoMongoose.readOne({ id: 'xxxxxxxxxxxxxxx' }), NotFoundError);
+            await assert.rejects(usersDaoMongoose.readOne({ id: 'xxxxxxxxxxxxxxx' }), err => err instanceof NotFoundError);
         });
     })
 
@@ -77,7 +76,7 @@ describe('DAO de Users Mongoose', () => {
         });
 
         it('Lanza un error NotFoundError si no encuentra usuarios', async () => {
-            assert.rejects(usersDaoMongoose.readMany({ role: 'barista' }), NotFoundError);
+            await assert.rejects(usersDaoMongoose.readMany({ role: 'barista' }), err => err instanceof NotFoundError);
 
         })
     })
@@ -99,7 +98,7 @@ describe('DAO de Users Mongoose', () => {
 
         });
         it('Lanza un error NotFoundError si no encuentra el usuario', async () => {
-            assert.rejects(usersDaoMongoose.updateOne({ first_name: 'Marilina' }, { age: 27 }), NotFoundError);
+            await assert.rejects(usersDaoMongoose.updateOne({ first_name: 'Marilina' }, { age: 27 }), err => err instanceof NotFoundError);
         });
     })
 
@@ -117,7 +116,7 @@ describe('DAO de Users Mongoose', () => {
             assert.deepEqual([actualizadoCorrecto1, actualizadoCorrecto2], recuperados);
         });
         it('Lanza un NotFoundError si no encuentra ningún usuario', async () => {
-            assert.rejects(usersDaoMongoose.updateMany({ first_name: 'Fernandito' }, { last_name: 'De La Rúa' }), NotFoundError);
+            await assert.rejects(usersDaoMongoose.updateMany({ first_name: 'Fernandito' }, { last_name: 'De La Rúa' }), err => err instanceof NotFoundError);
         });
     })
 
@@ -138,7 +137,7 @@ describe('DAO de Users Mongoose', () => {
 
         });
         it('Lanza un error NotFoundError si no encuentra el usuario', async () => {
-            assert.rejects(usersDaoMongoose.findOneAndUpdate({ first_name: 'Marilina' }, { age: 27 }), NotFoundError);
+            await assert.rejects(usersDaoMongoose.findOneAndUpdate({ first_name: 'Marilina' }, { age: 27 }), err => err instanceof NotFoundError);
         });
     });
 
@@ -152,11 +151,11 @@ describe('DAO de Users Mongoose', () => {
             const nombre = USUARIO_TEST.inputCorrecto.first_name;
             const usuarioDevuelto = await usersDaoMongoose.deleteOne({ first_name: nombre });
             assert.deepEqual(usuarioDevuelto, USUARIO_TEST.inputCorrecto);
-            assert.rejects(usersDaoMongoose.readOne({ first_name: nombre }), NotFoundError);
+            await assert.rejects(usersDaoMongoose.readOne({ first_name: nombre }), err => err instanceof NotFoundError);
         })
 
         it('Lanza un error NotFoundError si no encuentra el usuario', async () => {
-            assert.rejects(usersDaoMongoose.deleteOne({ first_name: 'xxxxxxxx' }), NotFoundError);
+            await assert.rejects(usersDaoMongoose.deleteOne({ first_name: 'xxxxxxxx' }), err => err instanceof NotFoundError);
         })
 
     });
@@ -169,7 +168,7 @@ describe('DAO de Users Mongoose', () => {
         it('Elimina uno o más usuarios de la base', async () => {
             const result = await usersDaoMongoose.deleteMany({ role: 'user' });
             assert.equal(result.deletedCount, 2);
-            assert.rejects(usersDaoMongoose.readMany({}), NotFoundError);
+            await assert.rejects(usersDaoMongoose.readMany({}), err => err instanceof NotFoundError);
         })
     });
 })

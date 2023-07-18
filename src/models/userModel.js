@@ -68,7 +68,8 @@ export const USUARIO_TEST = {
         email: 'marceloortega@gmail.com',
         age: 75,
         role: 'user',
-        password: '123'
+        password: '123',
+        id: 'abc23-34'
     },
     rolIncorrecto: {
         first_name: 'Marcelo',
@@ -76,7 +77,8 @@ export const USUARIO_TEST = {
         email: 'marceloortega@gmail.com',
         age: 75,
         role: 'hacker',
-        password: '123'
+        password: '123',
+        id: 'abc23-34'
     },
     mailIncorrecto: {
         first_name: 'Marcelo',
@@ -84,7 +86,8 @@ export const USUARIO_TEST = {
         email: 'www.google.com',
         age: 75,
         role: 'user',
-        password: '123'
+        password: '123',
+        id: 'abc23-34'
     },
     ageIncorrecto: {
         first_name: 'Marcelo',
@@ -120,7 +123,8 @@ export const USUARIO_TEST_2 = {
         email: 'brunolopez@gmail.com',
         age: 75,
         role: 'user',
-        password: '123'
+        password: '123',
+        id: 'abc23-asgge34'
     },
     rolIncorrecto: {
         first_name: 'Bruno',
@@ -128,7 +132,8 @@ export const USUARIO_TEST_2 = {
         email: 'brunolopez@gmail.com',
         age: 75,
         role: 'hacker',
-        password: '123'
+        password: '123',
+        id: 'abc23-asgge34'
     },
     mailIncorrecto: {
         first_name: 'Bruno',
@@ -136,7 +141,8 @@ export const USUARIO_TEST_2 = {
         email: 'www.google.com',
         age: 75,
         role: 'user',
-        password: '123'
+        password: '123',
+        id: 'abc23-asgge34'
     },
     ageIncorrecto: {
         first_name: 'Bruno',
@@ -144,7 +150,8 @@ export const USUARIO_TEST_2 = {
         email: 'brunolopez@gmail.com',
         age: 'viejito',
         role: 'user',
-        password: '123'
+        password: '123',
+        id: 'abc23-asgge34'
     },
     dto: {
         first_name: 'Bruno',

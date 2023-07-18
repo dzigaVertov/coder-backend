@@ -51,3 +51,89 @@ function validarCategory(category) {
 
     return category;
 }
+
+
+export const PRODUCTO_TEST = {
+    inputCorrecto: {
+        title: 'Tomate',
+        description: 'Un Tomate',
+        price: 37.45,
+        thumbnail: 'www.foto.com/unafoto',
+        stock: 20,
+        category: 'Frutas',
+        status: 'available',
+        id: 'afñvs-fsji2ñlkjdfs'
+    },
+    titleincorrecto: {
+        title: 35,
+        description: 'Un Tomate',
+        price: 37.45,
+        thumbnail: 'www.foto.com/unafoto',
+        stock: 20,
+        category: 'Frutas',
+        status: 'available',
+        id: 'afñvs-fsji2ñlkjdfs'
+    },
+    priceincorrecto: {
+        title: 'Tomate',
+        description: 'Un Tomate',
+        price: 'caro',
+        thumbnail: 'www.foto.com/unafoto',
+        stock: 20,
+        category: 'Frutas',
+        status: 'available',
+        id: 'afñvs-fsji2ñlkjdfs'
+    },
+    idFaltante: {
+        title: 'Tomate',
+        description: 'Un Tomate',
+        price: 37.45,
+        thumbnail: 'www.foto.com/unafoto',
+        stock: 20,
+        category: 'Frutas',
+        status: 'available'
+    }
+
+}
+
+export const PRODUCTO_TEST_2 = {
+    inputCorrecto: {
+        title: 'Computadora',
+        description: 'Una computadora',
+        price: 1237.45,
+        thumbnail: 'www.foto.com/unafoto',
+        stock: 20,
+        category: 'Informatica',
+        status: 'available',
+        id: 'afñvs-fsji2ñlkjss20202dfs'
+    },
+    titleincorrecto: {
+        title: 35,
+        description: 'Una computadora',
+        price: 1237.45,
+        thumbnail: 'www.foto.com/unafoto',
+        stock: 20,
+        category: 'Informatica',
+        status: 'available',
+        id: 'afñvs-fsji2ñlkjss20202dfs'
+    },
+    priceincorrecto: {
+        title: 'Computadora',
+        description: 'Una computadora',
+        price: 'otracosa',
+        thumbnail: 'www.foto.com/unafoto',
+        stock: 20,
+        category: 'Informatica',
+        status: 'available',
+        id: 'afñvs-fsji2ñlkjss20202dfs'
+    },
+    idFaltante: {
+        title: 'Computadora',
+        description: 'Una computadora',
+        price: 1237.45,
+        thumbnail: 'www.foto.com/unafoto',
+        stock: 20,
+        category: 'Informatica',
+        status: 'available',
+    }
+}
