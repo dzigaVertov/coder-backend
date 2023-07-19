@@ -9,7 +9,7 @@
         "start:dev": "MONGO_STRING='mongodb://127.0.0.1/ecommerceDev' nodemon -e 'js,html, txt, json, handlebars' .",
         "start:test": "NODE_ENV='test' MONGO_STRING='mongodb://127.0.0.1/ecommerceTest' node . ",
         "start:testdemon": "NODE_ENV='test' MONGO_STRING='mongodb://127.0.0.1/ecommerceTest' nodemon -e 'js,html, txt, json, handlebars' . ",
-        "test": "NODE_ENV='test' MONGO_STRING='mongodb://127.0.0.1/ecommerceTest' mocha --recursive",
+        "test": "NODE_ENV='test' MONGO_STRING='mongodb://127.0.0.1/ecommerceDev' mocha --recursive",
         "test:demon": "NODE_ENV='test' MONGO_STRING='mongodb://127.0.0.1/ecommerceTest' nodemon --exec mocha --recursive"
     },
     "repository": {

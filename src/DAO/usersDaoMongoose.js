@@ -1,4 +1,4 @@
-//import mongoose from '../database/mongoose.js';
+import mongoose from '../database/mongoose.js';
 import { NotFoundError } from '../models/errors/NotFound.error.js';
 import { InvalidOperationError } from '../models/errors/InvalidOperation.error.js';
 import { InvalidArgumentError } from '../models/errors/InvalidArgument.error.js';
