@@ -1,4 +1,4 @@
-import assert from 'node:assert';
+import assert, { equal } from 'node:assert';
 import mongoose from 'mongoose';
 import supertest from 'supertest';
 import { usersDaoMongoose } from '../../src/DAO/usersDaoMongoose.js';
@@ -37,12 +37,54 @@ describe('api rest', () => {
             });
         });
 
-        describe('GET', ()=> {
-            before(async ()=> {
+        describe('GET', () => {
+            beforeEach(async () => {
                 const datosUsuario = USUARIO_TEST.inputCorrecto;
-                await usersDaoMongoose.create(datosUsuario);
+                const resultado = await usersDaoMongoose.create(datosUsuario);
             });
-            
+            describe('Envío de petición con id en req params:', () => {
+                it('Devuelve dto de usuario y statusCode 200', async () => {
+                    const urlstring = '/api/users/' + USUARIO_TEST.inputCorrecto.id;
+                    const response = await httpClient.get(urlstring);
+                    assert.equal(response.statusCode, 200);
+                    assert.deepEqual(response.body, USUARIO_TEST.datos);
+                })
+            })
+
         });
     });
+
+    describe.only('/api/sessions', () => {
+        let cookie;
+        beforeEach(async () => {
+            await usersDaoMongoose.deleteMany({});
+            await httpClient.post('/api/users').send(USUARIO_TEST.inputCorrecto);
+        });
+
+        afterEach(async () => {
+            await usersDaoMongoose.deleteMany({});
+        });
+
+        describe('login', () => {
+            it('Debe loguear correctamente al usuario y Devolver una cookie', async () => {
+                const datosLogin = {
+                    email: USUARIO_TEST.inputCorrecto.email,
+                    password: USUARIO_TEST.inputCorrecto.password
+                };
+                const result = await httpClient.post('/api/sessions/login').send(datosLogin);
+                const cookieResult = result.headers['set-cookie'][0];
+                assert.ok(cookieResult);
+                cookie = {
+                    name: cookieResult.split('=')[0],
+                    value: cookieResult.split('=')[1]
+                };
+
+                assert.ok(cookie.name);
+                assert.equal(cookie.name, 'jwt');
+                assert.ok(cookie.value);
+            });
+        });
+
+    })
 });
+

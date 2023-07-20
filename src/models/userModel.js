@@ -111,7 +111,8 @@ export const USUARIO_TEST = {
         email: 'marceloortega@gmail.com',
         age: 75,
         role: 'user',
-        password: '123'
+        password: '123',
+        id: 'abc23-34'
     }
 
 }
@@ -166,7 +167,8 @@ export const USUARIO_TEST_2 = {
         email: 'brunolopez@gmail.com',
         age: 75,
         role: 'user',
-        password: '123'
+        password: '123',
+        id: 'abc23-asgge34'
     }
 
 }

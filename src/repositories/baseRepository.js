@@ -20,6 +20,7 @@ export class BaseRepository {
 
     async readOne(query, options) {
         logger.debug(`Objecto leído en BaseRepository - ${new Date().toLocaleDateString()}`);
+        console.log('en el repositorio');
         const queryResult = await this.#dao.readOne(query);
         return queryResult;
     }

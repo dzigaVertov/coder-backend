@@ -11,7 +11,7 @@ export async function apiErrorHandler(error, req, res, next) {
             console.log('en el error handler');
             return;
         case error instanceof NotFoundError:
-            res.status(404);
+            res.sendStatus(404);
             return;
         case error instanceof RepeatedPasswordError:
             req.logger.debug('Redirecting in apiErrorHandler');
