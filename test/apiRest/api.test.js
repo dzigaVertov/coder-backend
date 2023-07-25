@@ -37,7 +37,7 @@ describe('api rest', () => {
             });
         });
 
-        describe('GET', () => {
+        describe('GET userId', () => {
             beforeEach(async () => {
                 const datosUsuario = USUARIO_TEST.inputCorrecto;
                 const resultado = await usersDaoMongoose.create(datosUsuario);
@@ -48,13 +48,13 @@ describe('api rest', () => {
                     const response = await httpClient.get(urlstring);
                     assert.equal(response.statusCode, 200);
                     assert.deepEqual(response.body, USUARIO_TEST.datos);
-                })
-            })
+                });
+            });
 
         });
     });
 
-    describe.only('/api/sessions', () => {
+    describe('/api/sessions', () => {
         let cookie;
         beforeEach(async () => {
             await usersDaoMongoose.deleteMany({});
@@ -92,11 +92,10 @@ describe('api rest', () => {
                 assert.equal(_body.email, USUARIO_TEST.inputCorrecto.email);
             });
 
-            it('Devuelve status:401 si el jwt está adulterado, un estado de error', async () => {
+            it('Devuelve status:401 Unauthorized si el jwt está adulterado, un estado de error', async () => {
                 const response = await httpClient.get('/api/sessions/current').set('Cookie', [`${cookie.name}=ñdlk3jfs309fsñdj33o4ijdsñkj33ñsdkjfijsñjef`]);
                 assert.equal(response.statusCode, 401);
                 assert.ok(!response.body.email);
-
             });
 
 
@@ -116,6 +115,15 @@ describe('api rest', () => {
 
                 const { _body } = await httpClient.get('/api/sessions/current').set('Cookie', [`${cookie.name}=${cookie.value}`]);
                 assert.ok(!_body.email);
+            });
+        });
+
+    });
+
+    describe('/api/products', () => {
+        describe('GET', () => {
+            it('Devuelve una lista de productos, statusCode:201', async () => {
+
             });
         });
 
