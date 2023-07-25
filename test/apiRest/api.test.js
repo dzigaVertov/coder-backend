@@ -141,6 +141,12 @@ describe('api rest', () => {
                 assert.equal(response.statusCode, 200);
                 assert.equal(response.body.totalDocs, 30);
             });
+
+            it('Devuelve productos de una categoría seleccionada por query params', async () => {
+                const response = await httpClient.get('/api/products/?category=muebles');
+                assert.equal(response.statusCode, 200);
+                response.body.docs.forEach(elem => assert.equal(elem.category, 'muebles'));
+            });
         });
 
     });
