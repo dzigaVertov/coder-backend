@@ -3,6 +3,9 @@ import mongoose from 'mongoose';
 import supertest from 'supertest';
 import { usersDaoMongoose } from '../../src/DAO/usersDaoMongoose.js';
 import { USUARIO_TEST, USUARIO_TEST_2 } from '../../src/models/userModel.js';
+import { crearMockProducto } from '../../src/mocks/productMock.js';
+import { managerProductosMongo } from '../../src/DAO/ProductManagerMongo.js';
+
 
 const httpClient = supertest('http://localhost:8080');
 
@@ -120,10 +123,23 @@ describe('api rest', () => {
 
     });
 
-    describe('/api/products', () => {
-        describe('GET', () => {
-            it('Devuelve una lista de productos, statusCode:201', async () => {
+    describe.only('/api/products', () => {
+        before(async () => {
+            const productos = crearMockProducto(30);
+            for (const pr of productos) {
+                await managerProductosMongo.addProduct(pr);
+            }
+        });
 
+        after(async () => {
+            await managerProductosMongo.deleteMany({});
+        });
+
+        describe('GET', () => {
+            it('Devuelve una lista de productos con informacion de paginacion, statusCode:200', async () => {
+                const response = await httpClient.get('/api/products');
+                assert.equal(response.statusCode, 200);
+                assert.equal(response.body.totalDocs, 30);
             });
         });
 
