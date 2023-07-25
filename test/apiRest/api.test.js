@@ -84,7 +84,6 @@ describe('api rest', () => {
                 assert.ok(cookie.value);
             });
 
-            // TODO: Agregar caso de jwt adulterado
         });
 
         describe('current', () => {
@@ -92,6 +91,15 @@ describe('api rest', () => {
                 const { _body } = await httpClient.get('/api/sessions/current').set('Cookie', [`${cookie.name}=${cookie.value}`]);
                 assert.equal(_body.email, USUARIO_TEST.inputCorrecto.email);
             });
+
+            it('Devuelve status:401 si el jwt está adulterado, un estado de error', async () => {
+                const response = await httpClient.get('/api/sessions/current').set('Cookie', [`${cookie.name}=ñdlk3jfs309fsñdj33o4ijdsñkj33ñsdkjfijsñjef`]);
+                assert.equal(response.statusCode, 401);
+                assert.ok(!response.body.email);
+
+            });
+
+
         });
 
         describe('logout', () => {
