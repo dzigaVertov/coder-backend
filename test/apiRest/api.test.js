@@ -83,8 +83,34 @@ describe('api rest', () => {
                 assert.equal(cookie.name, 'jwt');
                 assert.ok(cookie.value);
             });
+
+            // TODO: Agregar caso de jwt adulterado
         });
 
-    })
+        describe('current', () => {
+            it('Envía la cookie que contiene el jwt y desestructura el usuario correctamente', async () => {
+                const { _body } = await httpClient.get('/api/sessions/current').set('Cookie', [`${cookie.name}=${cookie.value}`]);
+                assert.equal(_body.email, USUARIO_TEST.inputCorrecto.email);
+            });
+        });
+
+        describe('logout', () => {
+            it('Elimina la cookie que contiene el jwt, status: 200', async () => {
+                const response = await httpClient.get('/api/sessions/logout').set('Cookie', [`${cookie.name}=${cookie.value}`]);
+
+                assert.equal(response.statusCode, 200);
+
+                const cookieResult = response.headers['set-cookie'][0];
+                cookie = {
+                    name: cookieResult.split('=')[0],
+                    value: cookieResult.split('=')[1]
+                };
+
+                const { _body } = await httpClient.get('/api/sessions/current').set('Cookie', [`${cookie.name}=${cookie.value}`]);
+                assert.ok(!_body.email);
+            });
+        });
+
+    });
 });
 
