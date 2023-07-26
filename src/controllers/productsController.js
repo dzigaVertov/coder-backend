@@ -3,6 +3,7 @@ import { productService } from '../services/ProductsService.js';
 
 
 export async function getHandler(req, res, next) {
+    console.log('viene aca donde no deberia');
     try {
         const opcionesBusqueda = req.query;
         const queryReturn = await productService.obtenerListaProductos(opcionesBusqueda);
@@ -13,7 +14,8 @@ export async function getHandler(req, res, next) {
 }
 
 export async function getPidHandler(req, res, next) {
-    const id = parseInt(req.params.pid);
+    const id = req.params.pid;
+    console.log('id: ', id);
 
     try {
         const producto = await prodRepository.getProductById(id);

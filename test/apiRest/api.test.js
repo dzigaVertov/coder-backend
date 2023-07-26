@@ -5,6 +5,8 @@ import { usersDaoMongoose } from '../../src/DAO/usersDaoMongoose.js';
 import { USUARIO_TEST, USUARIO_TEST_2 } from '../../src/models/userModel.js';
 import { crearMockProducto } from '../../src/mocks/productMock.js';
 import { managerProductosMongo } from '../../src/DAO/ProductManagerMongo.js';
+import { fetchFromMongoDb } from '../../src/utils/mongooseUtils.js';
+import { PRODUCTO_TEST } from '../../src/models/productoModel.js';
 
 
 const httpClient = supertest('http://localhost:8080');
@@ -147,6 +149,21 @@ describe('api rest', () => {
                 assert.equal(response.statusCode, 200);
                 response.body.docs.forEach(elem => assert.equal(elem.category, 'muebles'));
             });
+
+            it('Devuelve un producto a partir de la id pasada en req.params, statusCode:200', async () => {
+                await managerProductosMongo.addProduct(PRODUCTO_TEST.inputCorrecto);
+
+                const url = '/api/products/' + PRODUCTO_TEST.inputCorrecto.id;
+                const response = await httpClient.get(url);
+                assert.equal(response.statusCode, 200);
+                assert.deepEqual(PRODUCTO_TEST.inputCorrecto, response.body);
+            });
+
+            it('Devuelve StatusCode 404 si el producto no existe', async () => {
+                const response = await httpClient.get('/api/products/cumbiancha');
+                assert.equal(response.statusCode, 404);
+            });
+
         });
 
     });
