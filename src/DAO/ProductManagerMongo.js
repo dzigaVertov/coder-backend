@@ -14,7 +14,7 @@ class ProductManagerMongo {
     async addProduct(datosProducto) {
         try {
             let result = toPojo(await this.#db.create(datosProducto));
-            delete result._id
+            delete result._id;
             return result;
         } catch (error) {
             if (error.name === 'ValidationError') {
@@ -81,6 +81,7 @@ class ProductManagerMongo {
 
     async updateProduct(query, newValues) {
         const prod = await this.#db.findOneAndUpdate(query, newValues, { new: true }).lean();
+        console.log('prod: ', prod);
         if (!prod) throw new NotFoundError('Product not found');
         delete prod._id;
         return prod;

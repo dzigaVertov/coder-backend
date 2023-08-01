@@ -249,15 +249,56 @@ describe('api rest', () => {
                 const url = '/api/products/' + productoEnDb.id;
                 const { _body, statusCode } = await httpClient.put(url).set('Cookie', [`${cookieAdmin.name}=${cookieAdmin.value}`]).send(camposAcambiar);
 
-                console.log('body: ', _body);
-                console.log('status: ', statusCode);
+                const resultadoEsperado = { ...productoEnDb, ...camposAcambiar };
+                const productoEnDbActualizado = await fetchFromMongoDb({ id: productoEnDb.id }, 'productos');
+                assert.deepEqual(_body, resultadoEsperado);
+                assert.deepEqual(productoEnDbActualizado, resultadoEsperado);
+                assert.equal(statusCode, 200);
             });
 
+            it('Devuelve status 404 si el producto no existe', async () => {
+                const camposAcambiar = { price: 123456, title: 'Un nuevo producto', stock: 314 };
+                const url = '/api/products/a2345183hkjh34';
+                const { statusCode } = await httpClient.put(url).set('Cookie', [`${cookieAdmin.name}=${cookieAdmin.value}`]).send(camposAcambiar);
 
+                assert.equal(statusCode, 404);
+            });
+
+            it('Devuelve statusCode 400 si los campos son incorrectos', async () => {
+                const camposAcambiar = { calidad: 123456, sarasa: 'alguna cosa' };
+                const url = '/api/products/' + productoEnDb.id;
+                const { statusCode } = await httpClient.put(url).set('Cookie', [`${cookieAdmin.name}=${cookieAdmin.value}`]).send(camposAcambiar);
+                assert.equal(statusCode, 400);
+            });
+
+            it('Devuelve statusCode 401 si no hay usuario logueado', async () => {
+                const camposAcambiar = { price: 123456, title: 'Un nuevo producto', stock: 314 };
+                const url = '/api/products/' + productoEnDb.id;
+                const { statusCode } = await httpClient.put(url).send(camposAcambiar);
+                assert.equal(statusCode, 401);
+            });
+
+            it('Devuelve statusCode 401 si el usuario logueado no es admin', async () => {
+
+                const camposAcambiar = { price: 123456, title: 'Un nuevo producto', stock: 314 };
+                const url = '/api/products/' + productoEnDb.id;
+                const { statusCode } = await httpClient.put(url).set('Cookie', [`${cookieUser.name}=${cookieUser.value}`]).send(camposAcambiar);
+                assert.equal(statusCode, 401);
+            });
 
         });
 
+        describe('DELETE', () => {
+            before(loguearUsuarios); // La eliminación de productos requiere un usuario admin
+            after(async () => {
+                await usersDaoMongoose.deleteMany({});
+            });
+
+
+        });
     });
+
 });
+
 
 

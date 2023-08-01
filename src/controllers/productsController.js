@@ -49,10 +49,10 @@ export async function postHandler(req, res, next) {
 
 export async function putHandler(req, res, next) {
     const pid = req.params.pid;
-    const camposAcambiar = Object.entries(req.body);
+    const camposAcambiar = req.body;
     try {
-        const producto = prodRepository.updateProduct(pid, camposAcambiar);
-        res.json(producto);
+        const producto = await prodRepository.updateProduct({ id: pid }, camposAcambiar);
+        res.status(200).json(producto);
     } catch (error) {
         return next(error);
     }

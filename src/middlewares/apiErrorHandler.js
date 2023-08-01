@@ -8,7 +8,6 @@ export async function apiErrorHandler(error, req, res, next) {
     switch (true) {
         case error instanceof InvalidArgumentError:
             res.sendStatus(400);
-            console.log('en el error handler');
             return;
         case error instanceof NotFoundError:
             res.sendStatus(404);

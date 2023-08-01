@@ -29,16 +29,11 @@ class ProductRepository {
 
     async updateProduct(pid, camposACambiar) {
         let producto;
-        // TODO: Arreglar esto
-        for (const [campo, valorNuevo] of Object.entries(camposACambiar)) {
-            if (campo !== 'id') {   // El campo id no se actualiza
-                producto = await this.dao.updateProduct(pid, campo, valorNuevo);
-            }            
-        }
+        producto = await this.dao.updateProduct(pid, camposACambiar);
         return producto;
     }
 
-    async deleteProductById(pid){
+    async deleteProductById(pid) {
         const product = await this.dao.deleteProductById(pid);
         return product;
     }

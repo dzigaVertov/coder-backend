@@ -80,7 +80,7 @@ export function autenticarReset(req, res, next) {
 export function autenticarJwtApi(req, res, next) {
     function passportCB(error, jwt_payload, info) {
         if (error || !jwt_payload) {
-            console.log('en autenticar');
+            console.log('en autenticar: ', error);
             return next(new Error('Error de autenticación'));
         }
         req.user = jwt_payload;

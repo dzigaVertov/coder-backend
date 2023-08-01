@@ -12,7 +12,7 @@ apiProductsRouter.post('/', autenticarJwtApi, soloRol('admin'), productsControll
 
 apiProductsRouter.put('/:pid', autenticarJwtApi, soloRol('admin'), productsController.putHandler);
 
-apiProductsRouter.delete('/:pid', soloRol('admin'), productsController.delHandler);
+apiProductsRouter.delete('/:pid', autenticarJwtApi, soloRol('admin'), productsController.delHandler);
 
 apiProductsRouter.get('/:pid', productsController.getPidHandler);
 

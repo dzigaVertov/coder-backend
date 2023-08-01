@@ -259,6 +259,12 @@
 **** TODO  Implementar una nueva ruta en el router de api/users, la cual será /api/users/premium/:uid  la cual permitirá cambiar el rol de un usuario, de “user” a “premium” y viceversa.
 
 
+** Entrega final
+
+*** TODO Pasar el código de productsController a un servicio.
+
+*** TODO Cambiar el repositorio de productos al repositorio base.
+
 * Notas
 
 ** Clase 16 mongo avanzado I
