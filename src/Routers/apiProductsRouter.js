@@ -10,10 +10,12 @@ apiProductsRouter.get('/', productsController.getHandler);
 
 apiProductsRouter.post('/', autenticarJwtApi, soloRol('admin'), productsController.postHandler);
 
-apiProductsRouter.put('/:pid', soloRol('admin'), productsController.putHandler);
+apiProductsRouter.put('/:pid', autenticarJwtApi, soloRol('admin'), productsController.putHandler);
 
 apiProductsRouter.delete('/:pid', soloRol('admin'), productsController.delHandler);
 
 apiProductsRouter.get('/:pid', productsController.getPidHandler);
 
 apiProductsRouter.post('/realTimeProducts', soloRol('admin'), productsController.postRealTimeProducts);
+
+// TODO: Hacer que el put devuelva el producto actualizado

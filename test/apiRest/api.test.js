@@ -127,8 +127,48 @@ describe('api rest', () => {
     });
 
     describe.only('/api/products', () => {
+        let cookieAdmin;         // el POST de productos requiere un usuario administrador
+        let cookieUser;
+        let productoEnDb;
+        async function loguearUsuarios() {
+            // Crear un usuario admin para postear productos
+            const passHasheado = hashear(USUARIO_TEST.inputCorrecto.password);
+            const userTestAdmin = { ...USUARIO_TEST.inputCorrecto, role: 'admin', password: passHasheado };
+            // Crear usuario user para testear autorizacion de POST
+            const passHashUser = hashear(USUARIO_TEST_2.inputCorrecto.password);
+            const userTestUser = { ...USUARIO_TEST_2.inputCorrecto, password: passHashUser };
+
+            await insertIntoMongoDb(userTestAdmin, 'usuarios');
+            await insertIntoMongoDb(userTestUser, 'usuarios');
+
+            // Loguear role: admin
+            const datosLogin = {
+                email: USUARIO_TEST.inputCorrecto.email,
+                password: USUARIO_TEST.inputCorrecto.password
+            };
+            const resultAdmin = await httpClient.post('/api/sessions/login').send(datosLogin);
+            const cookieResult = resultAdmin.headers['set-cookie'][0];
+            cookieAdmin = {
+                name: cookieResult.split('=')[0],
+                value: cookieResult.split('=')[1]
+            };
+
+            // Loguear role: user
+            const datosLoginUser = {
+                email: USUARIO_TEST_2.inputCorrecto.email,
+                password: USUARIO_TEST_2.inputCorrecto.password
+            };
+            const resultUser = await httpClient.post('/api/sessions/login').send(datosLoginUser);
+            const cookieResultUser = resultUser.headers['set-cookie'][0];
+            cookieUser = {
+                name: cookieResultUser.split('=')[0],
+                value: cookieResultUser.split('=')[1]
+            };
+        };
+
         before(async () => {
             const productos = crearMockProducto(30);
+            productoEnDb = productos[0];
             for (const pr of productos) {
                 await managerProductosMongo.addProduct(pr);
             }
@@ -168,46 +208,7 @@ describe('api rest', () => {
         });
 
         describe('POST', () => {
-            let cookieAdmin;         // el POST de productos requiere un usuario administrador
-            let cookieUser;
-            before(async () => {
-                // Crear un usuario admin para postear productos
-                const passHasheado = hashear(USUARIO_TEST.inputCorrecto.password);
-                const userTestAdmin = { ...USUARIO_TEST.inputCorrecto, role: 'admin', password: passHasheado };
-                // Crear usuario user para testear autorizacion de POST
-                const passHashUser = hashear(USUARIO_TEST_2.inputCorrecto.password);
-                const userTestUser = { ...USUARIO_TEST_2.inputCorrecto, password: passHashUser };
-
-                await insertIntoMongoDb(userTestAdmin, 'usuarios');
-                await insertIntoMongoDb(userTestUser, 'usuarios');
-
-
-                // Loguear admin
-                const datosLogin = {
-                    email: USUARIO_TEST.inputCorrecto.email,
-                    password: USUARIO_TEST.inputCorrecto.password
-                };
-                const resultAdmin = await httpClient.post('/api/sessions/login').send(datosLogin);
-                const cookieResult = resultAdmin.headers['set-cookie'][0];
-                cookieAdmin = {
-                    name: cookieResult.split('=')[0],
-                    value: cookieResult.split('=')[1]
-                };
-
-                // Loguear user
-                const datosLoginUser = {
-                    email: USUARIO_TEST_2.inputCorrecto.email,
-                    password: USUARIO_TEST_2.inputCorrecto.password
-                };
-                const resultUser = await httpClient.post('/api/sessions/login').send(datosLoginUser);
-                const cookieResultUser = resultUser.headers['set-cookie'][0];
-                cookieUser = {
-                    name: cookieResultUser.split('=')[0],
-                    value: cookieResultUser.split('=')[1]
-                };
-
-
-            });
+            before(loguearUsuarios);
 
             after(async () => {
                 await usersDaoMongoose.deleteMany({});
@@ -237,6 +238,26 @@ describe('api rest', () => {
 
         });
 
+        describe('PUT', () => {
+            before(loguearUsuarios); // La modificación de productos requiere un usuario admin
+            after(async () => {
+                await usersDaoMongoose.deleteMany({});
+            });
+
+            it('Modifica un producto en la base, devuelve el producto modificado y status 200', async () => {
+                const camposAcambiar = { price: 123456, title: 'Un nuevo producto', stock: 314 };
+                const url = '/api/products/' + productoEnDb.id;
+                const { _body, statusCode } = await httpClient.put(url).set('Cookie', [`${cookieAdmin.name}=${cookieAdmin.value}`]).send(camposAcambiar);
+
+                console.log('body: ', _body);
+                console.log('status: ', statusCode);
+            });
+
+
+
+        });
+
     });
 });
+
 
