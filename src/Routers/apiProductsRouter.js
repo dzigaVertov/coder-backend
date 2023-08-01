@@ -1,13 +1,14 @@
 import { Router } from 'express';
 import * as productsController from '../controllers/productsController.js';
 import { soloRol } from '../middlewares/autorizacion.js';
+import { autenticarJwtApi } from '../middlewares/passport.js';
 
 let apiProductsRouter = Router();
 export default apiProductsRouter;
 
 apiProductsRouter.get('/', productsController.getHandler);
 
-apiProductsRouter.post('/', soloRol('admin'), productsController.postHandler);
+apiProductsRouter.post('/', autenticarJwtApi, soloRol('admin'), productsController.postHandler);
 
 apiProductsRouter.put('/:pid', soloRol('admin'), productsController.putHandler);
 

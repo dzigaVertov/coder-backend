@@ -5,8 +5,9 @@ import { usersDaoMongoose } from '../../src/DAO/usersDaoMongoose.js';
 import { USUARIO_TEST, USUARIO_TEST_2 } from '../../src/models/userModel.js';
 import { crearMockProducto } from '../../src/mocks/productMock.js';
 import { managerProductosMongo } from '../../src/DAO/ProductManagerMongo.js';
-import { fetchFromMongoDb } from '../../src/utils/mongooseUtils.js';
+import { fetchFromMongoDb, insertIntoMongoDb } from '../../src/utils/mongooseUtils.js';
 import { PRODUCTO_TEST } from '../../src/models/productoModel.js';
+import { hashear } from '../../src/utils/criptografia.js';
 
 
 const httpClient = supertest('http://localhost:8080');
@@ -162,6 +163,76 @@ describe('api rest', () => {
             it('Devuelve StatusCode 404 si el producto no existe', async () => {
                 const response = await httpClient.get('/api/products/cumbiancha');
                 assert.equal(response.statusCode, 404);
+            });
+
+        });
+
+        describe('POST', () => {
+            let cookieAdmin;         // el POST de productos requiere un usuario administrador
+            let cookieUser;
+            before(async () => {
+                // Crear un usuario admin para postear productos
+                const passHasheado = hashear(USUARIO_TEST.inputCorrecto.password);
+                const userTestAdmin = { ...USUARIO_TEST.inputCorrecto, role: 'admin', password: passHasheado };
+                // Crear usuario user para testear autorizacion de POST
+                const passHashUser = hashear(USUARIO_TEST_2.inputCorrecto.password);
+                const userTestUser = { ...USUARIO_TEST_2.inputCorrecto, password: passHashUser };
+
+                await insertIntoMongoDb(userTestAdmin, 'usuarios');
+                await insertIntoMongoDb(userTestUser, 'usuarios');
+
+
+                // Loguear admin
+                const datosLogin = {
+                    email: USUARIO_TEST.inputCorrecto.email,
+                    password: USUARIO_TEST.inputCorrecto.password
+                };
+                const resultAdmin = await httpClient.post('/api/sessions/login').send(datosLogin);
+                const cookieResult = resultAdmin.headers['set-cookie'][0];
+                cookieAdmin = {
+                    name: cookieResult.split('=')[0],
+                    value: cookieResult.split('=')[1]
+                };
+
+                // Loguear user
+                const datosLoginUser = {
+                    email: USUARIO_TEST_2.inputCorrecto.email,
+                    password: USUARIO_TEST_2.inputCorrecto.password
+                };
+                const resultUser = await httpClient.post('/api/sessions/login').send(datosLoginUser);
+                const cookieResultUser = resultUser.headers['set-cookie'][0];
+                cookieUser = {
+                    name: cookieResultUser.split('=')[0],
+                    value: cookieResultUser.split('=')[1]
+                };
+
+
+            });
+
+            after(async () => {
+                await usersDaoMongoose.deleteMany({});
+            });
+
+            it('Agrega producto exitosamente, devuelve los datos de producto agregado y statusCode 201', async () => {
+
+                const { _body, statusCode } = await httpClient.post('/api/products').set('Cookie', [`${cookieAdmin.name}=${cookieAdmin.value}`]).send(PRODUCTO_TEST.inputCorrecto);
+                assert.deepEqual(_body, PRODUCTO_TEST.inputCorrecto);
+                assert.equal(statusCode, 201);
+            });
+
+            it('Devuelve statusCode 400 si los datos son incorrectos', async () => {
+                const { _body, statusCode } = await httpClient.post('/api/products').set('Cookie', [`${cookieAdmin.name}=${cookieAdmin.value}`]).send(PRODUCTO_TEST.priceincorrecto);
+                assert.equal(statusCode, 400);
+            });
+
+            it('Devuelve statusCode 401 si no hay usuario logueado', async () => {
+                const { _body, statusCode } = await httpClient.post('/api/products').send(PRODUCTO_TEST.inputCorrecto);
+                assert.equal(statusCode, 401);
+            });
+
+            it('Devuelve statusCode 401 si el usuario logueado no es admin', async () => {
+                const { _body, statusCode } = await httpClient.post('/api/products').set('Cookie', [`${cookieUser.name}=${cookieUser.value}`]).send(PRODUCTO_TEST.inputCorrecto);
+                assert.equal(statusCode, 401);
             });
 
         });
