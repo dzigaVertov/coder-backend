@@ -60,8 +60,9 @@ export async function putHandler(req, res, next) {
 
 export async function delHandler(req, res, next) {
     const pid = req.params.pid;
+    console.log('pir: ', pid);
     try {
-        let producto = await prodRepository.deleteProductById(pid);
+        let producto = await prodRepository.deleteProduct({ id: pid });
         let productos = await prodRepository.getProducts();
         req.io.sockets.emit('actualizacion', productos);
         res.json(producto);

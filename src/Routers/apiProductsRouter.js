@@ -18,4 +18,4 @@ apiProductsRouter.get('/:pid', productsController.getPidHandler);
 
 apiProductsRouter.post('/realTimeProducts', soloRol('admin'), productsController.postRealTimeProducts);
 
-// TODO: Hacer que el put devuelva el producto actualizado
+

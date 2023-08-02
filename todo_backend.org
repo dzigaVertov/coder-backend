@@ -265,6 +265,10 @@
 
 *** TODO Cambiar el repositorio de productos al repositorio base.
 
+*** TODO Borrar código de sockets
+
+*** TODO Agregar validación a queries;
+
 * Notas
 
 ** Clase 16 mongo avanzado I
