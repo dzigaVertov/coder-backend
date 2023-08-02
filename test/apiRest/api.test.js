@@ -289,9 +289,46 @@ describe('api rest', () => {
         });
 
         describe('DELETE', () => {
+            let productoAborrar;
             before(loguearUsuarios); // La eliminación de productos requiere un usuario admin
             after(async () => {
                 await usersDaoMongoose.deleteMany({});
+
+            });
+
+            beforeEach(() => {
+                // Agregar producto para borrar
+                productoAborrar = crearMockProducto(1)[0];
+                insertIntoMongoDb(productoAborrar, 'productos');
+            });
+
+            it('Borra un producto de la base, devuelve el producto borrado y status 200', async () => {
+
+                const url = '/api/products/' + productoAborrar.id;
+                const { _body, statusCode } = await httpClient.delete(url).set('Cookie', [`${cookieAdmin.name}=${cookieAdmin.value}`]);
+
+                const productoBorrado = await fetchFromMongoDb({ id: productoAborrar.id }, 'productos');
+                assert.equal(productoBorrado, null);
+                assert.deepEqual(_body, productoAborrar);
+                assert.equal(statusCode, 200);
+            });
+
+            it('Devuelve status 404 si el producto no existe', async () => {
+                const url = '/api/products/a2345183hkjh34';
+                const { statusCode } = await httpClient.delete(url).set('Cookie', [`${cookieAdmin.name}=${cookieAdmin.value}`]);
+                assert.equal(statusCode, 404);
+            });
+
+            it('Devuelve statusCode 401 si no hay usuario logueado', async () => {
+                const url = '/api/products/' + productoAborrar.id;
+                const { statusCode } = await httpClient.delete(url);
+                assert.equal(statusCode, 401);
+            });
+
+            it('Devuelve statusCode 401 si el usuario logueado no es admin', async () => {
+                const url = '/api/products/' + productoAborrar.id;
+                const { statusCode } = await httpClient.delete(url).set('Cookie', [`${cookieUser.name}=${cookieUser.value}`]);
+                assert.equal(statusCode, 401);
             });
 
 

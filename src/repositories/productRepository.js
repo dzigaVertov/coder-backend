@@ -33,6 +33,10 @@ class ProductRepository {
         return producto;
     }
 
+    async deleteProduct(query) {
+        const product = await this.dao.deleteOne(query);
+        return product;
+    }
     async deleteProductById(pid) {
         const product = await this.dao.deleteProductById(pid);
         return product;

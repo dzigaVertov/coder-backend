@@ -81,7 +81,6 @@ class ProductManagerMongo {
 
     async updateProduct(query, newValues) {
         const prod = await this.#db.findOneAndUpdate(query, newValues, { new: true }).lean();
-        console.log('prod: ', prod);
         if (!prod) throw new NotFoundError('Product not found');
         delete prod._id;
         return prod;
