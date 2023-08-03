@@ -1,15 +1,21 @@
 import * as valid from '../utils/validacion.js';
 import { InvalidArgumentError } from './errors/InvalidArgument.error.js';
 
-export class BusquedaProductos {
-    constructor({ paginate, limit = 10, page = 1, sort = 'none', category = 'all', stock = 'all', sortField = 'price' }) {
+export class BusquedaListaProductos {
+    constructor({ paginate = false,
+        limit = 10,
+        page = 1,
+        sort = 'none',
+        category = 'all',
+        stock = 'all',
+        sortField = 'price' }) {
         limit = parseInt(limit);
         page = parseInt(page);
         if (paginate) {
             this.paginacion = {
                 limit: valid.entero(valid.positivo(limit)),
                 page: valid.entero(valid.positivo(page))
-            }
+            };
         }
         this.sort = validarSort(sort);
         this.sortField = validarSortField(sortField);

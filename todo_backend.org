@@ -267,7 +267,11 @@
 
 *** TODO Borrar código de sockets
 
-*** TODO Agregar validación a queries;
+*** DONE Agregar validación a queries;
+
+*** TODO Uniformar los nombres de archivos
+
+*** TODO Pasar los daos a herencia?
 
 * Notas
 

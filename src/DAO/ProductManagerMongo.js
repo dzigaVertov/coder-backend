@@ -23,6 +23,11 @@ class ProductManagerMongo {
         }
     }
 
+    async readOne(query) {
+        const result = await this.#db.findOne(query);
+        return result;
+    }
+
     async getProducts(busqueda, paginacion) {
         let products = await this.#db.find().lean();
         return products;

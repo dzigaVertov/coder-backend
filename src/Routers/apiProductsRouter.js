@@ -7,6 +7,7 @@ let apiProductsRouter = Router();
 export default apiProductsRouter;
 
 apiProductsRouter.get('/', productsController.getHandler);
+apiProductsRouter.get('/:pid', productsController.getPidHandler);
 
 apiProductsRouter.post('/', autenticarJwtApi, soloRol('admin'), productsController.postHandler);
 
@@ -14,7 +15,6 @@ apiProductsRouter.put('/:pid', autenticarJwtApi, soloRol('admin'), productsContr
 
 apiProductsRouter.delete('/:pid', autenticarJwtApi, soloRol('admin'), productsController.delHandler);
 
-apiProductsRouter.get('/:pid', productsController.getPidHandler);
 
 apiProductsRouter.post('/realTimeProducts', soloRol('admin'), productsController.postRealTimeProducts);
 

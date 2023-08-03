@@ -1,7 +1,7 @@
 import { InvalidArgumentError } from "../models/errors/InvalidArgument.error.js";
-
-export function esArray(value){
-    if(value instanceof Array){
+import { stockOptions } from '../models/busquedaOptions.js';
+export function esArray(value) {
+    if (value instanceof Array) {
         return value;
     }
     throw new InvalidArgumentError('No es array');
@@ -43,3 +43,21 @@ export function esRole(value) {
     if (!((value === 'user') || (value === 'admin'))) throw new InvalidArgumentError('Rol no valido');
     return value;
 }
+
+
+export function validarCategory(category) {
+    const categoryOptions = ['bebidas', 'computacion', 'frutas', 'muebles'];
+    if (!categoryOptions.includes(category)) throw new InvalidArgumentError(`Categoría inválida: ${category}`);
+
+    return category;
+}
+
+
+export function validarStatus(status) {
+    if (!['available', 'unavailable'].includes(status)) throw new InvalidArgumentError('Status incorrecto');
+
+    return status;
+}
+
+
+

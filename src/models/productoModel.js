@@ -26,8 +26,8 @@ export class Producto {
         this.#price = valid.positivo(valid.noVacio(price));
         this.#thumbnail = thumbnail;
         this.#stock = valid.positivo(stock);
-        this.#category = validarCategory(category);
-        this.#status = status;
+        this.#category = valid.validarCategory(category);
+        this.#status = valid.validarStatus(status);
         this.#id = randomUUID();
     }
 
@@ -45,12 +45,6 @@ export class Producto {
     }
 }
 
-function validarCategory(category) {
-    const categoryOptions = ['bebidas', 'computacion', 'frutas', 'muebles'];
-    if (!categoryOptions.includes(category)) throw new InvalidArgumentError(`Categoría inválida: ${category}`);
-
-    return category;
-}
 
 
 export const PRODUCTO_TEST = {

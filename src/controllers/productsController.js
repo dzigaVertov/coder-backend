@@ -13,10 +13,10 @@ export async function getHandler(req, res, next) {
 }
 
 export async function getPidHandler(req, res, next) {
-    const id = req.params.pid;
+    const pid = req.params.pid;
     try {
-        const producto = await prodRepository.getProductById(id);
-        res.send(producto);
+        const producto = await productService.buscarProducto({ id: pid });
+        res.json(producto);
     }
     catch (error) {
         next(error);
@@ -51,7 +51,7 @@ export async function putHandler(req, res, next) {
     const pid = req.params.pid;
     const camposAcambiar = req.body;
     try {
-        const producto = await prodRepository.updateProduct({ id: pid }, camposAcambiar);
+        const producto = await productService.modificarProducto( pid , camposAcambiar);
         res.status(200).json(producto);
     } catch (error) {
         return next(error);
@@ -60,7 +60,6 @@ export async function putHandler(req, res, next) {
 
 export async function delHandler(req, res, next) {
     const pid = req.params.pid;
-    console.log('pir: ', pid);
     try {
         let producto = await prodRepository.deleteProduct({ id: pid });
         let productos = await prodRepository.getProducts();

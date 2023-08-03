@@ -1,4 +1,6 @@
 import { managerProductosMongo } from '../DAO/ProductManagerMongo.js';
+import { BusquedaProducto } from '../models/BusquedaProducto.js';
+import { ModificacionProductoModel } from '../models/ModificacionProductoModel.js';
 
 class ProductRepository {
     constructor(dao) {
@@ -9,6 +11,12 @@ class ProductRepository {
 
         let resultadoBusqueda = await this.dao.getProductsQuery(parametrosBusqueda);
         return resultadoBusqueda;
+    }
+
+    async getProduct(query) {
+        const queryValidado = new BusquedaProducto(query);
+        const producto = await this.dao.readOne(queryValidado);
+        return producto;
     }
 
     async getProductById(id) {
@@ -28,8 +36,9 @@ class ProductRepository {
     }
 
     async updateProduct(pid, camposACambiar) {
-        let producto;
-        producto = await this.dao.updateProduct(pid, camposACambiar);
+        const camposValidados = new ModificacionProductoModel(camposACambiar);
+
+        const producto = await this.dao.updateProduct(pid, camposValidados);
         return producto;
     }
 
