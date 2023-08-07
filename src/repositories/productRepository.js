@@ -38,7 +38,7 @@ class ProductRepository {
     async updateProduct(pid, camposACambiar) {
         const camposValidados = new ModificacionProductoModel(camposACambiar);
 
-        const producto = await this.dao.updateProduct(pid, camposValidados);
+        const producto = await this.dao.updateProduct({ id: pid }, camposValidados);
         return producto;
     }
 

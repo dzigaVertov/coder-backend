@@ -37,8 +37,8 @@ export async function postHandler(req, res, next) {
 
     try {
         const paramsProducto = req.body;
-        const producto = await prodRepository.addProduct(paramsProducto);
-        const productos = await prodRepository.getProducts();
+        const producto = await productService.agregarProducto(paramsProducto);
+        const productos = await productService.obtenerListaProductos({});
         req.io.sockets.emit('actualizacion', productos);
         res.status(201).json(producto);
     } catch (error) {
@@ -51,7 +51,7 @@ export async function putHandler(req, res, next) {
     const pid = req.params.pid;
     const camposAcambiar = req.body;
     try {
-        const producto = await productService.modificarProducto( pid , camposAcambiar);
+        const producto = await productService.modificarProducto(pid, camposAcambiar);
         res.status(200).json(producto);
     } catch (error) {
         return next(error);
@@ -61,7 +61,7 @@ export async function putHandler(req, res, next) {
 export async function delHandler(req, res, next) {
     const pid = req.params.pid;
     try {
-        let producto = await prodRepository.deleteProduct({ id: pid });
+        const producto = await productService.borrarProducto(pid);
         let productos = await prodRepository.getProducts();
         req.io.sockets.emit('actualizacion', productos);
         res.json(producto);

@@ -261,7 +261,7 @@
 
 ** Entrega final
 
-*** TODO Pasar el código de productsController a un servicio.
+*** DONE Pasar el código de productsController a un servicio.
 
 *** TODO Cambiar el repositorio de productos al repositorio base.
 
@@ -272,6 +272,8 @@
 *** TODO Uniformar los nombres de archivos
 
 *** TODO Pasar los daos a herencia?
+
+*** DONE Separar código de tests en distintos archivos
 
 * Notas
 

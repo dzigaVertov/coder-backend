@@ -63,7 +63,6 @@ export async function postUserNewPassController(req, res, next) {
 
 export async function getUserController(req, res, next) {
     try {
-        console.log('en el controller');
         const uid = req.params.uid;
         const usuario = await usersRepository.readOne({ id: uid });
         req.logger.debug(`usuario leído en getUserController - ${new Date().toLocaleString()}`);

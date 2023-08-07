@@ -20,6 +20,17 @@ class ProductsService {
 
     async modificarProducto(id, camposAcambiar) {
         const productoModificado = await prodRepository.updateProduct(id, camposAcambiar);
+        return productoModificado;
+    }
+
+    async agregarProducto(paramsProducto) {
+        const producto = await prodRepository.addProduct(paramsProducto);
+        return producto;
+    }
+
+    async borrarProducto(id) {
+        let producto = await prodRepository.deleteProduct({ id: id });
+        return producto;
     }
 }
 
